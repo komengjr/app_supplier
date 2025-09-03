@@ -101,8 +101,9 @@
                                                 class="fas fa-cloud-upload-alt"></span> Upload Document Supplier</button>
                                         <div class="dropdown-divider"></div>
                                         <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier-lg"
-                                            id="button-terbit-surat-penetapan-suplier" data-code="{{$datas->m_supplier_code }}"><span
-                                                class="fab fa-superpowers"></span> Terbit Surat Penetapan Suplier </button>
+                                            id="button-terbit-surat-penetapan-suplier"
+                                            data-code="{{$datas->m_supplier_code }}"><span class="fab fa-superpowers"></span>
+                                            Terbit Surat Penetapan Suplier </button>
                                     </div>
                                 </div>
                             </td>
@@ -128,7 +129,7 @@
     </div>
     <div class="modal fade" id="modal-suplier-lg" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="false">
-        <div class="modal-dialog modal-dialog-centered modal-xl" role="document" >
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content border-0">
                 <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
                     <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
@@ -212,6 +213,28 @@
                 $('#menu-suplier-lg').html(data);
             }).fail(function () {
                 $('#menu-suplier-lg').html('eror');
+            });
+        });
+        $(document).on("click", "#button-save-penetapan-supplier", function (e) {
+            e.preventDefault();
+            var data = $("#form-data-penetapan").serialize();
+            $('#menu-proses-penetapan-supplier').html(
+                '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+            );
+            console.log(data);
+
+            $.ajax({
+                url: "{{ route('kualifikasi_supplier_penetapan_document_save') }}",
+                type: "POST",
+                cache: false,
+                data: data,
+                dataType: 'html',
+            }).done(function (field) {
+                var data = JSON.parse(field);
+                console.log(data.panda);
+                $('#menu-proses-penetapan-supplier').html(field);
+            }).fail(function () {
+                $('#menu-proses-penetapan-supplier').html('eror');
             });
         });
     </script>

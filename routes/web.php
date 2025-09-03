@@ -54,6 +54,7 @@ Route::prefix('app')->group(function () {
     Route::post('kualifikasi-supplier/upload-document', [MenuController::class, 'kualifikasi_supplier_upload_document'])->name('kualifikasi_supplier_upload_document');
     Route::post('kualifikasi-supplier/upload-document/upload', [UploadFileController::class, 'kualifikasi_supplier_upload_document_upload'])->name('kualifikasi_supplier_upload_document_upload');
     Route::post('kualifikasi-supplier/penetapan-document', [MenuController::class, 'kualifikasi_supplier_penetapan_document'])->name('kualifikasi_supplier_penetapan_document');
+    Route::post('kualifikasi-supplier/penetapan-document/save', [MenuController::class, 'kualifikasi_supplier_penetapan_document_save'])->name('kualifikasi_supplier_penetapan_document_save');
     // EVALUASI SUPPLIER
     Route::post('evaluasi-supplier/supplier-barang/cari-supplier', [MenuController::class, 'evaluasi_supplier_barang_cari_supplier'])->name('evaluasi_supplier_barang_cari_supplier');
     Route::post('evaluasi-supplier/supplier-barang/cari-barang', [MenuController::class, 'evaluasi_supplier_barang_cari_barang'])->name('evaluasi_supplier_barang_cari_barang');

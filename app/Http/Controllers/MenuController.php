@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 use Rawilk\Printing\Facades\Printing;
 use Session;
-
+use Barryvdh\DomPDF\PDF;
 class MenuController extends Controller
 {
     public function __construct()
@@ -63,6 +63,13 @@ class MenuController extends Controller
         $doc = DB::table('m_document')->get();
         $type = DB::table('type_pengadaan')->get();
         return view('application.menu.kualifikasi-supplier.form-penetapan-supplier', ['supplier' => $supplier, 'doc' => $doc, 'code' => $request->code, 'type' => $type]);
+    }
+    public function kualifikasi_supplier_penetapan_document_save(Request $request)
+    {
+        return [
+            "kucing" => 123,
+            "panda" => 2222
+        ];
     }
     // EVALUASI SUPPLIER BARANG
     public function evaluasi_supplier_barang($akses)

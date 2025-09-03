@@ -3,7 +3,7 @@
         <h4 class="mb-1" id="staticBackdropLabel">Form Penetapan Supplier {{ $supplier->m_supplier_name }}</h4>
         <p class="fs--2 mb-0">Support by <a class="link-600 fw-semi-bold" href="#!">Transforma</a></p>
     </div>
-    <div class="row g-3 p-4">
+    <div class="row g-3 p-4" id="menu-proses-penetapan-supplier">
         <div class="col-md-12">
             <table class="table table-bordered border">
                 <thead class="bg-300">
@@ -37,7 +37,7 @@
                 </tbody>
             </table>
             @if ($doc->count() == $no)
-                <form class="row g-3" action="{{ route('periode_penilaian_save') }}" method="post"
+                <form id="form-data-penetapan" class="row g-3" method="post"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="col-md-4">
@@ -58,7 +58,7 @@
                     <div class="col-12">
                         <label for="organizerMultiple">Untuk Pengadaan Berupa:</label>
                         <select class="form-select js-choice-type" id="organizerMultiple" multiple="multiple" size="1"
-                            name="organizerMultiple" data-options='{"removeItemButton":true,"placeholder":true}'>
+                            name="tipe" data-options='{"removeItemButton":true,"placeholder":true}'>
                             <option value="">Select Tipe Pengadaan</option>
                             @foreach ($type as $types)
                                 <option value="{{$types->type_pengadaan_code}}">{{$types->type_pengadaan_name}}</option>
