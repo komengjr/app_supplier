@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 use Rawilk\Printing\Facades\Printing;
 use Session;
-use Barryvdh\DomPDF\PDF;
+use PDF;
 class MenuController extends Controller
 {
     public function __construct()
@@ -886,7 +886,7 @@ class MenuController extends Controller
         $tahun = DB::table('log_master')->where('log_master_code', $request->code)->first();
         $cabang = DB::table('master_cabang')->where('master_cabang_code', Auth::user()->access_cabang)->first();
         $image = base64_encode(file_get_contents(public_path('img/logo.png')));
-        $pdf = \Barryvdh\DomPDF\Facade\pdf::loadview('application.laporan.report.surat-keputusan-barang', ['tahun' => $tahun, 'cabang' => $cabang], compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf = PDF::loadview('application.laporan.report.surat-keputusan-barang', ['tahun' => $tahun, 'cabang' => $cabang], compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
         $pdf->output();
         $dompdf = $pdf->getDomPDF();
         $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
@@ -909,7 +909,7 @@ class MenuController extends Controller
             ->distinct()->get(['m_barang.m_barang_code']);
         $periode = DB::table('log_master')->where('log_master_code', $request->code)->first();
         $image = base64_encode(file_get_contents(public_path('img/logo.png')));
-        $pdf = \Barryvdh\DomPDF\Facade\pdf::loadview('application.laporan.report.daftar-supplier-barang-terpilih', ['brg' => $brg, 'periode' => $periode], compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf = PDF::loadview('application.laporan.report.daftar-supplier-barang-terpilih', ['brg' => $brg, 'periode' => $periode], compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
         $pdf->output();
         $dompdf = $pdf->getDomPDF();
         $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
