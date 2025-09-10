@@ -117,8 +117,8 @@
                             <div class=" g-2 mt-2 d-flex justify-content-between">
                                 <img src="{{ asset('img/pram.png') }}" alt="" srcset=""
                                     width="150">
-                                <img src="{{ asset('img/logo.png') }}" alt="" srcset=""
-                                    width="100">
+                                <img src="{{ asset('img/sima.jpeg') }}" alt="" srcset=""
+                                    width="150">
                             </div>
                         </div>
                     </div>

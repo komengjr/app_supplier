@@ -46,11 +46,33 @@ class MenuController extends Controller
     public function kualifikasi_supplier($akses)
     {
         if ($this->url_akses($akses) == true) {
-            $data = DB::table('m_supplier')->get();
+            $data = DB::table('m_supplier')->where('m_supplier_cabang',Auth::user()->access_cabang)->get();
             return view('application.menu.kualifikasi-supplier', ['data' => $data]);
         } else {
             return Redirect::to('dashboard/home');
         }
+    }
+    public function kualifikasi_supplier_add_supplier(Request $request)
+    {
+        // $doc = DB::table('m_document')->get();
+        return view('application.menu.kualifikasi-supplier.form-add-supplier');
+    }
+    public function kualifikasi_supplier_detail_supplier(Request $request){
+        return view('application.menu.kualifikasi-supplier.form-detail-supplier');
+    }
+    public function kualifikasi_supplier_add_supplier_save(Request $request)
+    {
+        DB::table('m_supplier')->insert([
+            'm_supplier_code'=>Str::uuid(),
+            'm_supplier_name'=>$request->name,
+            'm_supplier_city'=>$request->city,
+            'm_supplier_alamat'=>$request->alamat,
+            'm_supplier_phone'=>$request->phone,
+            'm_supplier_email'=>$request->email,
+            'm_supplier_cabang'=>Auth::user()->access_cabang,
+            'm_supplier_status'=>0,
+        ]);
+        return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Supplier Cabang');
     }
     public function kualifikasi_supplier_upload_document(Request $request)
     {
@@ -66,10 +88,68 @@ class MenuController extends Controller
     }
     public function kualifikasi_supplier_penetapan_document_save(Request $request)
     {
-        return [
-            "kucing" => 123,
-            "panda" => 2222
-        ];
+        $cek = DB::table('m_supplier_data')->where('m_supplier_code', $request->supplier_code)->first();
+        if ($cek) {
+            return [
+                "status" => false,
+                "data" => '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>Erorr!</strong> Data Sudah ada
+                            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>'
+            ];
+        } else {
+            $data = $request->tipe;
+            for ($i = 0; $i < count($data); $i++) {
+                DB::table('m_supplier_type')->insert([
+                    'm_supplier_type_code' => Str::uuid(),
+                    'm_supplier_code' => $request->supplier_code,
+                    'type_pengadaan_code' => $request->tipe[$i],
+                    'm_supplier_type_status' => 1,
+                    'created_at' => now(),
+                ]);
+            }
+            DB::table('m_supplier_data')->insert([
+                'm_supplier_data_code' => Str::uuid(),
+                'm_supplier_code' => $request->supplier_code,
+                'm_supplier_data_no' => $request->nomor,
+                'm_supplier_data_npwp' => $request->npwp,
+                'm_supplier_data_contact' => $request->kontak,
+                'm_supplier_data_kacab' => $request->kacab,
+                'm_supplier_data_mgr' => $request->mgr,
+                'm_supplier_data_pgd' => $request->pgd,
+                'm_supplier_data_cabang' => Auth::user()->access_cabang,
+                'created_at' => now()
+            ]);
+            return [
+                "status" => true,
+                "data" => true
+            ];
+        }
+
+    }
+    public function kualifikasi_supplier_penetapan_document_report(Request $request)
+    {
+        $supplier = DB::table('m_supplier')->where('m_supplier_code', $request->code)->first();
+        $data = DB::table('m_supplier_data')->where('m_supplier_code', $request->code)->first();
+        return view('application.menu.kualifikasi-supplier.form-report-penetapan-supplier', ['supplier' => $supplier, 'data' => $data]);
+    }
+    public function kualifikasi_supplier_penetapan_document_report_view(Request $request)
+    {
+        $data = DB::table('m_supplier_data')
+            ->join('m_supplier', 'm_supplier.m_supplier_code', '=', 'm_supplier_data.m_supplier_code')
+            ->where('m_supplier_data.m_supplier_code', $request->code)->first();
+        $type = DB::table('m_supplier_type')
+        ->join('type_pengadaan','type_pengadaan.type_pengadaan_code','=','m_supplier_type.type_pengadaan_code')
+        ->where('m_supplier_code', $request->code)->get();
+        $image = base64_encode(file_get_contents(public_path('img/logo.png')));
+        $pdf = PDF::loadview('application.menu.kualifikasi-supplier.report.report-penetapan-supplier', ['data' => $data, 'type' => $type], compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf->output();
+        $dompdf = $pdf->getDomPDF();
+        $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
+        $font1 = $dompdf->getFontMetrics()->get_font("helvetica", "normal");
+        $dompdf->get_canvas()->page_text(300, 820, "{PAGE_NUM} / {PAGE_COUNT}", $font, 10, array(0, 0, 0));
+        $dompdf->get_canvas()->page_text(34, 820, "Print by. " . Auth::user()->fullname, $font1, 10, array(0, 0, 0));
+        return base64_encode($pdf->stream());
     }
     // EVALUASI SUPPLIER BARANG
     public function evaluasi_supplier_barang($akses)

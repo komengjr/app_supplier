@@ -51,10 +51,15 @@ Route::prefix('{akses}')->group(function () {
 });
 Route::prefix('app')->group(function () {
     // KUALIFIKASI SUPPLIER
+    Route::post('kualifikasi-supplier/add-supplier', [MenuController::class, 'kualifikasi_supplier_add_supplier'])->name('kualifikasi_supplier_add_supplier');
+    Route::post('kualifikasi-supplier/detail-supplier', [MenuController::class, 'kualifikasi_supplier_detail_supplier'])->name('kualifikasi_supplier_detail_supplier');
+    Route::post('kualifikasi-supplier/add-supplier/save', [MenuController::class, 'kualifikasi_supplier_add_supplier_save'])->name('kualifikasi_supplier_add_supplier_save');
     Route::post('kualifikasi-supplier/upload-document', [MenuController::class, 'kualifikasi_supplier_upload_document'])->name('kualifikasi_supplier_upload_document');
     Route::post('kualifikasi-supplier/upload-document/upload', [UploadFileController::class, 'kualifikasi_supplier_upload_document_upload'])->name('kualifikasi_supplier_upload_document_upload');
     Route::post('kualifikasi-supplier/penetapan-document', [MenuController::class, 'kualifikasi_supplier_penetapan_document'])->name('kualifikasi_supplier_penetapan_document');
     Route::post('kualifikasi-supplier/penetapan-document/save', [MenuController::class, 'kualifikasi_supplier_penetapan_document_save'])->name('kualifikasi_supplier_penetapan_document_save');
+    Route::post('kualifikasi-supplier/penetapan-document/report', [MenuController::class, 'kualifikasi_supplier_penetapan_document_report'])->name('kualifikasi_supplier_penetapan_document_report');
+    Route::post('kualifikasi-supplier/penetapan-document/report-view', [MenuController::class, 'kualifikasi_supplier_penetapan_document_report_view'])->name('kualifikasi_supplier_penetapan_document_report_view');
     // EVALUASI SUPPLIER
     Route::post('evaluasi-supplier/supplier-barang/cari-supplier', [MenuController::class, 'evaluasi_supplier_barang_cari_supplier'])->name('evaluasi_supplier_barang_cari_supplier');
     Route::post('evaluasi-supplier/supplier-barang/cari-barang', [MenuController::class, 'evaluasi_supplier_barang_cari_barang'])->name('evaluasi_supplier_barang_cari_barang');

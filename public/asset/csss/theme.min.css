@@ -25620,8 +25620,7 @@ h5,
 }
 
 .navbar-vertical .navbar-vertical-label {
-    font-size: .75rem;
-    color: var(--falcon-warning);
+    font-size: .75rem
 }
 
 .navbar-vertical .dropdown-indicator {
@@ -25829,10 +25828,10 @@ h5,
 .navbar-vertical.navbar-card .navbar-vertical-divider {
     background-color: rgba(0, 0, 0, .08)
 }
-/* NAVBAR WARNA */
+
 .navbar-vertical.navbar-vibrant .navbar-collapse {
     background-image: -o-linear-gradient(135deg, rgba(0, 160, 255, 0.86), #0048a2), url(../img/generic/bg-navbar.png);
-    background-image: linear-gradient(189deg,rgba(255, 247, 247, 1) 0%, rgba(224, 13, 45, 1) 0%, rgba(207, 16, 63, 1) 45%, rgba(232, 16, 113, 1) 98%), url(../img/generic/bg-navbar.png);
+    background-image: linear-gradient(-45deg, rgba(0, 160, 255, 0.86), #0048a2), url(../img/generic/bg-navbar.png);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -25841,16 +25840,18 @@ h5,
 }
 
 .navbar-vertical.navbar-vibrant .navbar-nav .nav-item .navbar-vertical-label-wrapper {
-    min-height: 1.125rem;
-    color: white;
+    min-height: 1.125rem
 }
 
 .navbar-vertical.navbar-vibrant .navbar-nav .nav-item .navbar-vertical-label {
-    color: rgba(255, 255, 255, .4)
+    color: var(--falcon-warning);
+}
+.navbar-vertical.navbar-vibrant .navbar-nav .navbar-vertical-label {
+    color: var(--falcon-warning);
 }
 
 .navbar-vertical.navbar-vibrant .navbar-nav .nav-item .nav-link {
-    color: rgba(255, 255, 255, .85)
+    color: rgba(255, 255, 255, .75)
 }
 
 .navbar-vertical.navbar-vibrant .navbar-nav .nav-item .nav-link.dropdown-indicator:after {

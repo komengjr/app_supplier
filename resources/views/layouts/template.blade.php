@@ -94,7 +94,7 @@
                     </div><a class="navbar-brand" href="#">
                         <div class="d-flex align-items-center py-3">
                             <img class="me-1" src="{{ asset('asset/img/icons/spot-illustrations/falcon.png') }}" alt=""
-                                width="45" /><span class="font-sans-serif fs-3">Suplier</span>
+                                width="45" /><span class="font-sans-serif fs-3 text-danger">Suplier</span>
                         </div>
                     </a>
                 </div>

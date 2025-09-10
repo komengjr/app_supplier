@@ -36,28 +36,29 @@
                     @endforeach
                 </tbody>
             </table>
+            <span id="menu-proses-penetapan-supplier-load"></span>
             @if ($doc->count() == $no)
-                <form id="form-data-penetapan" class="row g-3" method="post"
-                    enctype="multipart/form-data">
+                <form id="form-data-penetapan" class="row g-3" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="col-md-4">
                         <label class="form-label" for="inputAddress">Nomor Surat</label>
-                        <input class="form-control form-control-lg" id="inputAddress" type="text" name="nomor"
+                        <input class="form-control form-control-lg" id="nomor" type="text" name="nomor"
                             placeholder="00000/0000/0000" required />
+                        <input type="text" name="supplier_code" value="{{ $supplier->m_supplier_code }}" id="supplier_code" hidden>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label" for="inputAddress">Nomor NPWP/Legalitas</label>
-                        <input class="form-control form-control-lg" id="inputAddress" type="text" name="npwp"
+                        <input class="form-control form-control-lg" id="npwp" type="text" name="npwp"
                             placeholder="0000000" required />
                     </div>
                     <div class="col-md-4">
                         <label class="form-label" for="inputAddress">Nomor Kontak</label>
-                        <input class="form-control form-control-lg" id="inputAddress" type="text" name="kacab"
+                        <input class="form-control form-control-lg" id="kontak" type="text" name="kontak"
                             placeholder="Jhone Doe" required />
                     </div>
                     <div class="col-12">
                         <label for="organizerMultiple">Untuk Pengadaan Berupa:</label>
-                        <select class="form-select js-choice-type" id="organizerMultiple" multiple="multiple" size="1"
+                        <select class="form-select js-choice-type" id="tipe" multiple="multiple" size="1"
                             name="tipe" data-options='{"removeItemButton":true,"placeholder":true}'>
                             <option value="">Select Tipe Pengadaan</option>
                             @foreach ($type as $types)
@@ -65,19 +66,19 @@
                             @endforeach
                         </select>
                     </div>
-                     <div class="col-md-4">
+                    <div class="col-md-4">
                         <label class="form-label" for="inputAddress">Kepala Cabang</label>
-                        <input class="form-control form-control-lg" id="inputAddress" type="text" name="bag"
+                        <input class="form-control form-control-lg" id="kacab" type="text" name="kacab"
                             placeholder="Jhone Doe" required />
                     </div>
                     <div class="col-md-4">
                         <label class="form-label" for="inputAddress">Manager SDM</label>
-                        <input class="form-control form-control-lg" id="inputAddress" type="text" name="mgr"
+                        <input class="form-control form-control-lg" id="mgr" type="text" name="mgr"
                             placeholder="Jhone Doe" required />
                     </div>
                     <div class="col-md-4">
                         <label class="form-label" for="inputAddress">Bagian Pengadaan</label>
-                        <input class="form-control form-control-lg" id="inputAddress" type="text" name="mgr"
+                        <input class="form-control form-control-lg" id="pgd" type="text" name="pgd"
                             placeholder="Jhone Doe" required />
                     </div>
 
@@ -88,7 +89,8 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-primary" type="submit" id="button-save-penetapan-supplier"><span class="fas fa-save"></span> Save</button>
+                        <button class="btn btn-primary" type="submit" id="button-save-penetapan-supplier"><span
+                                class="fas fa-save"></span> Save</button>
                     </div>
                 </form>
             @endif
