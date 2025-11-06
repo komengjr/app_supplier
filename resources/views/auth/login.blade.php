@@ -224,7 +224,7 @@
         </form>
 
         <div class="footer-text">
-            <!-- Belum punya akun? <a href="#">Daftar Sekarang</a> -->
+            <strong>Copyright © 2025</strong>
         </div>
     </div>
 
