@@ -71,7 +71,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             if (Auth::user()->access_status == 0) {
                 Auth::logout();
-                return '<div class="alert alert-warning alert-dismissible fade show my-3" role="alert"> <strong>Warning !</strong> Bermasalah Pada Akun Anda <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button> </div>';
+                return '<div class="alert alert-warning alert-dismissible fade show my-2" role="alert"> <strong>Warning !</strong> Bermasalah Pada Akun Anda <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button> </div>';
                 // return redirect()->intended('register_status')
                 //     ->withSuccess('Gagal Login');
             } else {

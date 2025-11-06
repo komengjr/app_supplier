@@ -194,7 +194,7 @@
     <!-- Login Card -->
     <div class="login-card">
         <div class="text-center mb-4">
-            <i class="bi bi-box-seam fs-1 text-primary mb-0"></i>
+            <img src="{{ asset('img/header.png') }}" alt="" width="50">
             <h2>Penilaian Supplier</h2>
             <p style="margin-bottom: 0;">Evaluasi performa dan kinerja supplier.</p>
         </div>
