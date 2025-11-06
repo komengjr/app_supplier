@@ -39,6 +39,8 @@ Route::prefix('{akses}')->group(function () {
     Route::get('evaluasi-supplier/supplier-barang', [MenuController::class, 'evaluasi_supplier_barang'])->name('evaluasi_supplier_barang');
     Route::get('evaluasi-supplier/supplier-jasa', [MenuController::class, 'evaluasi_supplier_jasa'])->name('evaluasi_supplier_jasa');
     Route::get('evaluasi-supplier/supplier-rujukan', [MenuController::class, 'evaluasi_supplier_rujukan'])->name('evaluasi_supplier_rujukan');
+    Route::get('evaluasi-kapus/data-penawaran', [MenuController::class, 'evaluasi_kapus_data_penawaran'])->name('evaluasi_kapus_data_penawaran');
+    Route::get('evaluasi-kapus/penilaian-supplier-kapus', [MenuController::class, 'evaluasi_kapus_penilaian_supplier'])->name('evaluasi_kapus_penilaian_supplier');
     Route::get('periode-penilaian', [MenuController::class, 'periode_penilaian'])->name('periode_penilaian');
     Route::get('laporan-keputusan', [MenuController::class, 'laporan_keputusan'])->name('laporan_keputusan');
 
@@ -108,6 +110,17 @@ Route::prefix('app')->group(function () {
     Route::post('periode-penilaian/update', [MenuController::class, 'periode_penilaian_update'])->name('periode_penilaian_update');
     Route::post('periode-penilaian/update-save', [MenuController::class, 'periode_penilaian_update_save'])->name('periode_penilaian_update_save');
 
+    // DATA PENAWARAN KAPUS
+    Route::post('evaluasi-kapus/data-penawaran/add', [MenuController::class, 'evaluasi_kapus_data_penawaran_add'])->name('evaluasi_kapus_data_penawaran_add');
+    Route::post('evaluasi-kapus/data-penawaran/save', [MenuController::class, 'evaluasi_kapus_data_penawaran_save'])->name('evaluasi_kapus_data_penawaran_save');
+    // DATA PENILAIAN KAPUS
+    Route::post('evaluasi-kapus/penilaian-supplier-kapus/add-periode', [MenuController::class, 'evaluasi_kapus_penilaian_supplier_add_periode'])->name('evaluasi_kapus_penilaian_supplier_add_periode');
+    Route::post('evaluasi-kapus/penilaian-supplier-kapus/save-periode', [MenuController::class, 'evaluasi_kapus_penilaian_supplier_save_periode'])->name('evaluasi_kapus_penilaian_supplier_save_periode');
+    Route::post('evaluasi-kapus/penilaian-supplier-kapus/detail-periode', [MenuController::class, 'evaluasi_kapus_penilaian_supplier_detail_periode'])->name('evaluasi_kapus_penilaian_supplier_detail_periode');
+    Route::post('evaluasi-kapus/penilaian-supplier-kapus/detail-periode/penilaian-supplier', [MenuController::class, 'evaluasi_kapus_penilaian_supplier_detail_periode_supplier'])->name('evaluasi_kapus_penilaian_supplier_detail_periode_supplier');
+    Route::post('evaluasi-kapus/penilaian-supplier-kapus/detail-periode/penilaian-supplier/add', [MenuController::class, 'evaluasi_kapus_penilaian_supplier_detail_periode_supplier_add'])->name('evaluasi_kapus_penilaian_supplier_detail_periode_supplier_add');
+    Route::post('evaluasi-kapus/penilaian-supplier-kapus/fix-detail-periode', [MenuController::class, 'evaluasi_kapus_penilaian_supplier_fix_detail_periode'])->name('evaluasi_kapus_penilaian_supplier_fix_detail_periode');
+
     Route::get('laporan-keputusan/print', [MenuController::class, 'laporan_keputusan_print'])->name('laporan_keputusan_print');
     Route::post('laporan-keputusan/periode', [MenuController::class, 'laporan_keputusan_periode'])->name('laporan_keputusan_periode');
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-barang', [MenuController::class, 'laporan_keputusan_surat_keputusan_barang'])->name('laporan_keputusan_surat_keputusan_barang');
@@ -131,6 +144,8 @@ Route::prefix('master-data')->group(function () {
     Route::get('rujukan', [MasterController::class, 'master_rujukan'])->name('master_rujukan');
     Route::get('pemeriksaan', [MasterController::class, 'master_pemeriksaan'])->name('master_pemeriksaan');
     Route::get('penilaian', [MasterController::class, 'master_penilaian'])->name('master_penilaian');
+    Route::get('penilaian-kapus', [MasterController::class, 'master_penilaian_kapus'])->name('master_penilaian_kapus');
+
     Route::get('document', [MasterController::class, 'master_document'])->name('master_document');
     Route::post('document/add', [MasterController::class, 'master_document_add'])->name('master_document_add');
     Route::post('document/save', [MasterController::class, 'master_document_save'])->name('master_document_save');
@@ -145,6 +160,7 @@ Route::prefix('master-data')->group(function () {
     Route::get('menu-access', [MasterController::class, 'master_menu_akses'])->name('master_menu_akses');
     Route::post('menu-access/update', [MasterController::class, 'master_menu_akses_update'])->name('master_menu_akses_update');
     Route::post('menu-access/update_save', [MasterController::class, 'master_menu_akses_update_save'])->name('master_menu_akses_update_save');
+    Route::post('menu-access/update_sub_save', [MasterController::class, 'master_menu_akses_update_sub_save'])->name('master_menu_akses_update_sub_save');
 });
 Route::prefix('master-data')->group(function () {
     Route::post('suplier/add', [MasterController::class, 'master_suplier_add'])->name('master_suplier_add');
@@ -170,7 +186,16 @@ Route::prefix('master-data')->group(function () {
     Route::post('penilaian/save-detail', [MasterController::class, 'master_penilaian_save_detail'])->name('master_penilaian_save_detail');
     Route::post('penilaian/add-point', [MasterController::class, 'master_penilaian_add_point'])->name('master_penilaian_add_point');
     Route::post('penilaian/save-point', [MasterController::class, 'master_penilaian_save_point'])->name('master_penilaian_save_point');
+
+    Route::post('penilaian-kapus/add', [MasterController::class, 'master_penilaian_kapus_add'])->name('master_penilaian_kapus_add');
+    Route::post('penilaian-kapus/save', [MasterController::class, 'master_penilaian_kapus_save'])->name('master_penilaian_kapus_save');
+    Route::post('penilaian-kapus/add-detail', [MasterController::class, 'master_penilaian_kapus_add_detail'])->name('master_penilaian_kapus_add_detail');
+    Route::post('penilaian-kapus/save-detail', [MasterController::class, 'master_penilaian_kapus_save_detail'])->name('master_penilaian_kapus_save_detail');
+    Route::post('penilaian-kapus/add-point-detail', [MasterController::class, 'master_penilaian_kapus_add_point_detail'])->name('master_penilaian_kapus_add_point_detail');
+    Route::post('penilaian-kapus/save-point-detail', [MasterController::class, 'master_penilaian_kapus_save_point_detail'])->name('master_penilaian_kapus_save_point_detail');
 });
 // Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/testprint', [App\Http\Controllers\HomeController::class, 'testprint'])->name('testprint');
+Route::get('/testprintcoba', [App\Http\Controllers\HomeController::class, 'testprintcoba'])->name('testprintcoba');

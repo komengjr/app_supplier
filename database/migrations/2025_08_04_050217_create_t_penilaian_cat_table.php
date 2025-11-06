@@ -17,6 +17,7 @@ class CreateTPenilaianCatTable extends Migration
             $table->id('id_t_penilaian_cat');
             $table->string('t_penilaian_cat_code')->unique();
             $table->string('t_penilaian_cat_name');
+            $table->string('t_penilaian_cat_score');
             $table->string('t_penilaian_cat_status');
             $table->timestamps();
         });

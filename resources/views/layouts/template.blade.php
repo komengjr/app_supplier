@@ -93,8 +93,8 @@
 
                     </div><a class="navbar-brand" href="#">
                         <div class="d-flex align-items-center py-3">
-                            <img class="me-1" src="{{ asset('asset/img/icons/spot-illustrations/falcon.png') }}" alt=""
-                                width="45" /><span class="font-sans-serif fs-3 text-danger">Suplier</span>
+                            <img class="me-1" src="{{ asset('img/pram.png') }}" alt=""
+                                width="65" /><span class="font-sans-serif fs-2 text-danger">Suplier</span>
                         </div>
                     </a>
                 </div>
@@ -251,10 +251,17 @@
                                             class="nav-link-text ps-1">Master Penilaian</span>
                                     </div>
                                 </a>
-                                <a class="nav-link" href="{{ route('master_document') }}" role="button"
+                                <a class="nav-link" href="{{ route('master_penilaian_kapus') }}" role="button"
                                     aria-expanded="false">
                                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span
                                                 class="fas fa-chart-bar"></span></span><span
+                                            class="nav-link-text ps-1">Master Penilaian KAPUS</span>
+                                    </div>
+                                </a>
+                                <a class="nav-link" href="{{ route('master_document') }}" role="button"
+                                    aria-expanded="false">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                                class="fab fa-blogger-b"></span></span><span
                                             class="nav-link-text ps-1">Master Document</span>
                                     </div>
                                 </a>
@@ -303,16 +310,15 @@
             </nav>
             <div class="content">
                 <nav class="navbar navbar-light navbar-glass navbar-top navbar-expand">
-
-                    <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3" type="button"
+                    <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3 text-danger" type="button"
                         data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse"
                         aria-controls="navbarVerticalCollapse" aria-expanded="false"
-                        aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
-                                class="toggle-line"></span></span></button>
+                        aria-label="Toggle Navigation"><span class="navbar-toggle-icon text-danger"><span
+                                class="toggle-line text-danger"></span></span></button>
                     <a class="navbar-brand me-1 me-sm-3" href="#">
                         <div class="d-flex align-items-center"><img class="me-2"
-                                src="{{ asset('asset/img/icons/spot-illustrations/falcon.png') }}" alt=""
-                                width="40" /><span class="font-sans-serif">MCU</span>
+                                src="{{ asset('img/pram.png') }}" alt=""
+                                width="80" /><span class="font-sans-serif text-danger">Suplier</span>
                         </div>
                     </a>
                     <ul class="navbar-nav align-items-center d-none d-lg-block">
@@ -359,10 +365,10 @@
                                     value="dark" />
                                 <label class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                                     for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Switch to light theme"><span class="fas fa-sun fs-0"></span></label>
+                                    title="Switch to light theme"><span class="fas fa-sun fs-0 text-danger"></span></label>
                                 <label class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                                     for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Switch to dark theme"><span class="fas fa-moon fs-0"></span></label>
+                                    title="Switch to dark theme"><span class="fas fa-moon fs-0 text-danger"></span></label>
                             </div>
                         </li>
                         {{-- <li class="nav-item">
@@ -373,7 +379,7 @@
 
                         </li> --}}
                         <li class="nav-item dropdown">
-                            <a class="nav-link notification-indicator notification-indicator-primary px-0 fa-icon-wait"
+                            <a class="nav-link notification-indicator notification-indicator-danger px-0 fa-icon-wait"
                                 id="navbarDropdownNotification" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
                                     class="fas fa-bell" data-fa-transform="shrink-6"
@@ -440,14 +446,14 @@
                 <footer class="footer">
                     <div class="row g-0 justify-content-between fs--1 mt-4 mb-3">
                         <div class="col-12 col-sm-auto text-center">
-                            <p class="mb-0 text-600">Thank you for creating with Transforma<span
+                            <p class="mb-0 text-600">Thank you for creating with pramita.co.id<span
                                     class="d-none d-sm-inline-block">| </span><br class="d-sm-none" /> 2025 &copy;
                                 <a href="#">{{ Env('APP_NAME') }}</a>
                                 <button class="btn btn-primary" id="liveToastBtn" type="button" hidden></button>
                             </p>
                         </div>
                         <div class="col-12 col-sm-auto text-center">
-                            <img src="{{ asset('img/logo.png') }}" alt="" width="80">
+                            <img src="{{ asset('img/pram.png') }}" alt="" width="100">
                         </div>
                     </div>
                 </footer>

@@ -31,7 +31,9 @@
     <!--    Stylesheets-->
     <!-- ===============================================-->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap"
+        rel="stylesheet">
     <link href="{{ asset('vendors/overlayscrollbars/OverlayScrollbars.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/css/theme-rtl.min.css') }}" rel="stylesheet" id="style-rtl">
     <link href="{{ asset('asset/css/theme.min.css') }}" rel="stylesheet" id="style-default">
@@ -77,7 +79,8 @@
             <div class="row flex-center min-vh-100 py-6">
                 <div class="col-sm-8 col-md-6 col-lg-6 col-xl-4 col-xxl-4">
                     <a class="d-flex flex-center mb-4" href="#">
-                        <img class="me-2" src="{{ asset('asset/img/icons/spot-illustrations/falcon.png') }}" alt="" width="58" />
+                        <img class="me-2" src="{{ asset('asset/img/icons/spot-illustrations/falcon.png') }}" alt=""
+                            width="58" />
                         <span class="font-sans-serif fw-bolder fs-5 d-inline-block">Suplier</span>
                     </a>
                     <span id="notifikasi-login" class="pb-0 mt-0"></span>
@@ -92,22 +95,27 @@
                             </div>
                             <form>
                                 <div class="mb-3">
-                                    <input class="form-control form-control-lg" type="text" id="username" placeholder="user address" />
+                                    <input class="form-control form-control-lg" type="text" id="username"
+                                        placeholder="user address" />
                                 </div>
                                 <div class="mb-3">
-                                    <input class="form-control form-control-lg" type="password" id="password" placeholder="Password" />
+                                    <input class="form-control form-control-lg" type="password" id="password"
+                                        placeholder="Password" />
                                 </div>
                                 <div class="row flex-between-center">
                                     <div class="col-auto">
                                         <div class="form-check mb-0">
-                                            <input class="form-check-input" type="checkbox" id="basic-checkbox" checked="checked" />
-                                            <label class="form-check-label mb-0" for="basic-checkbox">Remember me</label>
+                                            <input class="form-check-input" type="checkbox" id="basic-checkbox"
+                                                checked="checked" />
+                                            <label class="form-check-label mb-0" for="basic-checkbox">Remember
+                                                me</label>
                                         </div>
                                     </div>
                                     <!-- <div class="col-auto"><a class="fs--1" href="../../../pages/authentication/simple/forgot-password.html">Forgot Password?</a></div> -->
                                 </div>
                                 <div class="mb-3">
-                                    <button class="btn btn-primary d-block w-100 mt-3" type="button" name="submit" id="button-login-system"><span class="fab fa-500px"></span> Log in</button>
+                                    <button class="btn btn-primary d-block w-100 mt-3" type="button" name="submit"
+                                        id="button-login-system"><span class="fab fa-500px"></span> Log in</button>
                                 </div>
                             </form>
                             <div class="position-relative mt-4">
@@ -115,10 +123,8 @@
                                 <div class="divider-content-center">System Management V.03</div>
                             </div>
                             <div class=" g-2 mt-2 d-flex justify-content-between">
-                                <img src="{{ asset('img/pram.png') }}" alt="" srcset=""
-                                    width="150">
-                                <img src="{{ asset('img/sima.jpeg') }}" alt="" srcset=""
-                                    width="150">
+                                <img src="{{ asset('img/pram.png') }}" alt="" srcset="" width="150">
+                                <img src="{{ asset('img/sima.jpeg') }}" alt="" srcset="" width="150">
                             </div>
                         </div>
                     </div>
@@ -142,12 +148,28 @@
     <script src="{{ asset('vendors/is/is.min.js') }}"></script>
     <script src="{{ asset('vendors/fontawesome/all.min.js') }}"></script>
     <script src="{{ asset('vendors/lodash/lodash.min.js') }}"></script>
-    {{-- <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script> --}}
+    {{--
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script> --}}
     <script src="{{ asset('vendors/list.js/list.min.js') }}"></script>
     <script src="{{ asset('asset/js/theme.js') }}"></script>
     <script src="{{ asset('asset/notifications/js/notifications.min.js') }}"></script>
     <script>
-        $(document).on("click", "#button-login-system", function(e) {
+        var input = document.getElementById("password");
+        var input2 = document.getElementById("username");
+        var button = document.getElementById("button-login-system");
+        input.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Mencegah perilaku default (seperti mengirim form)
+                button.click(); // Memicu klik pada tombol
+            }
+        });
+        input2.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Mencegah perilaku default (seperti mengirim form)
+                button.click(); // Memicu klik pada tombol
+            }
+        });
+        $(document).on("click", "#button-login-system", function (e) {
             e.preventDefault();
             var username = document.getElementById("username").value;
             var password = document.getElementById("password").value;
@@ -174,10 +196,10 @@
                         "password": password
                     },
                     dataType: 'html',
-                }).done(function(data) {
+                }).done(function (data) {
                     $('#notifikasi-login').html(data);
                     $('#button-login-system').html('<span class="fab fa-500px"></span> Log in');
-                }).fail(function() {
+                }).fail(function () {
                     console.log('error');
 
                 });

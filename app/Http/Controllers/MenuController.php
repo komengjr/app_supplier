@@ -46,7 +46,7 @@ class MenuController extends Controller
     public function kualifikasi_supplier($akses)
     {
         if ($this->url_akses($akses) == true) {
-            $data = DB::table('m_supplier')->where('m_supplier_cabang',Auth::user()->access_cabang)->get();
+            $data = DB::table('m_supplier')->where('m_supplier_cabang', Auth::user()->access_cabang)->get();
             return view('application.menu.kualifikasi-supplier', ['data' => $data]);
         } else {
             return Redirect::to('dashboard/home');
@@ -57,20 +57,21 @@ class MenuController extends Controller
         // $doc = DB::table('m_document')->get();
         return view('application.menu.kualifikasi-supplier.form-add-supplier');
     }
-    public function kualifikasi_supplier_detail_supplier(Request $request){
+    public function kualifikasi_supplier_detail_supplier(Request $request)
+    {
         return view('application.menu.kualifikasi-supplier.form-detail-supplier');
     }
     public function kualifikasi_supplier_add_supplier_save(Request $request)
     {
         DB::table('m_supplier')->insert([
-            'm_supplier_code'=>Str::uuid(),
-            'm_supplier_name'=>$request->name,
-            'm_supplier_city'=>$request->city,
-            'm_supplier_alamat'=>$request->alamat,
-            'm_supplier_phone'=>$request->phone,
-            'm_supplier_email'=>$request->email,
-            'm_supplier_cabang'=>Auth::user()->access_cabang,
-            'm_supplier_status'=>0,
+            'm_supplier_code' => Str::uuid(),
+            'm_supplier_name' => $request->name,
+            'm_supplier_city' => $request->city,
+            'm_supplier_alamat' => $request->alamat,
+            'm_supplier_phone' => $request->phone,
+            'm_supplier_email' => $request->email,
+            'm_supplier_cabang' => Auth::user()->access_cabang,
+            'm_supplier_status' => 0,
         ]);
         return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Supplier Cabang');
     }
@@ -139,8 +140,8 @@ class MenuController extends Controller
             ->join('m_supplier', 'm_supplier.m_supplier_code', '=', 'm_supplier_data.m_supplier_code')
             ->where('m_supplier_data.m_supplier_code', $request->code)->first();
         $type = DB::table('m_supplier_type')
-        ->join('type_pengadaan','type_pengadaan.type_pengadaan_code','=','m_supplier_type.type_pengadaan_code')
-        ->where('m_supplier_code', $request->code)->get();
+            ->join('type_pengadaan', 'type_pengadaan.type_pengadaan_code', '=', 'm_supplier_type.type_pengadaan_code')
+            ->where('m_supplier_code', $request->code)->get();
         $image = base64_encode(file_get_contents(public_path('img/logo.png')));
         $pdf = PDF::loadview('application.menu.kualifikasi-supplier.report.report-penetapan-supplier', ['data' => $data, 'type' => $type], compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
         $pdf->output();
@@ -915,6 +916,79 @@ class MenuController extends Controller
             'log_master_bag' => $request->bag,
         ]);
         return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Jasa');
+    }
+    // SUPPLIER KAPUS
+    public function evaluasi_kapus_data_penawaran($akses)
+    {
+        if ($this->url_akses_sub($akses) == true) {
+            $data = DB::table('data_penawaran')->get();
+            return view('application.menu.data-penawaran-kapus', ['data' => $data]);
+        } else {
+            return Redirect::to('dashboard/home');
+        }
+    }
+    public function evaluasi_kapus_data_penawaran_add(Request $request)
+    {
+
+        return view('application.menu.data-penawaran-kapus.form-add');
+    }
+    public function evaluasi_kapus_data_penawaran_save(Request $request)
+    {
+        DB::table('data_penawaran')->insert([
+            'data_penawaran_code' => Str::uuid(),
+            'data_penawaran_name' => $request->name,
+            'data_penawaran_cabang' => $request->cabang,
+            'data_penawaran_tujuan' => $request->tujuan,
+            'data_penawaran_anggaran' => $request->anggaran,
+            'data_penawaran_status' => 0,
+            'created_at' => now()
+        ]);
+        return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Penawaran KAPUS');
+    }
+    // PENILAIAN SUPPLIER KAPUS
+    public function evaluasi_kapus_penilaian_supplier($akses)
+    {
+        if ($this->url_akses_sub($akses) == true) {
+            $periode = DB::table('n_periode')->get();
+            return view('application.menu.data-penilaian-supplier-kapus', ['periode' => $periode]);
+        } else {
+            return Redirect::to('dashboard/home');
+        }
+    }
+    public function evaluasi_kapus_penilaian_supplier_add_periode(Request $request)
+    {
+        return view('application.menu.data-penilaian-kapus.form-add-periode');
+    }
+    public function evaluasi_kapus_penilaian_supplier_save_periode(Request $request)
+    {
+        DB::table('n_periode')->insert([
+            'n_periode_code' => Str::uuid(),
+            'n_periode_name' => $request->periode,
+            'n_periode_cabang' => Auth::user()->access_cabang,
+            'n_periode_date' => now(),
+            'n_periode_status' => 0,
+            'created_at' => now()
+        ]);
+        return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Penawaran KAPUS');
+    }
+    public function evaluasi_kapus_penilaian_supplier_detail_periode(Request $request)
+    {
+        $data = DB::table('m_supplier')->get();
+        $cat = DB::table('s_penilaian_cat')->get();
+        return view('application.menu.data-penilaian-kapus.data-supplier-kapus', ['data' => $data, 'cat' => $cat]);
+    }
+    public function evaluasi_kapus_penilaian_supplier_detail_periode_supplier(Request $request)
+    {
+        $data = DB::table('m_supplier')->get();
+        return view('application.menu.data-penilaian-kapus.data-pemilihan-penilaian-supplier', ['data' => $data]);
+    }
+    public function evaluasi_kapus_penilaian_supplier_detail_periode_supplier_add(Request $request){
+        $supplier = DB::table('m_supplier')->where('m_supplier_code',$request->code)->first();
+        return view('application.menu.data-penilaian-kapus.form-proses-penilaian-supplier',['supplier'=>$supplier]);
+    }
+    public function evaluasi_kapus_penilaian_supplier_fix_detail_periode(Request $request)
+    {
+        return 123;
     }
 
     // LAPORAN

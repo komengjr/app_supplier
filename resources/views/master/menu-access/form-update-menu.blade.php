@@ -54,11 +54,11 @@
                                             @endphp
                                             @if ($user)
                                                 <button class="btn btn-falcon-primary btn-sm float-end" id="button-setup-sub-akses"
-                                                    data-number="{{$user->id_menu_user}}" data-id="{{$subs->menu_sub_code}}"
+                                                    data-number="{{$user->id_menu_user_sub }}" data-id="{{$subs->menu_main_sub_code }}"
                                                     data-code="{{$code}}" data-status="1">Aktif</button>
                                             @else
                                                 <button class="btn btn-falcon-danger btn-sm float-end" id="button-setup-sub-akses"
-                                                    data-number="0" data-id="{{$subs->menu_sub_code}}" data-code="{{$code}}"
+                                                    data-number="0" data-id="{{$subs->menu_main_sub_code }}" data-code="{{$code}}"
                                                     data-status="0">Non Aktif</button>
                                             @endif
                                         </p>

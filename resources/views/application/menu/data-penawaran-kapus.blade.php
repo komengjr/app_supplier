@@ -13,7 +13,7 @@
                         <img class="ms-3 mx-3 m-2" src="{{ asset('img/app.png') }}" alt="" width="50" />
                         <div>
                             <h6 class="text-danger fs--1 mb-0 pt-2">Welcome to </h6>
-                            <h4 class="text-danger fw-bold mb-1">Supplier <span class="text-danger fw-medium">Management
+                            <h4 class="text-danger fw-bold mb-1">Suplier <span class="text-danger fw-medium">Management
                                     System</span></h4>
                         </div>
                         <img class="ms-n4 d-none d-lg-block "
@@ -21,7 +21,7 @@
                     </div>
                     <div class="col-xl-auto px-3 py-2">
                         <h6 class="text-danger fs--1 mb-0">Menu : </h6>
-                        <h4 class="text-danger fw-bold mb-0">Master <span class="text-danger fw-medium">Menu Akses</span>
+                        <h4 class="text-danger fw-bold mb-0">Data <span class="text-danger fw-medium">Penawaran</span>
                         </h4>
                     </div>
                 </div>
@@ -32,22 +32,22 @@
         <div class="card-header bg-danger">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="m-0"><span class="badge bg-danger m-0 p-0">Master Menu Akses</span></h3>
+                    <h3 class="m-0"><span class="badge bg-danger m-0 p-0">Data Penawaran</span></h3>
                 </div>
                 <div class="col-auto">
-
                     <div class="btn-group" role="group">
                         <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2"
                             type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
                                 class="fas fa-align-left me-1" data-fa-transform="shrink-3"></span>Option</button>
                         <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop2">
-                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-menu"
-                                id="button-tambah-data-menu" data-code="123"><span class="far fa-plus"></span>
-                                Tambah Menu</button>
-                            {{-- <div class="dropdown-divider"></div>
-                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-cabang"
-                                id="button-data-barang-cabang" data-code="123"><span class="far fa-folder-open"></span>
-                                History</button> --}}
+                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier-lg"
+                                id="button-tambah-data-penawaran-kapus" data-code="00"><span
+                                    class="fab fa-superpowers"></span>
+                                Tambah Data Penawaran</button>
+                            <div class="dropdown-divider"></div>
+                            <!-- <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
+                                    id="button-upload-data-supplier" data-code="123"><span
+                                        class="fas fa-cloud-upload-alt"></span> Upload Supplier</button> -->
                         </div>
                     </div>
                 </div>
@@ -58,9 +58,10 @@
                 <thead class="bg-200 text-700">
                     <tr>
                         <th>No</th>
-                        <th>Nama Akses</th>
-                        <th>List Menu</th>
-
+                        <th>Nama Project</th>
+                        <th>Department/Cabang</th>
+                        <th>Tujuan</th>
+                        <th>Anggaran</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -71,25 +72,12 @@
                     @foreach ($data as $datas)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{ $datas->master_access_name }} - {{ $datas->master_access_code  }}</td>
+                            <td>{{ $datas->data_penawaran_name }}</td>
+                            <td>{{ $datas->data_penawaran_cabang }}</td>
+                            <td>{{ $datas->data_penawaran_tujuan }}</td>
+                            <td>{{ $datas->data_penawaran_anggaran }}</td>
                             <td>
-                                @php
-                                    $menu = DB::table('z_menu_user')
-                                        ->join('z_menu_sub', 'z_menu_sub.menu_sub_code', '=', 'z_menu_user.menu_sub_code')
-                                        ->where('access_code', $datas->master_access_code)->get();
-                                @endphp
-                                @foreach ($menu as $menus)
-                                <li>{{ $menus->menu_sub_name }}</li>
-                                    <!-- @if ($menus->menu_sub_option == 'single')
-                                    @else
-
-                                    @endif -->
-                                @endforeach
-                            </td>
-                            <td>
-                                <button class="btn btn-falcon-warning btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#modal-menu" id="button-update-menu-akses"
-                                    data-code="{{ $datas->master_access_code  }}">Update</button>
+                                <button class="btn btn-falcon-danger btn-sm">Option</button>
                             </td>
                         </tr>
                     @endforeach
@@ -99,15 +87,27 @@
     </div>
 @endsection
 @section('base.js')
-    <div class="modal fade" id="modal-menu" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
+    <div class="modal fade" id="modal-suplier" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="false">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 95%;">
+            <div class="modal-content border-0">
+                <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
+                    <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                        data-bs-dismiss="modal" aria-label="Close" onclick="location.reload();"></button>
+                </div>
+                <div id="menu-suplier"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-suplier-lg" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="false">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content border-0">
                 <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
                     <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
                         data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div id="menu-menu"></div>
+                <div id="menu-suplier-lg"></div>
             </div>
         </div>
     </div>
@@ -116,20 +116,22 @@
     <script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.js"></script>
     <script src="https://cdn.datatables.net/responsive/3.0.4/js/responsive.bootstrap5.js"></script>
     <script src="{{ asset('vendors/choices/choices.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         new DataTable('#example', {
             responsive: true
         });
     </script>
     <script>
-        $(document).on("click", "#button-update-menu-akses", function (e) {
+        $(document).on("click", "#button-tambah-data-penawaran-kapus", function (e) {
             e.preventDefault();
             var code = $(this).data("code");
-            $('#menu-menu').html(
+            $('#menu-suplier-lg').html(
                 '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
             );
             $.ajax({
-                url: "{{ route('master_menu_akses_update') }}",
+                url: "{{ route('evaluasi_kapus_data_penawaran_add') }}",
                 type: "POST",
                 cache: false,
                 data: {
@@ -138,66 +140,41 @@
                 },
                 dataType: 'html',
             }).done(function (data) {
-                $('#menu-menu').html(data);
+                $('#menu-suplier-lg').html(data);
             }).fail(function () {
-                $('#menu-menu').html('eror');
+                $('#menu-suplier-lg').html('eror');
             });
         });
-        $(document).on("click", "#button-setup-akses", function (e) {
+        $(document).on("click", "#button-detaill-data-supplier-cabang", function (e) {
             e.preventDefault();
-            var id = $(this).data("id");
             var code = $(this).data("code");
-            var status = $(this).data("status");
-            var number = $(this).data("number");
-            $('#menu-loading-akses').html(
+            $('#menu-suplier-lg').html(
                 '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
             );
             $.ajax({
-                url: "{{ route('master_menu_akses_update_save') }}",
+                url: "{{ route('kualifikasi_supplier_detail_supplier') }}",
                 type: "POST",
                 cache: false,
                 data: {
                     "_token": "{{ csrf_token() }}",
-                    "id": id,
-                    "code": code,
-                    "status": status,
-                    "number": number
+                    "code": code
                 },
                 dataType: 'html',
             }).done(function (data) {
-                $('#menu-loading-akses').html(data);
-                location.reload();
+                $('#menu-suplier-lg').html(data);
             }).fail(function () {
-                $('#button-setup-akses').html('eror');
+                $('#menu-suplier-lg').html('eror');
             });
         });
-        $(document).on("click", "#button-setup-sub-akses", function (e) {
+
+    </script>
+    <script>
+        $(document).on("click", "#button-preview-file", function (e) {
             e.preventDefault();
-            var id = $(this).data("id");
-            var code = $(this).data("code");
-            var status = $(this).data("status");
-            var number = $(this).data("number");
-            $('#menu-loading-akses').html(
-                '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+            var file = $(this).data("file");
+            $('#show-file-doc').html(
+                '<iframe src="../' + file + '" style="width:100%; height:533px;" frameborder="0"></iframe>'
             );
-            $.ajax({
-                url: "{{ route('master_menu_akses_update_sub_save') }}",
-                type: "POST",
-                cache: false,
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "id": id,
-                    "code": code,
-                    "status": status,
-                    "number": number
-                },
-                dataType: 'html',
-            }).done(function (data) {
-                $('#menu-loading-akses').html(data);
-                location.reload();
-            }).fail(function () {
-                $('#button-setup-akses').html('eror');
-            });
         });
     </script>
 @endsection

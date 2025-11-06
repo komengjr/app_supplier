@@ -225,13 +225,100 @@ class MasterController extends Controller
         ]);
         return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Point');
     }
+    // MASTER PENILAIAN KAPUS
+    public function master_penilaian_kapus()
+    {
+        if (Auth::user()->access_code == 'master') {
+            $data = DB::table('s_penilaian_cat')
+                ->join('s_penilaian_type', 's_penilaian_type.s_penilaian_type_code', '=', 's_penilaian_cat.s_penilaian_type_code')
+                ->get();
+            return view('master.master-penilaian-kapus', ['data' => $data]);
+        } else {
+            return view('application.error.404');
+        }
+    }
+    public function master_penilaian_kapus_add()
+    {
+        if (Auth::user()->access_code == 'master') {
+            $data = DB::table('s_penilaian_type')->get();
+            return view('master.penilaian-kapus.form-add', ['data' => $data]);
+        } else {
+            return view('application.error.404');
+        }
+    }
+    public function master_penilaian_kapus_save(Request $request)
+    {
+        if (Auth::user()->access_code == 'master') {
+            DB::table('s_penilaian_cat')->insert([
+                's_penilaian_cat_code' => Str::uuid(),
+                's_penilaian_cat_name' => $request->name,
+                's_penilaian_type_code' => $request->type,
+                's_penilaian_cat_score' => $request->score,
+                's_penilaian_cat_status' => 1,
+                'created_at' => now()
+            ]);
+            return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Penilaian');
+        } else {
+            return view('application.error.404');
+        }
+    }
+    public function master_penilaian_kapus_add_detail(Request $request)
+    {
+        if (Auth::user()->access_code == 'master') {
+            // $data = DB::table('s_penilaian_type')->get();
+            return view('master.penilaian-kapus.form-add-detail', ['code' => $request->code]);
+        } else {
+            return view('application.error.404');
+        }
+    }
+    public function master_penilaian_kapus_save_detail(Request $request)
+    {
+        if (Auth::user()->access_code == 'master') {
+            DB::table('s_penilaian_detail')->insert([
+                's_penilaian_detail_code' => Str::uuid(),
+                's_penilaian_cat_code' => $request->code,
+                's_penilaian_detail_name' => $request->name,
+                's_penilaian_detail_type' => $request->type,
+                's_penilaian_detail_point' => $request->score,
+                's_penilaian_detail_status' => 1,
+                'created_at' => now()
+            ]);
+            return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Penilaian');
+        } else {
+            return view('application.error.404');
+        }
+    }
+    public function master_penilaian_kapus_add_point_detail(Request $request)
+    {
+        if (Auth::user()->access_code == 'master') {
+            return view('master.penilaian-kapus.form-add-point', ['code' => $request->code]);
+        } else {
+            return view('application.error.404');
+        }
+    }
+    public function master_penilaian_kapus_save_point_detail(Request $request)
+    {
+        if (Auth::user()->access_code == 'master') {
+             DB::table('s_penilaian_point')->insert([
+                's_penilaian_point_code' => Str::uuid(),
+                's_penilaian_detail_code' => $request->code,
+                's_penilaian_point_name' => $request->name,
+                's_penilaian_point_value' => $request->point,
+                's_penilaian_point_status' => 1,
+                'created_at' => now()
+            ]);
+            return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Penilaian');
+        } else {
+            return view('application.error.404');
+        }
+    }
     // MASTER MENU
     public function master_document()
     {
         if (Auth::user()->access_code == 'master') {
             $data = DB::table('m_document')
-            ->join('m_document_type', 'm_document_type.m_document_type_code', '=', 'm_document.m_document_type_code')
-            ->get();
+                ->join('m_document_type', 'm_document_type.m_document_type_code', '=', 'm_document.m_document_type_code')
+                ->get();
             return view('master.master-document', ['data' => $data]);
         } else {
             return view('application.error.404');
@@ -268,8 +355,8 @@ class MasterController extends Controller
     {
         if (Auth::user()->access_code == 'master') {
             $data = DB::table('m_document')
-            ->join('m_document_type', 'm_document_type.m_document_type_code', '=', 'm_document.m_document_type_code')
-            ->where('m_document_code', $request->code)->first();
+                ->join('m_document_type', 'm_document_type.m_document_type_code', '=', 'm_document.m_document_type_code')
+                ->where('m_document_code', $request->code)->first();
             $tipe = DB::table('m_document_type')->get();
             return view('master.document.form-update', ['data' => $data, 'tipe' => $tipe]);
         } else {
@@ -279,7 +366,7 @@ class MasterController extends Controller
     public function master_document_update_save(Request $request)
     {
         if (Auth::user()->access_code == 'master') {
-            DB::table('m_document')->where('m_document_code',$request->code)->update([
+            DB::table('m_document')->where('m_document_code', $request->code)->update([
                 'm_document_type_code' => $request->type,
                 'm_document_name' => $request->name,
                 'm_document_desc' => $request->desc,
@@ -398,6 +485,22 @@ class MasterController extends Controller
                 ]);
             } else {
                 DB::table('z_menu_user')->where('id_menu_user', $request->number)->delete();
+            }
+        } else {
+            return view('application.error.404');
+        }
+    }
+    public function master_menu_akses_update_sub_save(Request $request)
+    {
+        if (Auth::user()->access_code == 'master') {
+            if ($request->status == 0) {
+                DB::table('z_menu_user_sub')->insert([
+                    'menu_main_sub_code' => $request->id,
+                    'access_code' => $request->code,
+                    'created_at' => now()
+                ]);
+            } else {
+                DB::table('z_menu_user_sub')->where('id_menu_user_sub', $request->number)->delete();
             }
         } else {
             return view('application.error.404');
