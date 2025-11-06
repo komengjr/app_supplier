@@ -77,14 +77,14 @@ class AuthController extends Controller
             } else {
                 // return redirect()->intended('dashboard/home')
                 //     ->withSuccess('Kamu Berhasil Masuk di Halaman ' . Auth::user()->fullname);
-                return '<div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+                return '<div class="alert alert-success alert-dismissible fade show my-2" role="alert">
                                             <strong>Greate!</strong> Selamat Datang ' . Auth::user()->fullname . '.
                                             <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
                                             <script>window.location.href = "' . route('dashboard.home') . '";</script>
                                         </div>';
             }
         }
-        return '<div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+        return '<div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
                                             <strong>Error!</strong> Username Dan Password Ada Kesalahan.
                                             <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
                                         </div>';
