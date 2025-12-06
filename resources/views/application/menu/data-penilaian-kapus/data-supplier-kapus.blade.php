@@ -8,9 +8,7 @@
                     class="fas fa-align-left me-1" data-fa-transform="shrink-3"></span>Option</button>
             <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop2">
                 <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier-lg"
-                    id="button-tambah-data-penilaian-supplier" data-code="00"><span class="fas fa-file-signature"></span> Penilaian Berdasarkan Supplier</button>
-                <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier-lg"
-                    id="button-tambah-data-supplier-cabang" data-code="00"><span class="fas fa-file-signature"></span> Penilaian Berdasarkan Barang</button>
+                    id="button-tambah-data-penilaian-supplier" data-code="{{$code}}"><span class="fas fa-file-signature"></span> Penilaian Berdasarkan Supplier</button>
                 <div class="dropdown-divider"></div>
                 <button class="dropdown-item" id="button-simpan-fix-proses-penilaian" data-code="123"><span
                         class="fas fa-cloud-upload-alt"></span> Simpan Evaluasi</button>
@@ -28,13 +26,13 @@
                 </tr>
                 <tr>
                     @foreach ($cat as $cats)
-                        <th>{{ $cats->s_penilaian_cat_name }}</th>
+                    <th>{{ $cats->s_penilaian_cat_name }}</th>
                     @endforeach
                 </tr>
             </thead>
             <tbody>
                 @php
-                    $no = 1;
+                $no = 1;
                 @endphp
                 <!-- @foreach ($data as $datas)
                     <tr>

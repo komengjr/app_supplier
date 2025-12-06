@@ -17,6 +17,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 use Rawilk\Printing\Facades\Printing;
 use Session;
 use PDF;
+
 class MenuController extends Controller
 {
     public function __construct()
@@ -126,7 +127,6 @@ class MenuController extends Controller
                 "data" => true
             ];
         }
-
     }
     public function kualifikasi_supplier_penetapan_document_report(Request $request)
     {
@@ -338,9 +338,9 @@ class MenuController extends Controller
                     ->where('m_supplier_code', $request->supplier)
                     ->where('m_barang_code', $request->barang)
                     ->where('t_penilaian_detail_code', $request[$value->t_penilaian_detail_code])->update([
-                            'log_penilaian_cab_val' => $request['data' . $value->t_penilaian_detail_code],
-                            'log_penilaian_cab_score' => $score,
-                        ]);
+                        'log_penilaian_cab_val' => $request['data' . $value->t_penilaian_detail_code],
+                        'log_penilaian_cab_score' => $score,
+                    ]);
             } else {
                 DB::table('log_penilaian_cab')->insert([
                     'log_penilaian_cab_code' => str::uuid(),
@@ -400,9 +400,9 @@ class MenuController extends Controller
                         ->where('m_barang_code', $brgs->m_barang_code)
                         ->where('m_supplier_code', $value->m_supplier_code)
                         ->where('master_cabang_code', Auth::user()->access_cabang)->update([
-                                'data_supp_brg_cab_score' => $score,
-                                'created_at' => now(),
-                            ]);
+                            'data_supp_brg_cab_score' => $score,
+                            'created_at' => now(),
+                        ]);
                 } else {
                     DB::table('data_supp_brg_cab')->insert([
                         'data_supp_brg_cab_code' => str::uuid(),
@@ -530,9 +530,9 @@ class MenuController extends Controller
                     ->where('m_supplier_code', $request->supplier)
                     ->where('m_jasa_code', $request->jasa)
                     ->where('t_penilaian_detail_code', $request[$value->t_penilaian_detail_code])->update([
-                            'penilaian_jasa_cab_val' => $request['data' . $value->t_penilaian_detail_code],
-                            'penilaian_jasa_cab_score' => $score,
-                        ]);
+                        'penilaian_jasa_cab_val' => $request['data' . $value->t_penilaian_detail_code],
+                        'penilaian_jasa_cab_score' => $score,
+                    ]);
             } else {
                 DB::table('log_penilaian_jasa_cab')->insert([
                     'penilaian_jasa_cab_code' => str::uuid(),
@@ -592,9 +592,9 @@ class MenuController extends Controller
                         ->where('m_jasa_code', $jasas->m_jasa_code)
                         ->where('m_supplier_code', $value->m_supplier_code)
                         ->where('master_cabang_code', Auth::user()->access_cabang)->update([
-                                'data_supp_jasa_cab_score' => $score,
-                                'created_at' => now(),
-                            ]);
+                            'data_supp_jasa_cab_score' => $score,
+                            'created_at' => now(),
+                        ]);
                 } else {
                     DB::table('data_supp_jasa_cab')->insert([
                         'data_supp_jasa_cab_code' => str::uuid(),
@@ -792,9 +792,9 @@ class MenuController extends Controller
                     ->where('m_rujukan_code', $request->rujukan)
                     ->where('m_pemeriksaan_code', $request->pemeriksaan)
                     ->where('t_penilaian_detail_code', $request[$value->t_penilaian_detail_code])->update([
-                            'penilaian_rujukan_cab_val' => $request['data' . $value->t_penilaian_detail_code],
-                            'penilaian_rujukan_cab_score' => $score,
-                        ]);
+                        'penilaian_rujukan_cab_val' => $request['data' . $value->t_penilaian_detail_code],
+                        'penilaian_rujukan_cab_score' => $score,
+                    ]);
             } else {
                 DB::table('log_penilaian_rujukan_cab')->insert([
                     'penilaian_rujukan_cab_code' => str::uuid(),
@@ -854,9 +854,9 @@ class MenuController extends Controller
                         ->where('m_pemeriksaan_code', $pem->m_pemeriksaan_code)
                         ->where('m_rujukan_code', $value->m_rujukan_code)
                         ->where('master_cabang_code', Auth::user()->access_cabang)->update([
-                                'data_supp_rujukan_cab_score' => $score,
-                                'created_at' => now(),
-                            ]);
+                            'data_supp_rujukan_cab_score' => $score,
+                            'created_at' => now(),
+                        ]);
                 } else {
                     DB::table('data_supp_rujukan_cab')->insert([
                         'data_supp_rujukan_cab_code' => str::uuid(),
@@ -949,8 +949,8 @@ class MenuController extends Controller
     public function evaluasi_kapus_penilaian_supplier($akses)
     {
         if ($this->url_akses_sub($akses) == true) {
-            $periode = DB::table('n_periode')->get();
-            return view('application.menu.data-penilaian-supplier-kapus', ['periode' => $periode]);
+            $penawaran = DB::table('data_penawaran')->get();
+            return view('application.menu.data-penilaian-supplier-kapus', ['penawaran' => $penawaran]);
         } else {
             return Redirect::to('dashboard/home');
         }
@@ -975,20 +975,84 @@ class MenuController extends Controller
     {
         $data = DB::table('m_supplier')->get();
         $cat = DB::table('s_penilaian_cat')->get();
-        return view('application.menu.data-penilaian-kapus.data-supplier-kapus', ['data' => $data, 'cat' => $cat]);
+        return view('application.menu.data-penilaian-kapus.data-supplier-kapus', ['data' => $data, 'cat' => $cat, 'code' => $request->code]);
     }
     public function evaluasi_kapus_penilaian_supplier_detail_periode_supplier(Request $request)
     {
         $data = DB::table('m_supplier')->get();
-        return view('application.menu.data-penilaian-kapus.data-pemilihan-penilaian-supplier', ['data' => $data]);
+        $barang = DB::table('m_barang')->get();
+        return view('application.menu.data-penilaian-kapus.data-pemilihan-penilaian-supplier', ['data' => $data], compact('barang'));
     }
-    public function evaluasi_kapus_penilaian_supplier_detail_periode_supplier_add(Request $request){
-        $supplier = DB::table('m_supplier')->where('m_supplier_code',$request->code)->first();
-        return view('application.menu.data-penilaian-kapus.form-proses-penilaian-supplier',['supplier'=>$supplier]);
+    public function evaluasi_kapus_penilaian_supplier_detail_periode_supplier_add(Request $request)
+    {
+        $supplier = DB::table('m_supplier')->where('m_supplier_code', $request->code)->first();
+        $kategori = DB::table('s_penilaian_cat')->where('s_penilaian_type_code', 'pen_kapus')->get();
+        $penawaran = DB::table('data_penawaran')->where('data_penawaran_code', $request->id)->first();
+        $barang = DB::table('m_barang')->where('m_barang_code',$request->data_barang)->first();
+        return view('application.menu.data-penilaian-kapus.form-proses-penilaian-supplier', [
+            'supplier' => $supplier,
+            'kategori' => $kategori,
+            'penawaran' => $penawaran,
+            'barang' => $barang,
+        ]);
     }
     public function evaluasi_kapus_penilaian_supplier_fix_detail_periode(Request $request)
     {
         return 123;
+    }
+    // DATA SUPPLIER KAPUS
+    public function evaluasi_kapus_data_supplier_kapus($akses)
+    {
+        if ($this->url_akses_sub($akses) == true) {
+            $data = DB::table('m_supplier')->get();
+            return view('application.menu.data-supplier-kapus', ['data' => $data]);
+        } else {
+            return Redirect::to('dashboard/home');
+        }
+    }
+    // PENETAPAN SUPPLIER KAPUS
+    public function evaluasi_kapus_penetapan_supplier_kapus($akses)
+    {
+        if ($this->url_akses_sub($akses) == true) {
+            $data = DB::table('data_penawaran')->get();
+            return view('application.menu.penetapan-supplier-kapus', ['data' => $data]);
+        } else {
+            return Redirect::to('dashboard/home');
+        }
+    }
+    public function evaluasi_kapus_penetapan_supplier_kapus_preview(Request $request)
+    {
+        return view('application.menu.penetapan-supplier-kapus.preview-penetapan', ['code' => $request->code]);
+    }
+    public function evaluasi_kapus_penetapan_supplier_kapus_preview_report(Request $request)
+    {
+        $project = DB::table('data_penawaran')->where('data_penawaran_code',$request->code)->first();
+        $image = base64_encode(file_get_contents(public_path('img/logo.png')));
+        $pdf = PDF::loadview('application.menu.penetapan-supplier-kapus.report.report-penetapan', compact('image','project'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Calibri']);
+        $pdf->output();
+        $dompdf = $pdf->getDomPDF();
+        $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
+        $font1 = $dompdf->getFontMetrics()->get_font("helvetica", "normal");
+        $dompdf->get_canvas()->page_text(300, 820, "{PAGE_NUM} / {PAGE_COUNT}", $font, 10, array(0, 0, 0));
+        $dompdf->get_canvas()->page_text(34, 800, "Confidential", $font1, 9, array(0, 0, 0));
+        $dompdf->get_canvas()->page_text(34, 810, "Form SDM.02-FRM-PP-06.2/2", $font1, 9, array(0, 0, 0));
+        $dompdf->get_canvas()->page_text(34, 820, "Print by. " . Auth::user()->fullname . " " . date('d-m-Y H:i:s'), $font1, 9, array(0, 0, 0));
+        return base64_encode($pdf->stream());
+    }
+    public function evaluasi_kapus_penetapan_supplier_kapus_preview_report_terpilih(Request $request)
+    {
+        $project = DB::table('data_penawaran')->where('data_penawaran_code',$request->code)->first();
+        $image = base64_encode(file_get_contents(public_path('img/logo.png')));
+        $pdf = PDF::loadview('application.menu.penetapan-supplier-kapus.report.report-penetapan-terpilih', compact('image','project'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Calibri']);
+        $pdf->output();
+        $dompdf = $pdf->getDomPDF();
+        $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
+        $font1 = $dompdf->getFontMetrics()->get_font("helvetica", "normal");
+        $dompdf->get_canvas()->page_text(300, 820, "{PAGE_NUM} / {PAGE_COUNT}", $font, 10, array(0, 0, 0));
+        $dompdf->get_canvas()->page_text(34, 800, "Confidential", $font1, 9, array(0, 0, 0));
+        $dompdf->get_canvas()->page_text(34, 810, "Form SDM.02-FRM-PP-06.2/2", $font1, 9, array(0, 0, 0));
+        $dompdf->get_canvas()->page_text(34, 820, "Print by. " . Auth::user()->fullname . " " . date('d-m-Y H:i:s'), $font1, 9, array(0, 0, 0));
+        return base64_encode($pdf->stream());
     }
 
     // LAPORAN

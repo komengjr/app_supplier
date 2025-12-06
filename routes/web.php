@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('log-eror', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 Route::controller(AuthController::class)->group(function () {
     Route::get('/', 'fisrt')->name('/');
@@ -41,6 +42,8 @@ Route::prefix('{akses}')->group(function () {
     Route::get('evaluasi-supplier/supplier-rujukan', [MenuController::class, 'evaluasi_supplier_rujukan'])->name('evaluasi_supplier_rujukan');
     Route::get('evaluasi-kapus/data-penawaran', [MenuController::class, 'evaluasi_kapus_data_penawaran'])->name('evaluasi_kapus_data_penawaran');
     Route::get('evaluasi-kapus/penilaian-supplier-kapus', [MenuController::class, 'evaluasi_kapus_penilaian_supplier'])->name('evaluasi_kapus_penilaian_supplier');
+    Route::get('evaluasi-kapus/data-supplier-kapus', [MenuController::class, 'evaluasi_kapus_data_supplier_kapus'])->name('evaluasi_kapus_data_supplier_kapus');
+    Route::get('evaluasi-kapus/penetapan-supplier-kapus', [MenuController::class, 'evaluasi_kapus_penetapan_supplier_kapus'])->name('evaluasi_kapus_penetapan_supplier_kapus');
     Route::get('periode-penilaian', [MenuController::class, 'periode_penilaian'])->name('periode_penilaian');
     Route::get('laporan-keputusan', [MenuController::class, 'laporan_keputusan'])->name('laporan_keputusan');
 
@@ -120,6 +123,11 @@ Route::prefix('app')->group(function () {
     Route::post('evaluasi-kapus/penilaian-supplier-kapus/detail-periode/penilaian-supplier', [MenuController::class, 'evaluasi_kapus_penilaian_supplier_detail_periode_supplier'])->name('evaluasi_kapus_penilaian_supplier_detail_periode_supplier');
     Route::post('evaluasi-kapus/penilaian-supplier-kapus/detail-periode/penilaian-supplier/add', [MenuController::class, 'evaluasi_kapus_penilaian_supplier_detail_periode_supplier_add'])->name('evaluasi_kapus_penilaian_supplier_detail_periode_supplier_add');
     Route::post('evaluasi-kapus/penilaian-supplier-kapus/fix-detail-periode', [MenuController::class, 'evaluasi_kapus_penilaian_supplier_fix_detail_periode'])->name('evaluasi_kapus_penilaian_supplier_fix_detail_periode');
+
+    // PENETAPAN SUPPLIER KAPUS
+    Route::post('evaluasi-kapus/penetapan-supplier-kapus/preview', [MenuController::class, 'evaluasi_kapus_penetapan_supplier_kapus_preview'])->name('evaluasi_kapus_penetapan_supplier_kapus_preview');
+    Route::post('evaluasi-kapus/penetapan-supplier-kapus/preview-report', [MenuController::class, 'evaluasi_kapus_penetapan_supplier_kapus_preview_report'])->name('evaluasi_kapus_penetapan_supplier_kapus_preview_report');
+    Route::post('evaluasi-kapus/penetapan-supplier-kapus/preview-report-terpilih', [MenuController::class, 'evaluasi_kapus_penetapan_supplier_kapus_preview_report_terpilih'])->name('evaluasi_kapus_penetapan_supplier_kapus_preview_report_terpilih');
 
     Route::get('laporan-keputusan/print', [MenuController::class, 'laporan_keputusan_print'])->name('laporan_keputusan_print');
     Route::post('laporan-keputusan/periode', [MenuController::class, 'laporan_keputusan_periode'])->name('laporan_keputusan_periode');

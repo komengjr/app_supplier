@@ -8,22 +8,22 @@
         @csrf
         <div class="col-md-6">
             <label class="form-label" for="inputAddress">Nama Project</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="name" placeholder="2050"
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="name" placeholder="Pembelian Alat Elektromedis"
                 required />
         </div>
         <div class="col-md-6">
             <label class="form-label" for="inputAddress">Department / Cabang</label>
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="cabang"
-                placeholder="Jhone Doe" required />
+                placeholder="Example" required />
         </div>
         <div class="col-md-6">
             <label class="form-label" for="inputAddress">Tujuan</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="tujuan" placeholder="Jhone Doe"
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="tujuan" placeholder=".............."
                 required />
         </div>
         <div class="col-md-6">
             <label class="form-label" for="inputAddress">Anggaran</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="anggaran" placeholder="Jhone Doe"
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="anggaran" placeholder="Rp. xxxxxxxxx"
                 required />
         </div>
         <div class="col-12">
