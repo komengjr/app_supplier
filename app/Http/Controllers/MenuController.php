@@ -60,7 +60,20 @@ class MenuController extends Controller
     }
     public function kualifikasi_supplier_detail_supplier(Request $request)
     {
-        return view('application.menu.kualifikasi-supplier.form-detail-supplier');
+        $data = DB::table('m_supplier')->where('m_supplier_code', $request->code)->first();
+        return view('application.menu.kualifikasi-supplier.form-detail-supplier', compact('data'));
+    }
+    public function kualifikasi_supplier_detail_supplier_save(Request $request)
+    {
+        DB::table('m_supplier')->where('m_supplier_code', $request->data_supplier)->update([
+            'm_supplier_name' => $request->name,
+            'm_supplier_city' => $request->city,
+            'm_supplier_alamat' => $request->alamat,
+            'm_supplier_phone' => $request->phone,
+            'm_supplier_email' => $request->email,
+            'm_supplier_cat' => $request->kategori,
+        ]);
+        return redirect()->back()->withSuccess('Great! Berhasil Update Data Supplier Cabang');
     }
     public function kualifikasi_supplier_add_supplier_save(Request $request)
     {
@@ -71,6 +84,7 @@ class MenuController extends Controller
             'm_supplier_alamat' => $request->alamat,
             'm_supplier_phone' => $request->phone,
             'm_supplier_email' => $request->email,
+            'm_supplier_cat' => $request->kategori,
             'm_supplier_cabang' => Auth::user()->access_cabang,
             'm_supplier_status' => 0,
         ]);
@@ -988,7 +1002,7 @@ class MenuController extends Controller
         $supplier = DB::table('m_supplier')->where('m_supplier_code', $request->code)->first();
         $kategori = DB::table('s_penilaian_cat')->where('s_penilaian_type_code', 'pen_kapus')->get();
         $penawaran = DB::table('data_penawaran')->where('data_penawaran_code', $request->id)->first();
-        $barang = DB::table('m_barang')->where('m_barang_code',$request->data_barang)->first();
+        $barang = DB::table('m_barang')->where('m_barang_code', $request->data_barang)->first();
         return view('application.menu.data-penilaian-kapus.form-proses-penilaian-supplier', [
             'supplier' => $supplier,
             'kategori' => $kategori,
@@ -1026,9 +1040,9 @@ class MenuController extends Controller
     }
     public function evaluasi_kapus_penetapan_supplier_kapus_preview_report(Request $request)
     {
-        $project = DB::table('data_penawaran')->where('data_penawaran_code',$request->code)->first();
+        $project = DB::table('data_penawaran')->where('data_penawaran_code', $request->code)->first();
         $image = base64_encode(file_get_contents(public_path('img/logo.png')));
-        $pdf = PDF::loadview('application.menu.penetapan-supplier-kapus.report.report-penetapan', compact('image','project'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Calibri']);
+        $pdf = PDF::loadview('application.menu.penetapan-supplier-kapus.report.report-penetapan', compact('image', 'project'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Calibri']);
         $pdf->output();
         $dompdf = $pdf->getDomPDF();
         $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
@@ -1041,9 +1055,9 @@ class MenuController extends Controller
     }
     public function evaluasi_kapus_penetapan_supplier_kapus_preview_report_terpilih(Request $request)
     {
-        $project = DB::table('data_penawaran')->where('data_penawaran_code',$request->code)->first();
+        $project = DB::table('data_penawaran')->where('data_penawaran_code', $request->code)->first();
         $image = base64_encode(file_get_contents(public_path('img/logo.png')));
-        $pdf = PDF::loadview('application.menu.penetapan-supplier-kapus.report.report-penetapan-terpilih', compact('image','project'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Calibri']);
+        $pdf = PDF::loadview('application.menu.penetapan-supplier-kapus.report.report-penetapan-terpilih', compact('image', 'project'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Calibri']);
         $pdf->output();
         $dompdf = $pdf->getDomPDF();
         $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");

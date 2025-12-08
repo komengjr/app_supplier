@@ -3,33 +3,39 @@
         <h4 class="mb-1" style="color: white;" id="staticBackdropLabel">Detail Suplier Cabang</h4>
         <p class="fs--2 mb-0">Support by <a class="link-600 fw-semi-bold" href="#!">Transforma</a></p>
     </div>
-    <form class="row g-3 p-4" action="{{ route('kualifikasi_supplier_add_supplier_save') }}" method="post"
+    <form class="row g-3 p-4" action="{{ route('kualifikasi_supplier_detail_supplier_save') }}" method="post"
         enctype="multipart/form-data">
         @csrf
         <div class="col-6">
             <label class="form-label" for="inputAddress">Nama Suplier</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="name" placeholder="PT Jhon"
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="name" value="{{ $data->m_supplier_name }}"
+                required />
+            <input type="text" name="data_supplier" id="" value="{{ $data->m_supplier_code }}" hidden>
+        </div>
+        <div class="col-3">
+            <label class="form-label" for="inputAddress">Kota Suplier</label>
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="city" value="{{ $data->m_supplier_city }}"
                 required />
         </div>
-        <div class="col-6">
-            <label class="form-label" for="inputAddress">Kota Suplier</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="city" placeholder="Papua"
-                required />
+        <div class="col-3">
+            <label class="form-label" for="inputAddress">Kategori Suplier</label>
+            <select name="kategori" class="form-control" id="">
+                <option value="{{ $data->m_supplier_cat }}">{{ $data->m_supplier_cat }}</option>
+                <option value="UMKM">UMKM</option>
+                <option value="NONUMKM">NON UMKM</option>
+            </select>
         </div>
         <div class="col-6">
             <label class="form-label" for="inputAddress">Telepon</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="phone"
-                placeholder="0000000" />
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="phone" value="{{ $data->m_supplier_phone }}" />
         </div>
         <div class="col-6">
             <label class="form-label" for="inputAddress">Email</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="email"
-                placeholder="0000000" />
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="email" value="{{ $data->m_supplier_email }}" />
         </div>
         <div class="col-12">
             <label class="form-label" for="inputAddress">Alamat</label>
-            <input class="form-control form-control-lg  " id="inputAddress" type="text" name="alamat"
-                placeholder="Jl Example" required />
+            <input class="form-control form-control-lg  " id="inputAddress" type="text" name="alamat" value="{{ $data->m_supplier_alamat }}" />
         </div>
         <div class="col-12">
             <div class="form-check">
@@ -38,7 +44,7 @@
             </div>
         </div>
         <div class="col-12">
-            <button class="btn btn-primary" type="submit"><span class="fas fa-save"></span> Save</button>
+            <button class="btn btn-primary" type="submit"><span class="fas fa-save"></span> Update</button>
         </div>
     </form>
 </div>

@@ -10,19 +10,27 @@
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="name" placeholder="PT Jhon"
                 required />
         </div>
-        <div class="col-6">
+        <div class="col-3">
             <label class="form-label" for="inputAddress">Kota Suplier</label>
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="city" placeholder="Papua"
                 required />
         </div>
+        <div class="col-3">
+            <label class="form-label" for="inputAddress">Kategori Suplier</label>
+            <select name="kategori" class="form-control" id="">
+                <option value="">Pilih Kategori</option>
+                <option value="UMKM">UMKM</option>
+                <option value="NONUMKM">NON UMKM</option>
+            </select>
+        </div>
         <div class="col-6">
             <label class="form-label" for="inputAddress">Telepon</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="phone" placeholder="0000000"
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="phone" placeholder="Ex. 0823 xxxxxxxx"
                  />
         </div>
         <div class="col-6">
             <label class="form-label" for="inputAddress">Email</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="email" placeholder="0000000"
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="email" placeholder="Ex. Example@domain.com"
                  />
         </div>
         <div class="col-12">

@@ -195,8 +195,8 @@
     <div class="login-card">
         <div class="text-center mb-4">
             <img src="{{ asset('img/header.png') }}" alt="" width="50">
-            <h2>Penilaian Supplier</h2>
-            <p style="margin-bottom: 0;">Evaluasi performa dan kinerja supplier.</p>
+            <h4><strong>Kualifikasi & Evaluasi Supplier</strong></h4>
+            <p style="margin-bottom: 0;">Pramita</p>
         </div>
         <span id="notifikasi-login" class="pb-0 mt-0"></span>
         <form id="loginForm">
