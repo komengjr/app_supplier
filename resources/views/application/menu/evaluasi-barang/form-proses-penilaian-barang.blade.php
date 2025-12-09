@@ -64,6 +64,10 @@
                                                 <option value="{{ $opt->t_penilaian_point_value}}">{{ $opt->t_penilaian_point_name }}</option>
                                                 @endforeach
                                             </select>
+                                            @if ($cat->t_penilaian_cat_name == 'Distribusi')
+                                            <label for="" class="text-danger"><small>Isi Jika Pilihan Tidak</small></label>
+                                            <textarea name="" class="form-control" id=""></textarea>
+                                            @endif
                                             @endif
                                             @else
                                             @if ($log)

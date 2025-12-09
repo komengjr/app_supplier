@@ -5,7 +5,7 @@
     </div>
     <form class="row g-3 p-4" action="{{ route('periode_penilaian_save') }}" method="post" enctype="multipart/form-data">
         @csrf
-        <div class="col-md-6">
+        <div class="col-md-12">
             <label class="form-label" for="inputAddress">Periode Tahun</label>
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="periode" placeholder="2050"
                 required />
@@ -20,9 +20,25 @@
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="mgr" placeholder="Jhone Doe"
                 required />
         </div>
+        <h4>Team Evaluasi</h4>
         <div class="col-md-6">
-            <label class="form-label" for="inputAddress">Bagian Pengadaan</label>
+            <label class="form-label" for="inputAddress">Jabatan 1</label>
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="jab" placeholder="Pelayanan"
+                required />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="inputAddress">Team 1</label>
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="bag" placeholder="Jhone Doe"
+                required />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="inputAddress">Jabatan 2</label>
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="jab2" placeholder="Laboratorium"
+                required />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="inputAddress">Team 2</label>
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="bag1" placeholder="Jhone Doe"
                 required />
         </div>
         <div class="col-12">

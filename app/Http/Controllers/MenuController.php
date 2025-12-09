@@ -65,15 +65,19 @@ class MenuController extends Controller
     }
     public function kualifikasi_supplier_detail_supplier_save(Request $request)
     {
-        DB::table('m_supplier')->where('m_supplier_code', $request->data_supplier)->update([
-            'm_supplier_name' => $request->name,
-            'm_supplier_city' => $request->city,
-            'm_supplier_alamat' => $request->alamat,
-            'm_supplier_phone' => $request->phone,
-            'm_supplier_email' => $request->email,
-            'm_supplier_cat' => $request->kategori,
-        ]);
-        return redirect()->back()->withSuccess('Great! Berhasil Update Data Supplier Cabang');
+        try {
+            DB::table('m_supplier')->where('m_supplier_code', $request->data_supplier)->update([
+                'm_supplier_name' => $request->name,
+                'm_supplier_city' => $request->city,
+                'm_supplier_alamat' => $request->alamat,
+                'm_supplier_phone' => $request->phone,
+                'm_supplier_email' => $request->email,
+                'm_supplier_cat' => $request->kategori,
+            ]);
+            return redirect()->back()->withSuccess('Great! Berhasil Update Data Supplier Cabang');
+        } catch (\Throwable $e) {
+            return redirect()->back()->withError('Failed! Gagal Update Data Supplier Cabang');
+        }
     }
     public function kualifikasi_supplier_add_supplier_save(Request $request)
     {
@@ -909,6 +913,9 @@ class MenuController extends Controller
             'log_master_kacab' => $request->kacab,
             'log_master_mgr' => $request->mgr,
             'log_master_bag' => $request->bag,
+            'log_master_bag1' => $request->bag1,
+            'log_master_jab' => $request->jab,
+            'log_master_jab1' => $request->jab1,
             'log_master_cabang' => Auth::user()->access_cabang,
             'log_master_status' => 1,
             'log_master_date' => now(),

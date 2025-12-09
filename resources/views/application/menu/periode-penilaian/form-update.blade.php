@@ -6,7 +6,7 @@
     <form class="row g-3 p-4" action="{{ route('periode_penilaian_update_save') }}" method="post"
         enctype="multipart/form-data">
         @csrf
-        <div class="col-md-6">
+        <div class="col-md-12">
             <label class="form-label" for="inputAddress">Periode Tahun</label>
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="periode"
                 value="{{ $data->log_master_periode }}" required />
@@ -23,9 +23,14 @@
                 value="{{ $data->log_master_mgr }}" required />
         </div>
         <div class="col-md-6">
-            <label class="form-label" for="inputAddress">Bagian Pengadaan</label>
+            <label class="form-label" for="inputAddress">Team 1</label>
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="bag"
                 value="{{ $data->log_master_bag }}" required />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="inputAddress">Team 2</label>
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="bag"
+                value="{{ $data->log_master_bag1 }}" required />
         </div>
         <div class="col-12">
             <div class="form-check">

@@ -54,14 +54,15 @@
             </div>
         </div>
         <div class="card-body border-top p-3">
-            <table id="example" class="table table-striped nowrap" style="width:100%">
+            <table id="example" class="table table-striped" style="width:100%">
                 <thead class="bg-200 text-700">
                     <tr>
                         <th>No</th>
                         <th>Periode</th>
                         <th>Kepala Cabang</th>
                         <th>Manager SDM</th>
-                        <th>Bagian Pembelian</th>
+                        <th>Team 1</th>
+                        <th>Team 2</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -75,7 +76,8 @@
                             <td>{{ $per->log_master_periode }}</td>
                             <td>{{ $per->log_master_kacab }}</td>
                             <td>{{ $per->log_master_mgr }}</td>
-                            <td>{{ $per->log_master_bag }}</td>
+                            <td>{{ $per->log_master_bag }} <br><small>{{ $per->log_master_jab }}</small></td>
+                            <td>{{ $per->log_master_bag1 }} <br><small>{{ $per->log_master_jab1 }}</small></td>
                             <td>
                                 <button class="btn btn-falcon-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal-periode" id="button-update-periode-cabang" data-code="{{ $per->log_master_code  }}"><span class="fas fa-edit"></span> Update</button>
                             </td>
