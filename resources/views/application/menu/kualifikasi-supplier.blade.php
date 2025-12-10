@@ -129,11 +129,11 @@
                                     Terbit Surat Penetapan Suplier </button>
                                 <div class="dropdown-divider"></div>
                                 @elseif ($datas->m_supplier_status == 1)
+                                @endif
                                 <button class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#modal-suplier-lg"
                                     id="button-report-surat-penetapan-suplier"
                                     data-code="{{$datas->m_supplier_code }}"><span class="far fa-file-pdf"></span>
                                     Report Surat Penetapan Suplier </button>
-                                @endif
                             </div>
                         </div>
                     </td>
