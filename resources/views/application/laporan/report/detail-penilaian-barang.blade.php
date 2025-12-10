@@ -296,13 +296,13 @@
                         Note :
                         @php
                         $note = DB::table('log_penilaian_cab_desc')
-                        ->where('m_barang_code',$brgs->m_barang_code)
+                        // ->where('m_barang_code',$brgs->m_barang_code)
                         ->where('log_master_code',$periode->log_master_code)
                         ->where('m_supplier_code',$sup->m_supplier_code)
                         ->get();
                         @endphp
                         @foreach ($note as $notes)
-                            <li>{{ $notes->log_penilaian_cab_desc_text }}2</li>
+                            <li style="margin-left: 10px;">{{ $notes->log_penilaian_cab_desc_text }}</li>
                         @endforeach
                     </td>
                     @endforeach
