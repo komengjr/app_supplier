@@ -15,6 +15,9 @@ class Supplier extends Model
         'm_supplier_city',
         'm_supplier_alamat',
         'm_supplier_phone',
+        'm_supplier_email',
+        'm_supplier_cat',
+        'm_supplier_cabang',
         'm_supplier_status',
         'created_at',
     ];

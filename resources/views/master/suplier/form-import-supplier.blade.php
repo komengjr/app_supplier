@@ -1,13 +1,14 @@
 <div class="modal-body p-0">
     <div class="bg-300 rounded-top-lg py-3 ps-4 pe-6">
         <h4 class="mb-1" id="staticBackdropLabel">Import Supplier</h4>
-        <p class="fs--2 mb-0">Support by <a class="link-600 fw-semi-bold" href="#!">Transforma</a></p>
+        <p class="fs--2 mb-0">Support by <a class="link-600 fw-semi-bold" href="#!">pramita</a></p>
     </div>
     <form class="row g-3 p-4" action="{{ route('master_suplier_import_save') }}" method="post" enctype="multipart/form-data">
         @csrf
+        <a href="{{ url('data/template_supplier.xlsx') }}">Download Template</a>
         <div class="col-12">
             <label class="form-label" for="inputAddress">File Excel</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="file" name="file" placeholder="Reagen"
+            <input class="form-control form-control-lg" id="inputAddress" type="file" name="file"
                 required />
         </div>
         <div class="col-12">

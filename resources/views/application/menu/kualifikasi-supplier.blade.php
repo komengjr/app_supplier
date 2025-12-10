@@ -45,9 +45,9 @@
                             id="button-tambah-data-supplier-cabang" data-code="00"><span class="fab fa-superpowers"></span>
                             Tambah Suplier</button>
                         <div class="dropdown-divider"></div>
-                        <!-- <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
-                                id="button-upload-data-supplier" data-code="123"><span
-                                    class="fas fa-cloud-upload-alt"></span> Upload Supplier</button> -->
+                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
+                            id="button-upload-data-supplier" data-code="123"><span
+                                class="fas fa-cloud-upload-alt"></span> Upload Supplier</button>
                     </div>
                 </div>
             </div>
@@ -74,10 +74,10 @@
                     <td>
                         {{ $datas->m_supplier_name }} <br><small>Contact Person :</small>
                         @php
-                        $contac =  DB::table('m_supplier_contact')->where('m_supplier_code',$datas->m_supplier_code)->get();
+                        $contac = DB::table('m_supplier_contact')->where('m_supplier_code',$datas->m_supplier_code)->get();
                         @endphp
                         @foreach ($contac as $con)
-                            <li><small>{{ $con->m_supplier_contact_name }} : {{ $con->m_supplier_contact_number }}</small></li>
+                        <li><small>{{ $con->m_supplier_contact_name }} : {{ $con->m_supplier_contact_number }}</small></li>
                         @endforeach
                     </td>
                     <td>
