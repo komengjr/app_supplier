@@ -33,7 +33,7 @@
         </div>
         <div class="col-md-6">
             <label class="form-label" for="inputAddress">Jabatan 2</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="jab2" placeholder="Laboratorium"
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="jab1" placeholder="Laboratorium"
                 required />
         </div>
         <div class="col-md-6">

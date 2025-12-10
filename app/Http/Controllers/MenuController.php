@@ -943,8 +943,8 @@ class MenuController extends Controller
             'log_master_kacab' => $request->kacab,
             'log_master_mgr' => $request->mgr,
             'log_master_bag' => $request->bag,
-            'log_master_bag1' => $request->bag1,
             'log_master_jab' => $request->jab,
+            'log_master_bag1' => $request->bag1,
             'log_master_jab1' => $request->jab1,
             'log_master_cabang' => Auth::user()->access_cabang,
             'log_master_status' => 1,
@@ -965,6 +965,10 @@ class MenuController extends Controller
             'log_master_kacab' => $request->kacab,
             'log_master_mgr' => $request->mgr,
             'log_master_bag' => $request->bag,
+            'log_master_jab' => $request->jab,
+            'log_master_bag1' => $request->bag1,
+            'log_master_jab1' => $request->jab1,
+            'updated_at' => now()
         ]);
         return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Jasa');
     }
