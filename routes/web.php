@@ -134,6 +134,8 @@ Route::prefix('app')->group(function () {
     Route::post('laporan-keputusan/periode', [MenuController::class, 'laporan_keputusan_periode'])->name('laporan_keputusan_periode');
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-barang', [MenuController::class, 'laporan_keputusan_surat_keputusan_barang'])->name('laporan_keputusan_surat_keputusan_barang');
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-barang/report', [MenuController::class, 'laporan_keputusan_surat_keputusan_barang_report'])->name('laporan_keputusan_surat_keputusan_barang_report');
+    Route::post('laporan-keputusan/surat-keputusan-evaluasi-detail-penilaian', [MenuController::class, 'laporan_keputusan_surat_keputusan_detail_penilaian'])->name('laporan_keputusan_surat_keputusan_detail_penilaian');
+    Route::post('laporan-keputusan/surat-keputusan-evaluasi-detail-penilaian/report', [MenuController::class, 'laporan_keputusan_surat_keputusan_detail_penilaian_report'])->name('laporan_keputusan_surat_keputusan_detail_penilaian_report');
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-barang-terpilih', [MenuController::class, 'laporan_keputusan_surat_keputusan_barang_terpilih'])->name('laporan_keputusan_surat_keputusan_barang_terpilih');
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-barang-terpilih/report', [MenuController::class, 'laporan_keputusan_surat_keputusan_barang_terpilih_report'])->name('laporan_keputusan_surat_keputusan_barang_terpilih_report');
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-jasa-terpilih', [MenuController::class, 'laporan_keputusan_surat_keputusan_jasa_terpilih'])->name('laporan_keputusan_surat_keputusan_jasa_terpilih');

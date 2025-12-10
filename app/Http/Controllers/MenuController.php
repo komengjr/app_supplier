@@ -343,22 +343,39 @@ class MenuController extends Controller
     public function evaluasi_supplier_barang_proses_penilaian_supplier_save(Request $request)
     {
         $data = DB::table('t_penilaian_detail')->where('t_penilaian_cat_code', $request->cat_penilaian)->get();
+
         foreach ($data as $value) {
             $cek = DB::table('log_penilaian_cab')
                 ->where('log_master_code', $request->periode)
                 ->where('m_supplier_code', $request->supplier)
                 ->where('m_barang_code', $request->barang)
                 ->where('t_penilaian_detail_code', $request[$value->t_penilaian_detail_code])->first();
+            $cat = DB::table('t_penilaian_cat')
+                ->join('t_penilaian_detail', 't_penilaian_detail.t_penilaian_cat_code', '=', 't_penilaian_cat.t_penilaian_cat_code')
+                ->where('t_penilaian_detail.t_penilaian_detail_code', $request[$value->t_penilaian_detail_code])
+                ->where('t_penilaian_cat.t_penilaian_cat_name','Distribusi')->first();
             $score = $request['data' . $value->t_penilaian_detail_code] * $value->t_penilaian_detail_point;
             if ($cek) {
                 DB::table('log_penilaian_cab')
                     ->where('log_master_code', $request->periode)
                     ->where('m_supplier_code', $request->supplier)
                     ->where('m_barang_code', $request->barang)
-                    ->where('t_penilaian_detail_code', $request[$value->t_penilaian_detail_code])->update([
+                    ->where('t_penilaian_detail_code', $request[$value->t_penilaian_detail_code])
+                    ->update([
                         'log_penilaian_cab_val' => $request['data' . $value->t_penilaian_detail_code],
                         'log_penilaian_cab_score' => $score,
                     ]);
+                if ($cat) {
+                    DB::table('log_penilaian_cab_desc')
+                        ->where('log_master_code', $request->periode)
+                        ->where('m_supplier_code', $request->supplier)
+                        ->where('m_barang_code', $request->barang)
+                        ->where('t_penilaian_detail_code', $request[$value->t_penilaian_detail_code])
+                        ->update([
+                            'log_penilaian_cab_desc_text' => $request['desc' . $value->t_penilaian_detail_code],
+                            'log_penilaian_cab_desc_status' => 1,
+                        ]);
+                }
             } else {
                 DB::table('log_penilaian_cab')->insert([
                     'log_penilaian_cab_code' => str::uuid(),
@@ -371,6 +388,19 @@ class MenuController extends Controller
                     'log_penilaian_cab_score' => $score,
                     'created_at' => now(),
                 ]);
+                if ($cat) {
+                    DB::table('log_penilaian_cab_desc')->insert([
+                        'log_penilaian_cab_code_desc' => str::uuid(),
+                        'log_master_code' => $request->periode,
+                        'm_supplier_code' => $request->supplier,
+                        'm_barang_code' => $request->barang,
+                        'master_cabang_code' => Auth::user()->access_cabang,
+                        't_penilaian_detail_code' => $request[$value->t_penilaian_detail_code],
+                        'log_penilaian_cab_desc_text' => $request['desc' . $value->t_penilaian_detail_code],
+                        'log_penilaian_cab_desc_status' => 1,
+                        'created_at' => now(),
+                    ]);
+                }
             }
         }
         return 123;
@@ -1119,6 +1149,30 @@ class MenuController extends Controller
     public function laporan_keputusan_surat_keputusan_barang(Request $request)
     {
         return view('application.laporan.form-report-keputusan', ['code' => $request->code]);
+    }
+    public function laporan_keputusan_surat_keputusan_detail_penilaian(Request $request)
+    {
+        return view('application.laporan.form-report-detail-penilaian-barang', ['code' => $request->code]);
+    }
+    public function laporan_keputusan_surat_keputusan_detail_penilaian_report(Request $request)
+    {
+        $brg = DB::table('m_barang')
+            ->select('m_barang.*')
+            ->join('data_supp_brg_cab', 'data_supp_brg_cab.m_barang_code', '=', 'm_barang.m_barang_code')
+            ->where('data_supp_brg_cab.log_master_code', $request->code)
+            ->where('data_supp_brg_cab.master_cabang_code', Auth::user()->access_cabang)
+            ->distinct()->get(['m_barang.m_barang_code']);
+        $periode = DB::table('log_master')->where('log_master_code', $request->code)->first();
+        $cat = DB::table('t_penilaian_cat')->get();
+        $image = base64_encode(file_get_contents(public_path('img/logo.png')));
+        $pdf = PDF::loadview('application.laporan.report.detail-penilaian-barang', ['brg' => $brg, 'periode' => $periode], compact('image', 'cat'))->setPaper('A4', 'landscape')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf->output();
+        $dompdf = $pdf->getDomPDF();
+        $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
+        $font1 = $dompdf->getFontMetrics()->get_font("helvetica", "normal");
+        $dompdf->get_canvas()->page_text(300, 820, "{PAGE_NUM} / {PAGE_COUNT}", $font, 10, array(0, 0, 0));
+        $dompdf->get_canvas()->page_text(34, 820, "Print by. " . Auth::user()->fullname, $font1, 10, array(0, 0, 0));
+        return base64_encode($pdf->stream());
     }
     public function laporan_keputusan_surat_keputusan_barang_report(Request $request)
     {

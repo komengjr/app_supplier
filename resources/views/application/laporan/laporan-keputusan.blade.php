@@ -158,6 +158,27 @@
             $('#menu-laporan').html('eror');
         });
     });
+    $(document).on("click", "#button-detail-surat-keputusan", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-laporan').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('laporan_keputusan_surat_keputusan_detail_penilaian') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-laporan').html(data);
+        }).fail(function() {
+            $('#menu-laporan').html('eror');
+        });
+    });
     $(document).on("click", "#button-barang-lampiran-terpilih", function(e) {
         e.preventDefault();
         var code = $(this).data("code");

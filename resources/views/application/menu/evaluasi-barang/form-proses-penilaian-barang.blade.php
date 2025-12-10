@@ -66,7 +66,7 @@
                                             </select>
                                             @if ($cat->t_penilaian_cat_name == 'Distribusi')
                                             <label for="" class="text-danger"><small>Isi Jika Pilihan Tidak</small></label>
-                                            <textarea name="" class="form-control" id=""></textarea>
+                                            <textarea name="desc{{ $det->t_penilaian_detail_code  }}" class="form-control"></textarea>
                                             @endif
                                             @endif
                                             @else

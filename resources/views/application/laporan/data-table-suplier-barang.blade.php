@@ -6,6 +6,9 @@
         <button class="btn btn-falcon-default btn-sm ms-1 ms-sm-2 d-none d-sm-inline-block" type="button"
             data-bs-toggle="modal" data-bs-target="#modal-laporan" id="button-barang-surat-keputusan"
             data-code="{{ $code }}" data-bs-original-title="Print" aria-label="Print">Cetak Surat Keputusan</button>
+        <button class="btn btn-falcon-default btn-sm ms-1 ms-sm-2 d-none d-sm-inline-block" type="button"
+            data-bs-toggle="modal" data-bs-target="#modal-laporan" id="button-detail-surat-keputusan"
+            data-code="{{ $code }}" data-bs-original-title="Print" aria-label="Print">Detail Penilaian Supplier</button>
     </div>
     <div class="d-flex">
 
