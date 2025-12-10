@@ -324,7 +324,7 @@
         </table>
         <table style="width: 100%; padding-top: 50px;" border="0">
             <tr>
-                <td style="width: 50%;">
+                <td style="width: 40%;">
                     <p style="margin: 0px;">MANAGER SDM & UMUM REGIONAL BANDUNG</p>
                     <br><br><br>
                     <p>{{$periode->log_master_mgr}}</p>
@@ -332,10 +332,15 @@
                 <td>
 
                 </td>
-                <td style="width: 40%;">
-                    <p style="margin: 0px;">BAG. PENGADAAN</p>
+                <td style="width: 30%;">
+                    <p style="margin: 0px;">{{$periode->log_master_jab}}</p>
                     <br><br><br>
                     <p>{{$periode->log_master_bag}}</p>
+                </td>
+                <td style="width: 30%;">
+                    <p style="margin: 0px;">{{$periode->log_master_jab1}}</p>
+                    <br><br><br>
+                    <p>{{$periode->log_master_bag1}}</p>
                 </td>
             </tr>
         </table>
