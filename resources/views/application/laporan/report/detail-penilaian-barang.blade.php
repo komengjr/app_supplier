@@ -302,7 +302,9 @@
                         ->get();
                         @endphp
                         @foreach ($note as $notes)
-                            <li style="margin-left: 10px;">{{ $notes->log_penilaian_cab_desc_text }}</li>
+                        @if ($notes->log_penilaian_cab_desc_text != "")
+                        <li style="margin-left: 10px;">{{ $notes->log_penilaian_cab_desc_text }}</li>
+                        @endif
                         @endforeach
                     </td>
                     @endforeach
