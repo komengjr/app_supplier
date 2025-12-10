@@ -71,7 +71,15 @@
                 @foreach ($data as $datas)
                 <tr>
                     <td>{{ $no++ }}</td>
-                    <td>{{ $datas->m_supplier_name }} <br><small>{{ $datas->m_supplier_code }}</small></td>
+                    <td>
+                        {{ $datas->m_supplier_name }} <br><small>Contact Person :</small>
+                        @php
+                        $contac =  DB::table('m_supplier_contact')->where('m_supplier_code',$datas->m_supplier_code)->get();
+                        @endphp
+                        @foreach ($contac as $con)
+                            <li><small>{{ $con->m_supplier_contact_name }} : {{ $con->m_supplier_contact_number }}</small></li>
+                        @endforeach
+                    </td>
                     <td>
                         @if ($datas->m_supplier_cat == 'UMKM')
                         <span class="badge bg-primary">UMKM</span>
@@ -114,15 +122,18 @@
                                     id="button-upload-doc-data-supplier" data-code="{{$datas->m_supplier_code }}"><span
                                         class="fas fa-cloud-upload-alt"></span> Upload Document Supplier</button>
                                 <div class="dropdown-divider"></div>
+                                @if ($datas->m_supplier_status == 0)
                                 <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#modal-suplier-lg"
                                     id="button-terbit-surat-penetapan-suplier"
                                     data-code="{{$datas->m_supplier_code }}"><span class="fas fa-receipt"></span>
                                     Terbit Surat Penetapan Suplier </button>
                                 <div class="dropdown-divider"></div>
+                                @elseif ($datas->m_supplier_status == 1)
                                 <button class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#modal-suplier-lg"
                                     id="button-report-surat-penetapan-suplier"
                                     data-code="{{$datas->m_supplier_code }}"><span class="far fa-file-pdf"></span>
                                     Report Surat Penetapan Suplier </button>
+                                @endif
                             </div>
                         </div>
                     </td>

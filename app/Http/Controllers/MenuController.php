@@ -79,6 +79,22 @@ class MenuController extends Controller
             return redirect()->back()->withError('Failed! Gagal Update Data Supplier Cabang');
         }
     }
+    public function kualifikasi_supplier_detail_supplier_save_contact(Request $request)
+    {
+        try {
+            DB::table('m_supplier_contact')->insert([
+                'm_supplier_contact_code' => str::uuid(),
+                'm_supplier_code' => $request->data_supplier,
+                'm_supplier_contact_name' => $request->contact_name,
+                'm_supplier_contact_number' => $request->contact_number,
+                'm_supplier_contact_status' => 1,
+                'created_at' => now(),
+            ]);
+            return redirect()->back()->withSuccess('Great! Berhasil Update Data Supplier Cabang');
+        } catch (\Throwable $e) {
+            return redirect()->back()->withError('Failed! Gagal Update Data Supplier Cabang');
+        }
+    }
     public function kualifikasi_supplier_add_supplier_save(Request $request)
     {
         DB::table('m_supplier')->insert([

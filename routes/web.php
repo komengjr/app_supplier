@@ -59,6 +59,7 @@ Route::prefix('app')->group(function () {
     Route::post('kualifikasi-supplier/add-supplier', [MenuController::class, 'kualifikasi_supplier_add_supplier'])->name('kualifikasi_supplier_add_supplier');
     Route::post('kualifikasi-supplier/detail-supplier', [MenuController::class, 'kualifikasi_supplier_detail_supplier'])->name('kualifikasi_supplier_detail_supplier');
     Route::post('kualifikasi-supplier/detail-supplier/save', [MenuController::class, 'kualifikasi_supplier_detail_supplier_save'])->name('kualifikasi_supplier_detail_supplier_save');
+    Route::post('kualifikasi-supplier/detail-supplier/save-contact', [MenuController::class, 'kualifikasi_supplier_detail_supplier_save_contact'])->name('kualifikasi_supplier_detail_supplier_save_contact');
     Route::post('kualifikasi-supplier/add-supplier/save', [MenuController::class, 'kualifikasi_supplier_add_supplier_save'])->name('kualifikasi_supplier_add_supplier_save');
     Route::post('kualifikasi-supplier/upload-document', [MenuController::class, 'kualifikasi_supplier_upload_document'])->name('kualifikasi_supplier_upload_document');
     Route::post('kualifikasi-supplier/upload-document/upload', [UploadFileController::class, 'kualifikasi_supplier_upload_document_upload'])->name('kualifikasi_supplier_upload_document_upload');
