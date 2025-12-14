@@ -114,6 +114,8 @@ Route::prefix('app')->group(function () {
     Route::post('periode-penilaian/save', [MenuController::class, 'periode_penilaian_save'])->name('periode_penilaian_save');
     Route::post('periode-penilaian/update', [MenuController::class, 'periode_penilaian_update'])->name('periode_penilaian_update');
     Route::post('periode-penilaian/update-save', [MenuController::class, 'periode_penilaian_update_save'])->name('periode_penilaian_update_save');
+    Route::post('periode-penilaian/add-team-penilaian', [MenuController::class, 'periode_penilaian_add_team_penilaian'])->name('periode_penilaian_add_team_penilaian');
+    Route::post('periode-penilaian/add-team-penilaian-save', [MenuController::class, 'periode_penilaian_add_team_penilaian_save'])->name('periode_penilaian_add_team_penilaian_save');
 
     // DATA PENAWARAN KAPUS
     Route::post('evaluasi-kapus/data-penawaran/add', [MenuController::class, 'evaluasi_kapus_data_penawaran_add'])->name('evaluasi_kapus_data_penawaran_add');

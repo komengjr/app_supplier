@@ -369,7 +369,7 @@ class MenuController extends Controller
             $cat = DB::table('t_penilaian_cat')
                 ->join('t_penilaian_detail', 't_penilaian_detail.t_penilaian_cat_code', '=', 't_penilaian_cat.t_penilaian_cat_code')
                 ->where('t_penilaian_detail.t_penilaian_detail_code', $request[$value->t_penilaian_detail_code])
-                ->where('t_penilaian_cat.t_penilaian_cat_name','Distribusi')->first();
+                ->where('t_penilaian_cat.t_penilaian_cat_name', 'Distribusi')->first();
             $score = $request['data' . $value->t_penilaian_detail_code] * $value->t_penilaian_detail_point;
             if ($cek) {
                 DB::table('log_penilaian_cab')
@@ -986,7 +986,23 @@ class MenuController extends Controller
             'log_master_jab1' => $request->jab1,
             'updated_at' => now()
         ]);
-        return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Jasa');
+        return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Penilaian');
+    }
+    public function periode_penilaian_add_team_penilaian(Request $request)
+    {
+        return view('application.menu.periode-penilaian.form-add-team', ['code' => $request->code]);
+    }
+    public function periode_penilaian_add_team_penilaian_save(Request $request)
+    {
+        DB::table('log_master_team')->insert([
+            'log_master_team_code' => str::uuid(),
+            'log_master_code' => $request->code,
+            'log_master_team_jabatan' => $request->jabatan,
+            'log_master_team_nip' => $request->nip,
+            'log_master_team_name' => $request->nama,
+            'created_at' => now()
+        ]);
+        return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Team Penilaian');
     }
     // SUPPLIER KAPUS
     public function evaluasi_kapus_data_penawaran($akses)

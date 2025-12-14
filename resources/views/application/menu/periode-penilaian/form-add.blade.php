@@ -41,6 +41,7 @@
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="bag1" placeholder="Jhone Doe"
                 required />
         </div>
+
         <div class="col-12">
             <div class="form-check">
                 <input class="form-check-input" id="gridCheck" type="checkbox" required />

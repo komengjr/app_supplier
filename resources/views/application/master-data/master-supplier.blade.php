@@ -10,7 +10,7 @@
         <div class="card bg-100 shadow-none border">
             <div class="row gx-0 flex-between-center">
                 <div class="col-sm-auto d-flex align-items-center border-bottom">
-                    <img class="ms-3 mx-3" src="{{ asset('img/app.png') }}" alt="" width="50" />
+                    <img class="ms-3 mx-3 m-2" src="{{ asset('img/supplier.png') }}" alt="" width="70" />
                     <div>
                         <h6 class="text-primary fs--1 mb-0 pt-2">Welcome to </h6>
                         <h4 class="text-primary fw-bold mb-1">Suplier <span class="text-info fw-medium">Management
@@ -52,13 +52,15 @@
         </div>
     </div>
     <div class="card-body border-top p-3">
-        <table id="example" class="table table-striped nowrap" style="width:100%">
+        <table id="example" class="table table-striped" style="width:100%">
             <thead class="bg-200 text-700">
                 <tr>
                     <th>No</th>
                     <th>Nama Suplier</th>
                     <th>Kota Suplier</th>
                     <th>Phone</th>
+                    <th>Email</th>
+                    <th>Kategori</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -72,7 +74,12 @@
                     <td>{{ $datas->m_supplier_name }}</td>
                     <td>{{ $datas->m_supplier_city }}</td>
                     <td>{{ $datas->m_supplier_phone }}</td>
-                    <td></td>
+                    <td>{{ $datas->m_supplier_email }}</td>
+                    <td>{{ $datas->m_supplier_cat }}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal-suplier"
+                            id="button-detail-data-suplier" data-code="{{$datas->m_supplier_code}}">Detail</button>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>

@@ -17,7 +17,7 @@
         </div>
         <div class="col-3">
             <label class="form-label" for="inputAddress">Kategori Suplier</label>
-            <select name="kategori" class="form-control" id="">
+            <select name="kategori" class="form-control" id="" required>
                 <option value="">Pilih Kategori</option>
                 <option value="UMKM">UMKM</option>
                 <option value="NONUMKM">NON UMKM</option>
@@ -25,13 +25,11 @@
         </div>
         <div class="col-6">
             <label class="form-label" for="inputAddress">Telepon</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="phone" placeholder="Ex. 0823 xxxxxxxx"
-                 />
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="phone" placeholder="Ex. 0823 xxxxxxxx" />
         </div>
         <div class="col-6">
             <label class="form-label" for="inputAddress">Email</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="email" placeholder="Ex. Example@domain.com"
-                 />
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="email" placeholder="Ex. Example@domain.com" />
         </div>
         <div class="col-12">
             <label class="form-label" for="inputAddress">Alamat</label>
@@ -44,6 +42,7 @@
                 <label class="form-check-label" for="gridCheck">Check me</label>
             </div>
         </div>
+
         <div class="col-12">
             <button class="btn btn-primary" type="submit"><span class="fas fa-save"></span> Save</button>
         </div>
