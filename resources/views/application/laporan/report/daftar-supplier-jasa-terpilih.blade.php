@@ -251,42 +251,50 @@
             </thead>
             <tbody>
                 @php
-                    $no = 1;
+                $no = 1;
                 @endphp
                 @foreach ($jasa as $jasas)
-                    <tr>
-                        <td>{{ $no++ }}</td>
-                        <td>{{ $jasas->m_jasa_name }}</td>
-                        @php
-                            $suplier = DB::table('data_supp_jasa_cab')
-                                ->join('m_supplier', 'm_supplier.m_supplier_code', '=', 'data_supp_jasa_cab.m_supplier_code')
-                                ->where('data_supp_jasa_cab.m_jasa_code', $jasas->m_jasa_code)
-                                ->where('data_supp_jasa_cab.log_master_code', $periode->log_master_code)
-                                ->where('data_supp_jasa_cab.master_cabang_code', Auth::user()->access_cabang)
-                                ->orderBy('data_supp_jasa_cab.data_supp_jasa_cab_score', 'DESC')->get();
-                        @endphp
-                        @foreach ($suplier as $sup)
-                            <td>{{ $sup->m_supplier_name }} ( <strong
-                                    class="text-primary">{{ $sup->data_supp_jasa_cab_score }}</strong> )</td>
-                        @endforeach
-                        @if ($suplier->count() == 1)
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                        @elseif ($suplier->count() == 2)
-                            <td>-</td>
-                            <td>-</td>
-                        @elseif ($suplier->count() == 3)
-                            <td>-</td>
-                        @endif
-                    </tr>
+                <tr>
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $jasas->m_jasa_name }}</td>
+                    @php
+                    $suplier = DB::table('data_supp_jasa_cab')
+                    ->join('m_supplier', 'm_supplier.m_supplier_code', '=', 'data_supp_jasa_cab.m_supplier_code')
+                    ->where('data_supp_jasa_cab.m_jasa_code', $jasas->m_jasa_code)
+                    ->where('data_supp_jasa_cab.log_master_code', $periode->log_master_code)
+                    ->where('data_supp_jasa_cab.master_cabang_code', Auth::user()->access_cabang)
+                    ->orderBy('data_supp_jasa_cab.data_supp_jasa_cab_score', 'DESC')->get();
+                    @endphp
+                    @foreach ($suplier as $sup)
+                    <td>{{ $sup->m_supplier_name }} ( <strong
+                            class="text-primary">{{ $sup->data_supp_jasa_cab_score }}</strong> )</td>
+                    @endforeach
+                    @if ($suplier->count() == 1)
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    @elseif ($suplier->count() == 2)
+                    <td>-</td>
+                    <td>-</td>
+                    @elseif ($suplier->count() == 3)
+                    <td>-</td>
+                    @endif
+                </tr>
                 @endforeach
             </tbody>
         </table>
         <table style="width: 100%; padding-top: 50px;" border="0">
+            @php
+            $cabang = DB::table('master_cabang')->where('master_cabang_code',Auth::user()->access_cabang)->first();
+            @endphp
+            @if ($cabang)
+            {{ $nama = $cabang->master_cabang_name }}
+            @else
+            {{ $nama = 'Cabang Tidak ditemukan' }}
+            @endif
             <tr>
                 <td style="width: 50%;">
-                    <p style="margin: 0px;">MANAGER SDM & UMUM REGIONAL BANDUNG</p>
+                    <p style="margin: 0px;">MANAGER SDM & UMUM {{$nama}}</p>
                     <br><br><br>
                     <p>{{$periode->log_master_mgr}}</p>
                 </td>
