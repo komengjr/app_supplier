@@ -152,6 +152,7 @@ Route::prefix('dashboard')->group(function () {
 });
 Route::prefix('master-data')->group(function () {
     Route::get('user', [MasterController::class, 'master_user'])->name('master_user');
+    Route::post('user-add', [MasterController::class, 'master_user_add'])->name('master_user_add');
     Route::get('suplier', [MasterController::class, 'master_suplier'])->name('master_suplier');
     Route::get('barang', [MasterController::class, 'master_barang'])->name('master_barang');
     Route::get('jasa', [MasterController::class, 'master_jasa'])->name('master_jasa');

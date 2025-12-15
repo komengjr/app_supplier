@@ -20,7 +20,16 @@ class MasterController extends Controller
     public function master_user()
     {
         if (Auth::user()->access_code == 'master') {
-            return view('master.master-user');
+            $data = DB::table('user_mains')->get();
+            return view('master.master-user',compact('data'));
+        } else {
+            return view('application.error.404');
+        }
+    }
+    public function master_user_add()
+    {
+        if (Auth::user()->access_code == 'master') {
+            return view('master.user.form-add');
         } else {
             return view('application.error.404');
         }

@@ -1261,7 +1261,7 @@ class MenuController extends Controller
             ->distinct()->get(['m_jasa.m_jasa_code']);
         $periode = DB::table('log_master')->where('log_master_code', $request->code)->first();
         $image = base64_encode(file_get_contents(public_path('img/logo.png')));
-        $pdf = \Barryvdh\DomPDF\Facade\pdf::loadview('application.laporan.report.daftar-supplier-jasa-terpilih', ['jasa' => $jasa, 'periode' => $periode], compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf = PDF::loadview('application.laporan.report.daftar-supplier-jasa-terpilih', ['jasa' => $jasa, 'periode' => $periode], compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
         $pdf->output();
         $dompdf = $pdf->getDomPDF();
         $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
@@ -1293,7 +1293,6 @@ class MenuController extends Controller
         $dompdf->get_canvas()->page_text(34, 820, "Print by. " . Auth::user()->fullname, $font1, 10, array(0, 0, 0));
         return base64_encode($pdf->stream());
     }
-
 
     public function laporan_keputusan_print()
     {
