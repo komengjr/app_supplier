@@ -8,6 +8,7 @@ use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -21,7 +22,7 @@ class MasterController extends Controller
     {
         if (Auth::user()->access_code == 'master') {
             $data = DB::table('user_mains')->get();
-            return view('master.master-user',compact('data'));
+            return view('master.master-user', compact('data'));
         } else {
             return view('application.error.404');
         }
@@ -29,7 +30,33 @@ class MasterController extends Controller
     public function master_user_add()
     {
         if (Auth::user()->access_code == 'master') {
-            return view('master.user.form-add');
+            $cabang = DB::table('master_cabang')->get();
+            return view('master.user.form-add', compact('cabang'));
+        } else {
+            return view('application.error.404');
+        }
+    }
+    public function master_user_save(Request $request)
+    {
+        if (Auth::user()->access_code == 'master') {
+            try {
+                DB::table('user_mains')->insert([
+                    'fullname' => $request->nama_lengkap,
+                    'username' => $request->username,
+                    'userid' => 'UUID' . date('Ymdhis'),
+                    'email' => $request->email,
+                    'number_handphone' => $request->phone,
+                    'password' => Hash::make($request['password']),
+                    'access_code' => $request->akses,
+                    'access_cabang' => $request->cabang,
+                    'access_status' => 1,
+                    'remember_token' => str::uuid(),
+                    'created_at' => now()
+                ]);
+                return redirect()->back()->withSuccess('Great! User Has Been Created');
+            } catch (\Throwable $th) {
+                return redirect()->back()->withError('Failed!' . $th);
+            }
         } else {
             return view('application.error.404');
         }
@@ -308,7 +335,7 @@ class MasterController extends Controller
     public function master_penilaian_kapus_save_point_detail(Request $request)
     {
         if (Auth::user()->access_code == 'master') {
-             DB::table('s_penilaian_point')->insert([
+            DB::table('s_penilaian_point')->insert([
                 's_penilaian_point_code' => Str::uuid(),
                 's_penilaian_detail_code' => $request->code,
                 's_penilaian_point_name' => $request->name,
