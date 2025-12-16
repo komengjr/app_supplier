@@ -35,19 +35,19 @@
             </div>
             <div class="col-auto">
 
-                <div class="btn-group" role="group">
+                <!-- <div class="btn-group" role="group">
                     <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2" type="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
                             class="fas fa-align-left me-1" data-fa-transform="shrink-3"></span>Option</button>
                     <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop2">
                         <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
                             id="button-tambah-data-suplier" data-code="123"><span class="fab fa-superpowers"></span> Tambah Suplier</button>
-                        <!-- <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
                         <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
                             id="button-upload-data-supplier" data-code="123"><span
-                                class="fas fa-cloud-upload-alt"></span> Upload Supplier</button> -->
+                                class="fas fa-cloud-upload-alt"></span> Upload Supplier</button>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -61,6 +61,7 @@
                     <th>Phone</th>
                     <th>Email</th>
                     <th>Kategori</th>
+                    <th>Cabang Pembuat</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -76,6 +77,18 @@
                     <td>{{ $datas->m_supplier_phone }}</td>
                     <td>{{ $datas->m_supplier_email }}</td>
                     <td>{{ $datas->m_supplier_cat }}</td>
+                    <td>
+                        @php
+                        $cabang = DB::table('master_cabang')
+                        ->select('master_cabang_name')
+                        ->where('master_cabang_code',$datas->m_supplier_cabang)->first();
+                        @endphp
+                        @if ($cabang)
+                            {{ $cabang->master_cabang_name }}
+                        @else
+                            Nasional
+                        @endif
+                    </td>
                     <td>
                         <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal-suplier"
                             id="button-detail-data-suplier" data-code="{{$datas->m_supplier_code}}">Detail</button>

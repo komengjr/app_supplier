@@ -1238,7 +1238,8 @@ class MenuController extends Controller
             ->distinct()->get(['m_barang.m_barang_code']);
         $periode = DB::table('log_master')->where('log_master_code', $request->code)->first();
         $image = base64_encode(file_get_contents(public_path('img/logo.png')));
-        $pdf = PDF::loadview('application.laporan.report.daftar-supplier-barang-terpilih', ['brg' => $brg, 'periode' => $periode], compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
+        $team = DB::table('log_master_team')->where('log_master_code', $request->code)->get();
+        $pdf = PDF::loadview('application.laporan.report.daftar-supplier-barang-terpilih', ['brg' => $brg, 'periode' => $periode], compact('image', 'team'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
         $pdf->output();
         $dompdf = $pdf->getDomPDF();
         $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
@@ -1261,7 +1262,8 @@ class MenuController extends Controller
             ->distinct()->get(['m_jasa.m_jasa_code']);
         $periode = DB::table('log_master')->where('log_master_code', $request->code)->first();
         $image = base64_encode(file_get_contents(public_path('img/logo.png')));
-        $pdf = PDF::loadview('application.laporan.report.daftar-supplier-jasa-terpilih', ['jasa' => $jasa, 'periode' => $periode], compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
+        $team = DB::table('log_master_team')->where('log_master_code', $request->code)->get();
+        $pdf = PDF::loadview('application.laporan.report.daftar-supplier-jasa-terpilih', ['jasa' => $jasa, 'periode' => $periode], compact('image','team'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
         $pdf->output();
         $dompdf = $pdf->getDomPDF();
         $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");

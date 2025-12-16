@@ -314,6 +314,22 @@
                 </td>
             </tr>
         </table>
+        <table style="width: 100%; padding-top: 50px;" border="0">
+            <tr>
+                <td>Team Evaluasi</td>
+            </tr>
+            <tr>
+                @foreach ($team as $teams)
+                <td>
+                    {{ $teams->log_master_team_jabatan }}
+                    <br><br><br><br><br>
+                    {{ $teams->log_master_team_name }}
+                    <br>
+                    {{ $teams->log_master_team_nip }}
+                </td>
+                @endforeach
+            </tr>
+        </table>
         {{-- <div id="thanks">Thank you!</div> --}}
         <div id="notices">
 
