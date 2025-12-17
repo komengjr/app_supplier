@@ -101,13 +101,39 @@ class MasterController extends Controller
     {
         if (Auth::user()->access_code == 'master') {
             $data = DB::table('data_supp_brg_cab')
-            ->join('master_cabang','master_cabang.master_cabang_code','=','data_supp_brg_cab.master_cabang_code')
-            ->join('m_barang','m_barang.m_barang_code','=','data_supp_brg_cab.m_barang_code')
-            ->join('log_master','log_master.log_master_code','=','data_supp_brg_cab.log_master_code')
-            ->join('m_supplier','m_supplier.m_supplier_code','=','data_supp_brg_cab.m_supplier_code')
-            ->where('data_supp_brg_cab.m_supplier_code',$request->code)
-            ->get();
-            return view('master.suplier.form-detail-penilaian', ['data' => $data]);
+                ->join('master_cabang', 'master_cabang.master_cabang_code', '=', 'data_supp_brg_cab.master_cabang_code')
+                ->join('m_barang', 'm_barang.m_barang_code', '=', 'data_supp_brg_cab.m_barang_code')
+                ->join('log_master', 'log_master.log_master_code', '=', 'data_supp_brg_cab.log_master_code')
+                ->join('m_supplier', 'm_supplier.m_supplier_code', '=', 'data_supp_brg_cab.m_supplier_code')
+                ->where('data_supp_brg_cab.m_supplier_code', $request->code)
+                ->get();
+            return view('master.suplier.form-detail-penilaian', ['data' => $data, 'code' => $request->code]);
+        } else {
+            return view('application.error.404');
+        }
+    }
+    public function master_suplier_show_penilaian_remove(Request $request)
+    {
+        if (Auth::user()->access_code == 'master') {
+            DB::table('log_penilaian_cab')
+                ->join('t_penilaian_detail', 't_penilaian_detail.t_penilaian_detail_code', '=', 'log_penilaian_cab.t_penilaian_detail_code')
+                ->where('log_penilaian_cab.log_master_code', $request->log)
+                ->where('log_penilaian_cab.m_supplier_code', $request->supplier)
+                ->where('log_penilaian_cab.m_barang_code', $request->barang)
+                ->where('log_penilaian_cab.master_cabang_code', $request->cabang)->delete();
+            DB::table('data_supp_brg_cab')
+                ->where('log_master_code', $request->log)
+                ->where('m_barang_code', $request->barang)
+                ->where('m_supplier_code', $request->supplier)
+                ->where('master_cabang_code', $request->cabang)->delete();
+            $data = DB::table('data_supp_brg_cab')
+                ->join('master_cabang', 'master_cabang.master_cabang_code', '=', 'data_supp_brg_cab.master_cabang_code')
+                ->join('m_barang', 'm_barang.m_barang_code', '=', 'data_supp_brg_cab.m_barang_code')
+                ->join('log_master', 'log_master.log_master_code', '=', 'data_supp_brg_cab.log_master_code')
+                ->join('m_supplier', 'm_supplier.m_supplier_code', '=', 'data_supp_brg_cab.m_supplier_code')
+                ->where('data_supp_brg_cab.m_supplier_code', $request->supplier)
+                ->get();
+            return view('master.suplier.table-penilaian-supplier', ['data' => $data]);
         } else {
             return view('application.error.404');
         }

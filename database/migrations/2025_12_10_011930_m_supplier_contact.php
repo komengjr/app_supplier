@@ -19,6 +19,7 @@ class MSupplierContact extends Migration
             $table->string('m_supplier_code');
             $table->string('m_supplier_contact_name');
             $table->string('m_supplier_contact_number');
+            $table->string('m_supplier_contact_cabang')->nullable();
             $table->string('m_supplier_contact_status')->nullable();
             $table->timestamps();
         });

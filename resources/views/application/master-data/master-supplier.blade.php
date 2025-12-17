@@ -31,7 +31,7 @@
     <div class="card-header bg-primary">
         <div class="row align-items-center">
             <div class="col">
-                <h3 class="m-0"><span class="badge bg-primary m-0 p-0">Master Suplier</span></h3>
+                <h3 class="m-0"><span class="badge bg-primary m-0 p-0">Master Suplier All Cabang</span></h3>
             </div>
             <div class="col-auto">
 
@@ -58,7 +58,7 @@
                     <th>No</th>
                     <th>Nama Suplier</th>
                     <th>Kota Suplier</th>
-                    <th>Phone</th>
+                    <th>Contact Person</th>
                     <th>Email</th>
                     <th>Kategori</th>
                     <th>Cabang Pembuat</th>
@@ -74,7 +74,16 @@
                     <td>{{ $no++ }}</td>
                     <td>{{ $datas->m_supplier_name }}</td>
                     <td>{{ $datas->m_supplier_city }}</td>
-                    <td>{{ $datas->m_supplier_phone }}</td>
+                    <td>
+                        @php
+                        $contact = DB::table('m_supplier_contact')->where('m_supplier_code',$datas->m_supplier_code)->get();
+                        @endphp
+                        @foreach ($contact as $con)
+                        <small>
+                            <li>{{ $con->m_supplier_contact_name }} - {{ $con->m_supplier_contact_number }}</li>
+                        </small>
+                        @endforeach
+                    </td>
                     <td>{{ $datas->m_supplier_email }}</td>
                     <td>{{ $datas->m_supplier_cat }}</td>
                     <td>
@@ -84,14 +93,25 @@
                         ->where('master_cabang_code',$datas->m_supplier_cabang)->first();
                         @endphp
                         @if ($cabang)
-                            {{ $cabang->master_cabang_name }}
+                        {{ $cabang->master_cabang_name }}
                         @else
-                            Nasional
+                        Nasional
                         @endif
                     </td>
                     <td>
-                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal-suplier"
-                            id="button-detail-data-suplier" data-code="{{$datas->m_supplier_code}}">Detail</button>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2" type="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
+                                    class="fas fa-align-left me-1" data-fa-transform="shrink-3"></span>Option</button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop2">
+                                <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
+                                    id="button-detail-data-suplier" data-code="{{$datas->m_supplier_code}}"><span class="fas fa-phone-square-alt"></span> Tambah Contact</button>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
+                                    id="button-upload-data-supplier" data-code="123">
+                                    <span class="fas fa-address-card"></span> Tambah Alamat</button>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 @endforeach
