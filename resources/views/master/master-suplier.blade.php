@@ -52,13 +52,15 @@
         </div>
     </div>
     <div class="card-body border-top p-3">
-        <table id="example" class="table table-striped nowrap" style="width:100%">
+        <table id="example" class="table table-striped" style="width:100%">
             <thead class="bg-200 text-700">
                 <tr>
                     <th>No</th>
                     <th>Nama Suplier</th>
                     <th>Kota Suplier</th>
                     <th>Phone</th>
+                    <th>Email</th>
+                    <th>Cabang Pembuat</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -67,13 +69,29 @@
                 $no = 1;
                 @endphp
                 @foreach ($data as $datas)
-                    <tr>
-                        <td>{{ $no++ }}</td>
-                        <td>{{ $datas->m_supplier_name }}</td>
-                        <td>{{ $datas->m_supplier_city }}</td>
-                        <td>{{ $datas->m_supplier_phone }}</td>
-                        <td></td>
-                    </tr>
+                <tr>
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $datas->m_supplier_name }} <br> {{ $datas->m_supplier_code }}</td>
+                    <td>{{ $datas->m_supplier_city }}</td>
+                    <td>{{ $datas->m_supplier_phone }}</td>
+                    <td>{{ $datas->m_supplier_email }}</td>
+                    <td>{{ $datas->m_supplier_cabang }}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2" type="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
+                                    class="fas fa-align-left me-1" data-fa-transform="shrink-3"></span>Option</button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop2">
+                                <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier-full"
+                                    id="button-show-data-penilaian" data-code="{{$datas->m_supplier_code}}"><span class="fab fa-superpowers"></span> Lihat Data Penilaian</button>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
+                                    id="button-upload-data-supplier" data-code="123"><span
+                                        class="fas fa-cloud-upload-alt"></span> Upload Supplier</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
@@ -90,6 +108,18 @@
                     data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div id="menu-suplier"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-suplier-full" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 95%;">
+        <div class="modal-content border-0">
+            <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="menu-suplier-full"></div>
         </div>
     </div>
 </div>
@@ -144,6 +174,27 @@
             $('#menu-suplier').html(data);
         }).fail(function() {
             $('#menu-suplier').html('eror');
+        });
+    });
+    $(document).on("click", "#button-show-data-penilaian", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-suplier-full').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('master_suplier_show_penilaian') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-suplier-full').html(data);
+        }).fail(function() {
+            $('#menu-suplier-full').html('eror');
         });
     });
 </script>

@@ -183,6 +183,7 @@ Route::prefix('master-data')->group(function () {
     Route::post('suplier/save', [MasterController::class, 'master_suplier_save'])->name('master_suplier_save');
     Route::post('suplier/import', [MasterController::class, 'master_suplier_import'])->name('master_suplier_import');
     Route::post('suplier/import/save', [MasterController::class, 'master_suplier_import_save'])->name('master_suplier_import_save');
+    Route::post('suplier/show/penilaian', [MasterController::class, 'master_suplier_show_penilaian'])->name('master_suplier_show_penilaian');
 
     Route::post('barang/add', [MasterController::class, 'master_barang_add'])->name('master_barang_add');
     Route::post('barang/save', [MasterController::class, 'master_barang_save'])->name('master_barang_save');
