@@ -97,18 +97,27 @@ class MenuController extends Controller
     }
     public function kualifikasi_supplier_add_supplier_save(Request $request)
     {
-        DB::table('m_supplier')->insert([
-            'm_supplier_code' => Str::uuid(),
-            'm_supplier_name' => $request->name,
-            'm_supplier_city' => $request->city,
-            'm_supplier_alamat' => $request->alamat,
-            'm_supplier_phone' => $request->phone,
-            'm_supplier_email' => $request->email,
-            'm_supplier_cat' => $request->kategori,
-            'm_supplier_cabang' => Auth::user()->access_cabang,
-            'm_supplier_status' => 0,
-        ]);
-        return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Supplier Cabang');
+        $cek = DB::table('m_supplier')->where('m_supplier_name', '=', $request->name)->first();
+        if ($cek) {
+            return redirect()->back()->withError('Fail! Data Supplier Sudah Ada');
+        } else {
+            try {
+                DB::table('m_supplier')->insert([
+                    'm_supplier_code' => Str::uuid(),
+                    'm_supplier_name' => $request->name,
+                    'm_supplier_city' => $request->city,
+                    'm_supplier_alamat' => $request->alamat,
+                    'm_supplier_phone' => $request->phone,
+                    'm_supplier_email' => $request->email,
+                    'm_supplier_cat' => $request->kategori,
+                    'm_supplier_cabang' => Auth::user()->access_cabang,
+                    'm_supplier_status' => 0,
+                ]);
+                return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Supplier Cabang');
+            } catch (\Throwable $th) {
+                return redirect()->back()->withError('Fail! Gagal Menambahkan Data Supplier Cabang');
+            }
+        }
     }
     public function kualifikasi_supplier_upload_document(Request $request)
     {
@@ -1263,7 +1272,7 @@ class MenuController extends Controller
         $periode = DB::table('log_master')->where('log_master_code', $request->code)->first();
         $image = base64_encode(file_get_contents(public_path('img/logo.png')));
         $team = DB::table('log_master_team')->where('log_master_code', $request->code)->get();
-        $pdf = PDF::loadview('application.laporan.report.daftar-supplier-jasa-terpilih', ['jasa' => $jasa, 'periode' => $periode], compact('image','team'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf = PDF::loadview('application.laporan.report.daftar-supplier-jasa-terpilih', ['jasa' => $jasa, 'periode' => $periode], compact('image', 'team'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
         $pdf->output();
         $dompdf = $pdf->getDomPDF();
         $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
