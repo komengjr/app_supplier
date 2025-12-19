@@ -38,14 +38,15 @@
              </td>
              <td>{{ $datas->data_supp_brg_cab_score }}</td>
              <td>
-                 <button class="btn btn-danger btn-sm" id="button-remove-log-penilaian-supplier" data-log="{{ $datas->log_master_code }}" data-supplier="{{ $datas->m_supplier_code }}" data-barang="{{ $datas->m_barang_code }}">Reset</button>
+                 <button class="btn btn-danger btn-sm" id="button-remove-log-penilaian-supplier"
+                     data-log="{{ $datas->log_master_code }}" data-supplier="{{ $datas->m_supplier_code }}" data-barang="{{ $datas->m_barang_code }}" data-cabang="{{ $datas->master_cabang_code }}">Reset</button>
              </td>
          </tr>
          @endforeach
      </tbody>
  </table>
-<script>
-    new DataTable('#data_penilaian1', {
-        responsive: true
-    });
-</script>
+ <script>
+     new DataTable('#data_penilaian1', {
+         responsive: true
+     });
+ </script>
