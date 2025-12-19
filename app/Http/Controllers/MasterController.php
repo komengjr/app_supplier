@@ -138,6 +138,28 @@ class MasterController extends Controller
             return view('application.error.404');
         }
     }
+    public function master_suplier_show_penilaian_remove_supplier(Request $request)
+    {
+        if (Auth::user()->access_code == 'master') {
+            $data = DB::table('m_supplier')->where('m_supplier_code', $request->code)->first();
+            DB::table('m_supplier_trash')->insert([
+                'm_supplier_trash_code' => str::uuid(),
+                'm_supplier_code' => $data->m_supplier_code,
+                'm_supplier_trash_name' => $data->m_supplier_name,
+                'm_supplier_trash_city' => $data->m_supplier_city,
+                'm_supplier_trash_alamat' => $data->m_supplier_alamat,
+                'm_supplier_trash_phone' => $data->m_supplier_phone,
+                'm_supplier_trash_email' => $data->m_supplier_email,
+                'm_supplier_trash_cabang' => $data->m_supplier_cabang,
+                'm_supplier_trash_status' => $data->m_supplier_status,
+                'created_at' => now()
+            ]);
+            DB::table('m_supplier')->where('m_supplier_code', $request->code)->delete();
+            return 'Sukses Hapus';
+        } else {
+            return view('application.error.404');
+        }
+    }
 
     // BARANG
     public function master_barang()

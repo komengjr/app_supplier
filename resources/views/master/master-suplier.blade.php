@@ -224,5 +224,27 @@
             $('#menu-table-data-penilaian-supplier').html('eror');
         });
     });
+    $(document).on("click", "#button-remove-permanent-supplier", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-table-data-penilaian-supplier').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('master_suplier_show_penilaian_remove_supplier') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code,
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-table-data-penilaian-supplier').html(data);
+            location.reload();
+        }).fail(function() {
+            $('#menu-table-data-penilaian-supplier').html('eror');
+        });
+    });
 </script>
 @endsection
