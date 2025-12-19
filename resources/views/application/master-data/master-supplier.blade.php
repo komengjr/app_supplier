@@ -108,7 +108,7 @@
                                     id="button-detail-data-suplier" data-code="{{$datas->m_supplier_code}}"><span class="fas fa-phone-square-alt"></span> Tambah Contact</button>
                                 <div class="dropdown-divider"></div>
                                 <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
-                                    id="button-upload-data-supplier" data-code="123">
+                                    id="button-add-data-alamat-supplier" data-code="123">
                                     <span class="fas fa-address-card"></span> Tambah Alamat</button>
                             </div>
                         </div>
