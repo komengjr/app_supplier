@@ -181,6 +181,9 @@ Route::prefix('master-data')->group(function () {
 Route::prefix('master-data')->group(function () {
     Route::post('suplier/add', [MasterController::class, 'master_suplier_add'])->name('master_suplier_add');
     Route::post('suplier/save', [MasterController::class, 'master_suplier_save'])->name('master_suplier_save');
+    Route::post('suplier/add-contact', [MasterController::class, 'master_suplier_add_contact'])->name('master_suplier_add_contact');
+    Route::post('suplier/add-alamat', [MasterController::class, 'master_suplier_add_alamat'])->name('master_suplier_add_alamat');
+    Route::post('suplier/add-alamat-save', [MasterController::class, 'master_suplier_add_alamat_save'])->name('master_suplier_add_alamat_save');
     Route::post('suplier/import', [MasterController::class, 'master_suplier_import'])->name('master_suplier_import');
     Route::post('suplier/import/save', [MasterController::class, 'master_suplier_import_save'])->name('master_suplier_import_save');
     Route::post('suplier/show/penilaian', [MasterController::class, 'master_suplier_show_penilaian'])->name('master_suplier_show_penilaian');

@@ -88,6 +88,26 @@ class MasterController extends Controller
         ]);
         return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Suplier');
     }
+    public function master_suplier_add_contact(Request $request)
+    {
+        return view('application.master-data.supplier.form-add-contact', ['code' => $request->code]);
+    }
+
+    public function master_suplier_add_alamat(Request $request)
+    {
+        return view('application.master-data.supplier.form-add-alamat', ['code' => $request->code]);
+    }
+    public function master_suplier_add_alamat_save(Request $request)
+    {
+        DB::table('m_supplier_address')->insert([
+            'm_supplier_address_code' => str::uuid(),
+            'm_supplier_code' => $request->data_supplier,
+            'm_supplier_address_name' => $request->alamat,
+            'm_supplier_address_cabang' => Auth::user()->access_cabang,
+            'created_at' => now()
+        ]);
+        return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Alamat');
+    }
     public function master_suplier_import(Request $request)
     {
         return view('master.suplier.form-import-supplier');

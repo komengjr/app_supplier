@@ -87,6 +87,7 @@ class MenuController extends Controller
                 'm_supplier_code' => $request->data_supplier,
                 'm_supplier_contact_name' => $request->contact_name,
                 'm_supplier_contact_number' => $request->contact_number,
+                'm_supplier_contact_cabang' => Auth::user()->access_cabang,
                 'm_supplier_contact_status' => 1,
                 'created_at' => now(),
             ]);

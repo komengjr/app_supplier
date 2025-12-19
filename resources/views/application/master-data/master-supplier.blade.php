@@ -28,10 +28,10 @@
     </div>
 </div>
 <div class="card mb-3">
-    <div class="card-header bg-primary">
+    <div class="card-header bg-danger">
         <div class="row align-items-center">
             <div class="col">
-                <h3 class="m-0"><span class="badge bg-primary m-0 p-0">Master Suplier All Cabang</span></h3>
+                <h3 class="m-0"><span class="badge bg-danger m-0 p-0">Master Suplier All Cabang</span></h3>
             </div>
             <div class="col-auto">
 
@@ -54,13 +54,14 @@
     <div class="card-body border-top p-3">
         <table id="example" class="table table-striped" style="width:100%">
             <thead class="bg-200 text-700">
-                <tr>
+                <tr class="fs--2">
                     <th>No</th>
                     <th>Nama Suplier</th>
                     <th>Kota Suplier</th>
                     <th>Contact Person</th>
                     <th>Email</th>
                     <th>Kategori</th>
+                    <th>Alamat Cabang</th>
                     <th>Cabang Pembuat</th>
                     <th>Action</th>
                 </tr>
@@ -70,7 +71,7 @@
                 $no = 1;
                 @endphp
                 @foreach ($data as $datas)
-                <tr>
+                <tr class="fs--2">
                     <td>{{ $no++ }}</td>
                     <td>{{ $datas->m_supplier_name }}</td>
                     <td>{{ $datas->m_supplier_city }}</td>
@@ -86,6 +87,14 @@
                     </td>
                     <td>{{ $datas->m_supplier_email }}</td>
                     <td>{{ $datas->m_supplier_cat }}</td>
+                    <td>
+                        @php
+                            $addres = DB::table('m_supplier_address')->where('m_supplier_code',$datas->m_supplier_code)->get();
+                        @endphp
+                        @foreach ($addres as $add)
+                            <li>{{ $add->m_supplier_address_name }}</li>
+                        @endforeach
+                    </td>
                     <td>
                         @php
                         $cabang = DB::table('master_cabang')
@@ -105,10 +114,10 @@
                                     class="fas fa-align-left me-1" data-fa-transform="shrink-3"></span>Option</button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop2">
                                 <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
-                                    id="button-detail-data-suplier" data-code="{{$datas->m_supplier_code}}"><span class="fas fa-phone-square-alt"></span> Tambah Contact</button>
+                                    id="button-add-data-contact-supplier" data-code="{{$datas->m_supplier_code}}"><span class="fas fa-phone-square-alt"></span> Tambah Contact</button>
                                 <div class="dropdown-divider"></div>
                                 <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
-                                    id="button-add-data-alamat-supplier" data-code="123">
+                                    id="button-add-data-alamat-supplier" data-code="{{$datas->m_supplier_code}}">
                                     <span class="fas fa-address-card"></span> Tambah Alamat</button>
                             </div>
                         </div>
@@ -165,14 +174,35 @@
             $('#menu-suplier').html('eror');
         });
     });
-    $(document).on("click", "#button-upload-data-supplier", function(e) {
+    $(document).on("click", "#button-add-data-contact-supplier", function(e) {
         e.preventDefault();
         var code = $(this).data("code");
         $('#menu-suplier').html(
             '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
         );
         $.ajax({
-            url: "{{ route('master_suplier_import') }}",
+            url: "{{ route('master_suplier_add_contact') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-suplier').html(data);
+        }).fail(function() {
+            $('#menu-suplier').html('eror');
+        });
+    });
+    $(document).on("click", "#button-add-data-alamat-supplier", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-suplier').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('master_suplier_add_alamat') }}",
             type: "POST",
             cache: false,
             data: {
