@@ -89,10 +89,10 @@
                     <td>{{ $datas->m_supplier_cat }}</td>
                     <td>
                         @php
-                            $addres = DB::table('m_supplier_address')->where('m_supplier_code',$datas->m_supplier_code)->get();
+                        $addres = DB::table('m_supplier_address')->where('m_supplier_code',$datas->m_supplier_code)->get();
                         @endphp
                         @foreach ($addres as $add)
-                            <li>{{ $add->m_supplier_address_name }}</li>
+                        <li>{{ $add->m_supplier_address_name }}</li>
                         @endforeach
                     </td>
                     <td>
@@ -115,10 +115,13 @@
                             <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop2">
                                 <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
                                     id="button-add-data-contact-supplier" data-code="{{$datas->m_supplier_code}}"><span class="fas fa-phone-square-alt"></span> Tambah Contact</button>
-                                <div class="dropdown-divider"></div>
                                 <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
                                     id="button-add-data-alamat-supplier" data-code="{{$datas->m_supplier_code}}">
                                     <span class="fas fa-address-card"></span> Tambah Alamat</button>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item text-warning" data-bs-toggle="modal" data-bs-target="#modal-suplier-full"
+                                    id="button-dcoument-legal-supplier" data-code="{{$datas->m_supplier_code}}">
+                                    <span class="fas fa-file-pdf"></span> Document Legalitas</button>
                             </div>
                         </div>
                     </td>
@@ -130,6 +133,18 @@
 </div>
 @endsection
 @section('base.js')
+<div class="modal fade" id="modal-suplier-full" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 95%;">
+        <div class="modal-content border-0">
+            <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="menu-suplier-full"></div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="modal-suplier" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="false">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -215,6 +230,34 @@
         }).fail(function() {
             $('#menu-suplier').html('eror');
         });
+    });
+    $(document).on("click", "#button-dcoument-legal-supplier", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-suplier-full').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('master_suplier_detail_document') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-suplier-full').html(data);
+        }).fail(function() {
+            $('#menu-suplier-full').html('eror');
+        });
+    });
+    $(document).on("click", "#button-preview-file", function(e) {
+        e.preventDefault();
+        var file = $(this).data("file");
+        $('#show-file-doc').html(
+            '<iframe src="../../../' + file + '" style="width:100%; height:533px;" frameborder="0"></iframe>'
+        );
     });
 </script>
 @endsection

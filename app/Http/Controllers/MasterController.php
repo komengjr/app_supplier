@@ -108,6 +108,11 @@ class MasterController extends Controller
         ]);
         return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Alamat');
     }
+    public function master_suplier_detail_document(Request $request)
+    {
+        $doc = DB::table('m_document')->get();
+        return view('application.master-data.supplier.form-legalitas-supplier', ['doc' => $doc, 'code' => $request->code]);
+    }
     public function master_suplier_import(Request $request)
     {
         return view('master.suplier.form-import-supplier');

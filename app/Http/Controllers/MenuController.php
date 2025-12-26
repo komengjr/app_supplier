@@ -48,6 +48,9 @@ class MenuController extends Controller
     {
         if ($this->url_akses($akses) == true) {
             $data = DB::table('m_supplier')->where('m_supplier_cabang', Auth::user()->access_cabang)->get();
+            // $notdata = DB::table('m_supplier')
+            // ->join('m_supplier_address','m_supplier_address.m_supplier_code','=','m_supplier.m_supplier_code')
+            // ->where('')
             return view('application.menu.kualifikasi-supplier', ['data' => $data]);
         } else {
             return Redirect::to('dashboard/home');
