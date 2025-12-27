@@ -35,8 +35,5 @@
         <div class="col-md-5">
             <span id="show-file-doc"></span>
         </div>
-        <!-- <iframe
-            src="{{ asset('storage/data/document/06c22d3a-3043-41f0-b3b0-d17a5c5e8735/e2180a59-c878-462f-9968-f5da382996e6.pdf') }}"
-            frameborder="0"></iframe> -->
     </div>
 </div>

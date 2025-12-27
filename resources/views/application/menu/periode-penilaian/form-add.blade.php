@@ -20,7 +20,7 @@
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="mgr" placeholder="Jhone Doe"
                 required />
         </div>
-        <h4>Team Evaluasi</h4>
+        <!-- <h4>Team Evaluasi</h4>
         <div class="col-md-6">
             <label class="form-label" for="inputAddress">Jabatan 1</label>
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="jab" placeholder="Pelayanan"
@@ -40,7 +40,7 @@
             <label class="form-label" for="inputAddress">Team 2</label>
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="bag1" placeholder="Jhone Doe"
                 required />
-        </div>
+        </div> -->
 
         <div class="col-12">
             <div class="form-check">

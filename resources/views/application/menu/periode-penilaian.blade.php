@@ -61,8 +61,8 @@
                     <th>Periode</th>
                     <th>Kepala Cabang</th>
                     <th>Manager SDM</th>
-                    <th>Team 1</th>
-                    <th>Team 2</th>
+                    <!-- <th>Team 1</th>
+                    <th>Team 2</th> -->
                     <th>Team Evaluasi</th>
                     <th>Action</th>
                 </tr>
@@ -77,8 +77,8 @@
                     <td>{{ $per->log_master_periode }}</td>
                     <td>{{ $per->log_master_kacab }}</td>
                     <td>{{ $per->log_master_mgr }}</td>
-                    <td>{{ $per->log_master_bag }} <br><small>{{ $per->log_master_jab }}</small></td>
-                    <td>{{ $per->log_master_bag1 }} <br><small>{{ $per->log_master_jab1 }}</small></td>
+                    <!-- <td>{{ $per->log_master_bag }} <br><small>{{ $per->log_master_jab }}</small></td>
+                    <td>{{ $per->log_master_bag1 }} <br><small>{{ $per->log_master_jab1 }}</small></td> -->
                     <td>
                         @php
                         $team = DB::table('log_master_team')->where('log_master_code',$per->log_master_code)->get();
