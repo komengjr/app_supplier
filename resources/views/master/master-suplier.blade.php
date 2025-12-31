@@ -61,6 +61,7 @@
                     <th>Phone</th>
                     <th>Email</th>
                     <th>Cabang Pembuat</th>
+                    <th>Type Pengadaan</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -77,6 +78,16 @@
                     <td>{{ $datas->m_supplier_email }}</td>
                     <td>{{ $datas->m_supplier_cabang }}</td>
                     <td>
+                        @php
+                        $pengadaan = DB::table('m_supplier_type')
+                        ->join('type_pengadaan','type_pengadaan.type_pengadaan_code','=','m_supplier_type.type_pengadaan_code')
+                        ->where('m_supplier_type.m_supplier_code',$datas->m_supplier_code)->get();
+                        @endphp
+                        @foreach ($pengadaan as $peng)
+                        <li>{{ $peng->type_pengadaan_name }} <a href="#" id="button-remove-type-pengadaan-supplier" data-code="{{ $peng->m_supplier_type_code }}"><span class="fas fa-window-close text-danger"></span></a></li>
+                        @endforeach
+                    </td>
+                    <td>
                         <div class="btn-group" role="group">
                             <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2" type="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
@@ -86,8 +97,8 @@
                                     id="button-show-data-penilaian" data-code="{{$datas->m_supplier_code}}"><span class="fab fa-superpowers"></span> Lihat Data Penilaian</button>
                                 <div class="dropdown-divider"></div>
                                 <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
-                                    id="button-upload-data-supplier" data-code="123"><span
-                                        class="fas fa-cloud-upload-alt"></span> Upload Supplier</button>
+                                    id="button-update-data-pengadaan" data-code="{{$datas->m_supplier_code}}"><span
+                                        class="fas fa-cloud-upload-alt"></span> Update Pengadaan</button>
                             </div>
                         </div>
                     </td>
@@ -128,6 +139,8 @@
 <script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.js"></script>
 <script src="https://cdn.datatables.net/responsive/3.0.4/js/responsive.bootstrap5.js"></script>
 <script src="{{ asset('vendors/choices/choices.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     new DataTable('#example', {
         responsive: true
@@ -245,6 +258,81 @@
         }).fail(function() {
             $('#menu-table-data-penilaian-supplier').html('eror');
         });
+    });
+    $(document).on("click", "#button-update-data-pengadaan", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-suplier').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('master_suplier_show_penilaian_add_supplier_type_pengadaan') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code,
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-suplier').html(data);
+        }).fail(function() {
+            $('#menu-suplier').html('eror');
+        });
+    });
+    $(document).on("click", "#button-remove-type-pengadaan-supplier", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: true
+        });
+        swalWithBootstrapButtons.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ route('master_suplier_show_penilaian_remove_supplier_type_pengadaan') }}",
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "code": code,
+                    },
+                    dataType: 'html',
+                }).done(function(data) {
+                    swalWithBootstrapButtons.fire({
+                        title: "Deleted!",
+                        text: data,
+                        icon: "success"
+                    });
+                    location.reload();
+                }).fail(function() {
+                    swalWithBootstrapButtons.fire({
+                        title: "Cancelled",
+                        text: "Your imaginary file is safe :)",
+                        icon: "error"
+                    });
+                });
+
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire({
+                    title: "Cancelled",
+                    text: "Your imaginary file is safe :)",
+                    icon: "error"
+                });
+            }
+        });
+
     });
 </script>
 @endsection

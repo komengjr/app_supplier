@@ -185,6 +185,15 @@ class MasterController extends Controller
             return view('application.error.404');
         }
     }
+    public function master_suplier_show_penilaian_add_supplier_type_pengadaan(Request $request)
+    {
+        return view('master.suplier.form-type-pengadaan');
+    }
+    public function master_suplier_show_penilaian_remove_supplier_type_pengadaan(Request $request)
+    {
+        DB::table('m_supplier_type')->where('m_supplier_type_code', $request->code)->delete();
+        return 'Done';
+    }
 
     // BARANG
     public function master_barang()
