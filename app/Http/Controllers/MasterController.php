@@ -631,4 +631,14 @@ class MasterController extends Controller
             return view('application.error.404');
         }
     }
+    // MASTER cabang
+    public function master_cabang()
+    {
+        if (Auth::user()->access_code == 'master') {
+            $data = DB::table('master_cabang')->get();
+            return view('master.master-cabang', ['data' => $data]);
+        } else {
+            return view('application.error.404');
+        }
+    }
 }

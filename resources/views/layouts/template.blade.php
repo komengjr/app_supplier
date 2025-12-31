@@ -265,7 +265,7 @@
                                             class="nav-link-text ps-1">Master Document</span>
                                     </div>
                                 </a>
-                                <a class="nav-link" href="{{ route('master_user') }}" role="button"
+                                <a class="nav-link" href="{{ route('master_cabang') }}" role="button"
                                     aria-expanded="false">
                                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span
                                                 class="fas fa-city"></span></span><span
