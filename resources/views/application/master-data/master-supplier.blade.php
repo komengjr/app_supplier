@@ -63,6 +63,7 @@
                     <th>Kategori</th>
                     <th>Alamat Cabang</th>
                     <th>Cabang Pembuat</th>
+                    <td>Pengadaan</td>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -106,6 +107,16 @@
                         @else
                         Nasional
                         @endif
+                    </td>
+                    <td>
+                        @php
+                            $pengadaan = DB::table('m_supplier_type')
+                            ->join('type_pengadaan','type_pengadaan.type_pengadaan_code','=','m_supplier_type.type_pengadaan_code')
+                            ->where('m_supplier_type.m_supplier_code',$datas->m_supplier_code)->get();
+                        @endphp
+                        @foreach ($pengadaan as $peng)
+                            <li>{{ $peng->type_pengadaan_name }}</li>
+                        @endforeach
                     </td>
                     <td>
                         <div class="btn-group" role="group">
