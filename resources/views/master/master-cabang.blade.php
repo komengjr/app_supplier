@@ -79,7 +79,7 @@
                     <td>
                         @php
                         $count = DB::table('log_penilaian_cab')
-                        ->join('log_master','log_master.log_master_cabang','=','log_master.log_master_cabang')
+                        ->join('log_master','log_master.log_master_code','=','log_penilaian_cab.log_master_code')
                         ->where('log_master.log_master_cabang',$datas->master_cabang_code)->count();
                         @endphp
                         {{ $count }}
