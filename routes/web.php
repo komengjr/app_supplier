@@ -162,6 +162,8 @@ Route::prefix('master-data')->group(function () {
     Route::get('penilaian', [MasterController::class, 'master_penilaian'])->name('master_penilaian');
     Route::get('penilaian-kapus', [MasterController::class, 'master_penilaian_kapus'])->name('master_penilaian_kapus');
     Route::get('cabang', [MasterController::class, 'master_cabang'])->name('master_cabang');
+    Route::post('cabang/penilaian-supplier-barang', [MasterController::class, 'master_cabang_penilaian_supplier_barang'])->name('master_cabang_penilaian_supplier_barang');
+    Route::post('cabang/penilaian-supplier/detail-penilaian-barang', [MasterController::class, 'master_cabang_penilaian_supplier_detail_pneilaian_barang'])->name('master_cabang_penilaian_supplier_detail_pneilaian_barang');
 
     Route::get('document', [MasterController::class, 'master_document'])->name('master_document');
     Route::post('document/add', [MasterController::class, 'master_document_add'])->name('master_document_add');

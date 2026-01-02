@@ -86,8 +86,8 @@
                                     Update Cabang</button>
                                 <div class="dropdown-divider"></div>
                                 <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-cabang"
-                                    id="button-data-barang-cabang" data-code="123"><span
-                                        class="far fa-folder-open"></span> History</button>
+                                    id="button-data-penilaian-supplier-barang-cabang" data-code="{{$datas->master_cabang_code}}"><span
+                                        class="far fa-folder-open"></span> Penilaian Supplier Barang</button>
                             </div>
                         </div>
                     </td>
@@ -99,15 +99,15 @@
 </div>
 @endsection
 @section('base.js')
-<div class="modal fade" id="modal-user" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
+<div class="modal fade" id="modal-cabang" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="false">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 95%;">
         <div class="modal-content border-0">
             <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
                 <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
                     data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div id="menu-user"></div>
+            <div id="menu-cabang"></div>
         </div>
     </div>
 </div>
@@ -141,6 +141,48 @@
             $('#menu-user').html(data);
         }).fail(function() {
             $('#menu-user').html('eror');
+        });
+    });
+    $(document).on("click", "#button-data-penilaian-supplier-barang-cabang", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-cabang').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('master_cabang_penilaian_supplier_barang') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-cabang').html(data);
+        }).fail(function() {
+            $('#menu-cabang').html('eror');
+        });
+    });
+    $(document).on("click", "#button-data-penilaian-barang", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-detail-penilaian-supplier').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('master_cabang_penilaian_supplier_detail_pneilaian_barang') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-detail-penilaian-supplier').html(data);
+        }).fail(function() {
+            $('#menu-detail-penilaian-supplier').html('eror');
         });
     });
 </script>
