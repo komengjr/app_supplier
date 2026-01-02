@@ -61,6 +61,7 @@
                     <th>Kota</th>
                     <th>Alamat</th>
                     <th>Akses Code</th>
+                    <th>Log Record</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -75,6 +76,14 @@
                     <td>{{$datas->master_cabang_city}}</td>
                     <td>{{$datas->master_cabang_alamat}}</td>
                     <td>{{$datas->master_cabang_code}}</td>
+                    <td>
+                        @php
+                        $count = DB::table('log_penilaian_cab')
+                        ->join('log_master','log_master.log_master_cabang','=','log_master.log_master_cabang')
+                        ->where('log_master.log_master_cabang',$datas->master_cabang_code)->count();
+                        @endphp
+                        {{ $count }}
+                    </td>
                     <td>
                         <div class="btn-group" role="group">
                             <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2" type="button"
