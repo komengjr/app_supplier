@@ -1214,7 +1214,7 @@ class MenuController extends Controller
         $periode = DB::table('log_master')->where('log_master_code', $request->code)->first();
         $cat = DB::table('t_penilaian_cat')->get();
         $image = base64_encode(file_get_contents(public_path('img/logo.png')));
-        $pdf = PDF::loadview('application.laporan.report.detail-penilaian-barang', ['brg' => $brg, 'periode' => $periode], compact('image', 'cat'))->setPaper('A4', 'landscape')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf = PDF::loadview('application.laporan.report.detail-penilaian-barang', ['brg' => $brg, 'periode' => $periode, 'code' => $request->code], compact('image', 'cat'))->setPaper('A4', 'landscape')->setOptions(['defaultFont' => 'Helvetica']);
         $pdf->output();
         $dompdf = $pdf->getDomPDF();
         $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
@@ -1228,7 +1228,7 @@ class MenuController extends Controller
         $tahun = DB::table('log_master')->where('log_master_code', $request->code)->first();
         $cabang = DB::table('master_cabang')->where('master_cabang_code', Auth::user()->access_cabang)->first();
         $image = base64_encode(file_get_contents(public_path('img/logo.png')));
-        $pdf = PDF::loadview('application.laporan.report.surat-keputusan-barang', ['tahun' => $tahun, 'cabang' => $cabang], compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf = PDF::loadview('application.laporan.report.surat-keputusan-barang', ['tahun' => $tahun, 'cabang' => $cabang, 'code' => $request->code], compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
         $pdf->output();
         $dompdf = $pdf->getDomPDF();
         $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
@@ -1252,7 +1252,7 @@ class MenuController extends Controller
         $periode = DB::table('log_master')->where('log_master_code', $request->code)->first();
         $image = base64_encode(file_get_contents(public_path('img/logo.png')));
         $team = DB::table('log_master_team')->where('log_master_code', $request->code)->get();
-        $pdf = PDF::loadview('application.laporan.report.daftar-supplier-barang-terpilih', ['brg' => $brg, 'periode' => $periode], compact('image', 'team'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf = PDF::loadview('application.laporan.report.daftar-supplier-barang-terpilih', ['brg' => $brg, 'periode' => $periode, 'code' => $request->code], compact('image', 'team'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
         $pdf->output();
         $dompdf = $pdf->getDomPDF();
         $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
