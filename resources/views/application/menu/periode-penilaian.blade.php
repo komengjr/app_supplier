@@ -85,7 +85,7 @@
                         @endphp
                         @foreach ($team as $teams)
                         <li>
-                            {{ $teams->log_master_team_name }} <a><span class="fas fa-edit text-warning"></span></a><br>
+                            {{ $teams->log_master_team_name }} <a href="#" data-bs-toggle="modal" data-bs-target="#modal-periode" id="button-edit-team-penilai" data-code="{{ $teams->log_master_team_code }}"><span class="fas fa-edit text-warning"></span></a><br>
                             <small>{{ $teams->log_master_team_nip }} <br>{{ $teams->log_master_team_jabatan }}</small>
                         </li>
                         @endforeach
@@ -186,6 +186,27 @@
         );
         $.ajax({
             url: "{{ route('periode_penilaian_add_team_penilaian') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-periode').html(data);
+        }).fail(function() {
+            $('#menu-periode').html('eror');
+        });
+    });
+    $(document).on("click", "#button-edit-team-penilai", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-periode').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('periode_penilaian_update_team_penilaian') }}",
             type: "POST",
             cache: false,
             data: {

@@ -1017,6 +1017,21 @@ class MenuController extends Controller
         ]);
         return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Team Penilaian');
     }
+    public function periode_penilaian_update_team_penilaian(Request $request)
+    {
+        $data = DB::table('log_master_team')->where('log_master_team_code', $request->code)->first();
+        return view('application.menu.periode-penilaian.form-update-team-penilai', ['code' => $request->code, 'data' => $data]);
+    }
+    public function periode_penilaian_update_team_penilaian_save(Request $request)
+    {
+        DB::table('log_master_team')->where('log_master_team_code', $request->code)->update([
+            'log_master_team_jabatan' => $request->jabatan,
+            'log_master_team_nip' => $request->nip,
+            'log_master_team_name' => $request->nama,
+            'updated_at' => now()
+        ]);
+        return redirect()->back()->withSuccess('Great! Berhasil Update Team Penilaian');
+    }
     // SUPPLIER KAPUS
     public function evaluasi_kapus_data_penawaran($akses)
     {
