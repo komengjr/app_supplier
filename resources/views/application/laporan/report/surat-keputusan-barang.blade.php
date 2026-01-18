@@ -242,16 +242,17 @@ $nocabang = 'XX';
 
 @if ($no_documents->log_master_code == $code)
 @php
-    $no_fix = $nourut++;
-    $no_fix = str_pad($no_fix, 3, '0', STR_PAD_LEFT)
+$no_fix = $nourut++;
+$no_fix = str_pad($no_fix, 3, '0', STR_PAD_LEFT)
 @endphp
 @else
 @php
-    $nourut++;
+$nourut++;
 @endphp
 @endif
 
 @endforeach
+
 <body>
     <header class="clearfix" style="padding-bottom: 0px;">
         <div id="company">
@@ -263,7 +264,7 @@ $nocabang = 'XX';
             <tr>
                 <td style="text-align: center;" colspan="2">
                     <h2 style="margin: 0px;"><strong>SURAT KEPUTUSAN</strong></h2>
-                    <p style="margin: 0px;">NO : {{$no_fix}}/CAB.{{$nocabang}}/SK/I/{{$tahun->log_master_periode}}</p>
+                    <p style="margin: 0px;">NO : {{$no_fix}}/CAB.{{$nocabang}}/SK/I/{{$tahun->log_master_periode+1}}</p>
 
                 </td>
             </tr>
@@ -313,7 +314,7 @@ $nocabang = 'XX';
                     <h5 style="margin: 0px;">MENETAPKAN : </h5>
                 </td>
                 <td>
-                    <p style="margin: 0px;">1. Daftar Supplier Terpilih tahun {{$tahun->log_master_periode}} dengan
+                    <p style="margin: 0px;">1. Daftar Supplier Terpilih tahun {{$tahun->log_master_periode+1}} dengan
                         daftar terlampir.</p>
                     <p style="margin: 0px;">2. Keputusan ini berlaku sejak tanggal ditetapkannya untuk jangka waktu 1 (
                         satu ) tahun.</p>

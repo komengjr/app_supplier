@@ -54,17 +54,18 @@
         </div>
     </div>
     <div class="card-body border-top p-3">
-        <table id="example" class="table table-striped nowrap" style="width:100%">
-            <thead class="bg-200 text-700">
+        <table id="example" class="table table-striped" style="width:100%">
+            <thead class="bg-200 text-700 fs--2">
                 <tr>
                     <th>No</th>
                     <th>Nama Perusahaan</th>
+                    <th>Alamat Perusahaan</th>
                     <th>Tipe Perusahaan</th>
                     <th class="text-center">Document</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="fs--3">
                 @php
                 $no = 1;
                 @endphp
@@ -78,6 +79,14 @@
                         @endphp
                         @foreach ($contac as $con)
                         <li><small>{{ $con->m_supplier_contact_name }} : {{ $con->m_supplier_contact_number }}</small></li>
+                        @endforeach
+                    </td>
+                    <td>
+                         @php
+                        $alamat = DB::table('m_supplier_address')->where('m_supplier_code',$datas->m_supplier_code)->get();
+                        @endphp
+                        @foreach ($alamat as $add)
+                        <li><small>{{ $add->m_supplier_address_name }}</small></li>
                         @endforeach
                     </td>
                     <td>

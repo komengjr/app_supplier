@@ -43,11 +43,13 @@ class MenuController extends Controller
             return false;
         }
     }
-    // SUPPLIER BARANG
+    // KUALIFIKASI SUPPLIER
     public function kualifikasi_supplier($akses)
     {
         if ($this->url_akses($akses) == true) {
-            $data = DB::table('m_supplier')->where('m_supplier_cabang', Auth::user()->access_cabang)->get();
+            $data = DB::table('m_supplier')
+            ->join('m_supplier_address','m_supplier_address.m_supplier_code','=','m_supplier.m_supplier_code')
+            ->where('m_supplier_address.m_supplier_address_cabang', Auth::user()->access_cabang)->get();
             // $notdata = DB::table('m_supplier')
             // ->join('m_supplier_address','m_supplier_address.m_supplier_code','=','m_supplier.m_supplier_code')
             // ->where('')
@@ -106,8 +108,9 @@ class MenuController extends Controller
             return redirect()->back()->withError('Fail! Data Supplier Sudah Ada');
         } else {
             try {
+                $code = Str::uuid();
                 DB::table('m_supplier')->insert([
-                    'm_supplier_code' => Str::uuid(),
+                    'm_supplier_code' => $code,
                     'm_supplier_name' => $request->name,
                     'm_supplier_city' => $request->city,
                     'm_supplier_alamat' => $request->alamat,
@@ -116,6 +119,13 @@ class MenuController extends Controller
                     'm_supplier_cat' => $request->kategori,
                     'm_supplier_cabang' => Auth::user()->access_cabang,
                     'm_supplier_status' => 0,
+                ]);
+                DB::table('m_supplier_address')->insert([
+                    'm_supplier_address_code' => str::uuid(),
+                    'm_supplier_code' => $code,
+                    'm_supplier_address_name' => $request->alamat,
+                    'm_supplier_address_cabang' => Auth::user()->access_cabang,
+                    'created_at' => now()
                 ]);
                 return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Supplier Cabang');
             } catch (\Throwable $th) {
