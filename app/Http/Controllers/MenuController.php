@@ -48,8 +48,8 @@ class MenuController extends Controller
     {
         if ($this->url_akses($akses) == true) {
             $data = DB::table('m_supplier')
-            ->join('m_supplier_address','m_supplier_address.m_supplier_code','=','m_supplier.m_supplier_code')
-            ->where('m_supplier_address.m_supplier_address_cabang', Auth::user()->access_cabang)->get();
+                ->join('m_supplier_address', 'm_supplier_address.m_supplier_code', '=', 'm_supplier.m_supplier_code')
+                ->where('m_supplier_address.m_supplier_address_cabang', Auth::user()->access_cabang)->get();
             // $notdata = DB::table('m_supplier')
             // ->join('m_supplier_address','m_supplier_address.m_supplier_code','=','m_supplier.m_supplier_code')
             // ->where('')
@@ -178,6 +178,9 @@ class MenuController extends Controller
                 'm_supplier_data_pgd' => $request->pgd,
                 'm_supplier_data_cabang' => Auth::user()->access_cabang,
                 'created_at' => now()
+            ]);
+            DB::table('m_supplier')->where('m_supplier_code', $request->supplier_code)->update([
+                'm_supplier_status' => 1
             ]);
             return [
                 "status" => true,

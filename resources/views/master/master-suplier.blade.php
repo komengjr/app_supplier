@@ -57,15 +57,15 @@
                 <tr>
                     <th>No</th>
                     <th>Nama Suplier</th>
-                    <th>Kota Suplier</th>
-                    <th>Phone</th>
+                    <th>Alamat Suplier</th>
+                    <th>Contact</th>
                     <th>Email</th>
                     <th>Cabang Pembuat</th>
                     <th>Type Pengadaan</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="fs--2">
                 @php
                 $no = 1;
                 @endphp
@@ -73,7 +73,16 @@
                 <tr>
                     <td>{{ $no++ }}</td>
                     <td>{{ $datas->m_supplier_name }} <br> {{ $datas->m_supplier_code }}</td>
-                    <td>{{ $datas->m_supplier_city }}</td>
+                    <td>
+                        @php
+                        $addres = DB::table('m_supplier_address')
+                        ->join('master_cabang','master_cabang.master_cabang_code','=','m_supplier_address.m_supplier_address_cabang')
+                        ->where('m_supplier_address.m_supplier_code',$datas->m_supplier_code)->get();
+                        @endphp
+                        @foreach ($addres as $add)
+                        <li>{{ $add->master_cabang_name }} : {{ $add->m_supplier_address_name }} <a href="#" id="button-remove-alamat-supplier" data-code="{{ $add->m_supplier_address_code }}"><span class="fas fa-trash"></span></a></li>
+                        @endforeach
+                    </td>
                     <td>{{ $datas->m_supplier_phone }}</td>
                     <td>{{ $datas->m_supplier_email }}</td>
                     <td>{{ $datas->m_supplier_cabang }}</td>
@@ -278,6 +287,58 @@
             $('#menu-suplier').html(data);
         }).fail(function() {
             $('#menu-suplier').html('eror');
+        });
+    });
+    $(document).on("click", "#button-remove-alamat-supplier", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: true
+        });
+        swalWithBootstrapButtons.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ route('master_suplier_show_penilaian_remove_alamat_supplier') }}",
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "code": code,
+                    },
+                    dataType: 'html',
+                }).done(function(data) {
+                    swalWithBootstrapButtons.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                    location.reload();
+                }).fail(function() {
+                    swalWithBootstrapButtons.fire({
+                        title: "Cancelled",
+                        text: "Your imaginary file is safe :)",
+                        icon: "error"
+                    });
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire({
+                    title: "Cancelled",
+                    text: "Your imaginary file is safe :)",
+                    icon: "error"
+                });
+            }
         });
     });
     $(document).on("click", "#button-remove-type-pengadaan-supplier", function(e) {

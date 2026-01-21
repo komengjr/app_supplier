@@ -194,6 +194,10 @@ class MasterController extends Controller
         DB::table('m_supplier_type')->where('m_supplier_type_code', $request->code)->delete();
         return 'Done';
     }
+    public function master_suplier_show_penilaian_remove_alamat_supplier(Request $request)
+    {
+        DB::table('m_supplier_address')->where('m_supplier_address_code', $request->code)->delete();
+    }
 
     // BARANG
     public function master_barang()

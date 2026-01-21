@@ -197,6 +197,7 @@ Route::prefix('master-data')->group(function () {
     Route::post('suplier/show/penilaian/remove-supplier', [MasterController::class, 'master_suplier_show_penilaian_remove_supplier'])->name('master_suplier_show_penilaian_remove_supplier');
     Route::post('suplier/show/penilaian/add-type-pengadaan_supplier', [MasterController::class, 'master_suplier_show_penilaian_add_supplier_type_pengadaan'])->name('master_suplier_show_penilaian_add_supplier_type_pengadaan');
     Route::post('suplier/show/penilaian/remove-type-pengadaan_supplier', [MasterController::class, 'master_suplier_show_penilaian_remove_supplier_type_pengadaan'])->name('master_suplier_show_penilaian_remove_supplier_type_pengadaan');
+    Route::post('suplier/show/penilaian/remove-alamat-supplier', [MasterController::class, 'master_suplier_show_penilaian_remove_alamat_supplier'])->name('master_suplier_show_penilaian_remove_alamat_supplier');
 
     Route::post('barang/add', [MasterController::class, 'master_barang_add'])->name('master_barang_add');
     Route::post('barang/save', [MasterController::class, 'master_barang_save'])->name('master_barang_save');

@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Supplier;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -13,7 +14,7 @@ class SupplierImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         return new Supplier([
-            'm_supplier_code' => 'SUPP' . mt_rand(100000, 999999),
+            'm_supplier_code' => Str::uuid(),
             'm_supplier_name' => $row['nama_supplier'],
             'm_supplier_city' => $row['kota'],
             'm_supplier_alamat' => $row['alamat'],
