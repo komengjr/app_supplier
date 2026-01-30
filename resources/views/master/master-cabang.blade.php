@@ -194,5 +194,28 @@
             $('#menu-detail-penilaian-supplier').html('eror');
         });
     });
+    $(document).on("click", "#button-remove-desc-penilaian", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        var id = $(this).data("id");
+        $('#menu-detail-penilaian-supplier').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('master_cabang_penilaian_supplier_remove_pneilaian_barang_desc') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code,
+                "code_desc": id,
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-detail-penilaian-supplier').html(data);
+        }).fail(function() {
+            $('#menu-detail-penilaian-supplier').html('eror');
+        });
+    });
 </script>
 @endsection

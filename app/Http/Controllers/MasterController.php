@@ -677,4 +677,19 @@ class MasterController extends Controller
             return view('application.error.404');
         }
     }
+    public function master_cabang_penilaian_supplier_remove_pneilaian_barang_desc(Request $request)
+    {
+        if (Auth::user()->access_code == 'master') {
+            DB::table('log_penilaian_cab_desc')->where('log_penilaian_cab_code_desc', $request->code_desc)->delete();
+            $brg = DB::table('m_barang')
+                ->select('m_barang.*')
+                ->join('data_supp_brg_cab', 'data_supp_brg_cab.m_barang_code', '=', 'm_barang.m_barang_code')
+                ->where('data_supp_brg_cab.log_master_code', $request->code)
+                ->distinct()->get(['m_barang.m_barang_code']);
+            $cat = DB::table('t_penilaian_cat')->get();
+            return view('master.cabang.form-detail-penilaian-barang', ['brg' => $brg, 'code' => $request->code, 'cat' => $cat]);
+        } else {
+            return view('application.error.404');
+        }
+    }
 }

@@ -61,6 +61,7 @@
                     <th>Periode</th>
                     <th>Kepala Cabang</th>
                     <th>Manager SDM</th>
+                    <th>No Surat</th>
                     <!-- <th>Team 1</th>
                     <th>Team 2</th> -->
                     <th>Team Evaluasi</th>
@@ -77,6 +78,7 @@
                     <td>{{ $per->log_master_periode }}</td>
                     <td>{{ $per->log_master_kacab }}</td>
                     <td>{{ $per->log_master_mgr }}</td>
+                    <td>{{ $per->log_master_no_surat }}</td>
                     <!-- <td>{{ $per->log_master_bag }} <br><small>{{ $per->log_master_jab }}</small></td>
                     <td>{{ $per->log_master_bag1 }} <br><small>{{ $per->log_master_jab1 }}</small></td> -->
                     <td>

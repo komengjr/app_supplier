@@ -139,6 +139,7 @@ Route::prefix('app')->group(function () {
     Route::post('laporan-keputusan/periode', [MenuController::class, 'laporan_keputusan_periode'])->name('laporan_keputusan_periode');
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-barang', [MenuController::class, 'laporan_keputusan_surat_keputusan_barang'])->name('laporan_keputusan_surat_keputusan_barang');
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-barang/report', [MenuController::class, 'laporan_keputusan_surat_keputusan_barang_report'])->name('laporan_keputusan_surat_keputusan_barang_report');
+    Route::post('laporan-keputusan/surat-keputusan-evaluasi-input-no-surat', [MenuController::class, 'laporan_keputusan_surat_keputusan_input_no_surat'])->name('laporan_keputusan_surat_keputusan_input_no_surat');
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-detail-penilaian', [MenuController::class, 'laporan_keputusan_surat_keputusan_detail_penilaian'])->name('laporan_keputusan_surat_keputusan_detail_penilaian');
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-detail-penilaian/report', [MenuController::class, 'laporan_keputusan_surat_keputusan_detail_penilaian_report'])->name('laporan_keputusan_surat_keputusan_detail_penilaian_report');
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-barang-terpilih', [MenuController::class, 'laporan_keputusan_surat_keputusan_barang_terpilih'])->name('laporan_keputusan_surat_keputusan_barang_terpilih');
@@ -166,6 +167,7 @@ Route::prefix('master-data')->group(function () {
     Route::get('cabang', [MasterController::class, 'master_cabang'])->name('master_cabang');
     Route::post('cabang/penilaian-supplier-barang', [MasterController::class, 'master_cabang_penilaian_supplier_barang'])->name('master_cabang_penilaian_supplier_barang');
     Route::post('cabang/penilaian-supplier/detail-penilaian-barang', [MasterController::class, 'master_cabang_penilaian_supplier_detail_pneilaian_barang'])->name('master_cabang_penilaian_supplier_detail_pneilaian_barang');
+    Route::post('cabang/penilaian-supplier/remove-penilaian-barang-desc', [MasterController::class, 'master_cabang_penilaian_supplier_remove_pneilaian_barang_desc'])->name('master_cabang_penilaian_supplier_remove_pneilaian_barang_desc');
 
     Route::get('document', [MasterController::class, 'master_document'])->name('master_document');
     Route::post('document/add', [MasterController::class, 'master_document_add'])->name('master_document_add');

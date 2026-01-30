@@ -243,5 +243,26 @@
         });
     });
 
+    $(document).on("click", "#button-input-number-surat", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-laporan').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('laporan_keputusan_surat_keputusan_input_no_surat') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-laporan').html(data);
+        }).fail(function() {
+            $('#menu-laporan').html('eror');
+        });
+    });
 </script>
 @endsection

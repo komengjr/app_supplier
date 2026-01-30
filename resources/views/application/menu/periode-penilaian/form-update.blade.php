@@ -22,26 +22,11 @@
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="mgr"
                 value="{{ $data->log_master_mgr }}" required />
         </div>
-        <h4>Team Evaluasi</h4>
-        <div class="col-md-6">
-            <label class="form-label" for="inputAddress">Jabatan 1</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="jab" value="{{ $data->log_master_jab }}"
+        <h4>No Surat</h4>
+        <div class="col-md-12">
+            <label class="form-label" for="inputAddress">Silahkan Isi Sesuai Cabang / Regional</label>
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="no_surat" value="{{ $data->log_master_no_surat }}"
                 required />
-        </div>
-        <div class="col-md-6">
-            <label class="form-label" for="inputAddress">Team 1</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="bag"
-                value="{{ $data->log_master_bag }}" required />
-        </div>
-        <div class="col-md-6">
-            <label class="form-label" for="inputAddress">Jabatan 2</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="jab1" value="{{ $data->log_master_jab1 }}"
-                required />
-        </div>
-        <div class="col-md-6">
-            <label class="form-label" for="inputAddress">Team 2</label>
-            <input class="form-control form-control-lg" id="inputAddress" type="text" name="bag1"
-                value="{{ $data->log_master_bag1 }}" required />
         </div>
         <div class="col-12">
             <div class="form-check">

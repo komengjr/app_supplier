@@ -1006,10 +1006,7 @@ class MenuController extends Controller
             'log_master_periode' => $request->periode,
             'log_master_kacab' => $request->kacab,
             'log_master_mgr' => $request->mgr,
-            'log_master_bag' => $request->bag,
-            'log_master_jab' => $request->jab,
-            'log_master_bag1' => $request->bag1,
-            'log_master_jab1' => $request->jab1,
+            'log_master_no_surat' => $request->no_surat,
             'updated_at' => now()
         ]);
         return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Penilaian');
@@ -1226,6 +1223,9 @@ class MenuController extends Controller
     public function laporan_keputusan_surat_keputusan_barang(Request $request)
     {
         return view('application.laporan.form-report-keputusan', ['code' => $request->code]);
+    }
+    public function laporan_keputusan_surat_keputusan_input_no_surat(Request $request){
+        return 123;
     }
     public function laporan_keputusan_surat_keputusan_detail_penilaian(Request $request)
     {

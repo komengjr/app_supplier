@@ -65,7 +65,7 @@
                  @endphp
                  @foreach ($note as $notes)
                  @if ($notes->log_penilaian_cab_desc_text != "")
-                 <li style="margin-left: 10px;">{{ $notes->log_penilaian_cab_desc_text }}</li>
+                 <li style="margin-left: 10px;">{{ $notes->log_penilaian_cab_desc_text }} <a href="#" id="button-remove-desc-penilaian" data-id="{{ $notes->log_penilaian_cab_code_desc }}" data-code="{{ $code }}"><span class="fas fa-window-close" ></span></a></li>
                  @endif
                  @endforeach
              </td>

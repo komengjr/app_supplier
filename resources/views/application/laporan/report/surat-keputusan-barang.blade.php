@@ -264,7 +264,7 @@ $nourut++;
             <tr>
                 <td style="text-align: center;" colspan="2">
                     <h2 style="margin: 0px;"><strong>SURAT KEPUTUSAN</strong></h2>
-                    <p style="margin: 0px;">NO : {{$no_fix}}/CAB.{{$nocabang}}/SK/I/{{$tahun->log_master_periode+1}}</p>
+                    <p style="margin: 0px;">{{$tahun->log_master_no_surat}}</p>
 
                 </td>
             </tr>
