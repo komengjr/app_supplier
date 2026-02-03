@@ -82,7 +82,7 @@
                         @endforeach
                     </td>
                     <td>
-                         @php
+                        @php
                         $alamat = DB::table('m_supplier_address')->where('m_supplier_code',$datas->m_supplier_code)->get();
                         @endphp
                         @foreach ($alamat as $add)
@@ -133,7 +133,9 @@
                                         class="fas fa-cloud-upload-alt"></span> Upload Document Supplier</button>
                                 <div class="dropdown-divider"></div>
                                 @php
-                                    $penetapan = DB::table('m_supplier_data')->where('m_supplier_data_cabang',Auth::user()->access_cabang)->first();
+                                $penetapan = DB::table('m_supplier_data')
+                                ->where('m_supplier_code',$datas->m_supplier_code)
+                                ->where('m_supplier_data_cabang',Auth::user()->access_cabang)->first();
                                 @endphp
                                 @if (!$penetapan)
                                 <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#modal-suplier-lg"
