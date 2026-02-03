@@ -32,14 +32,14 @@ class UploadFileController extends Controller
             $fileName = $request->document . '.' . $extension; //file name without extenstion // a unique file name
 
             $disk = Storage::disk(config('filesystems.default'));
-            $path = $disk->putFileAs('public/data/document/' . $request->code . '/', $file, $fileName);
+            $path = $disk->putFileAs('public/data/document/' . $request->code . '/' . Auth::user()->access_cabang . '/', $file, $fileName);
             // $path1 = $disk('videos', $file, $fileName);
-            $lokasi = 'storage/data/document/' . $request->code . '/' . $fileName;
+            $lokasi = 'storage/data/document/' . $request->code . '/' . Auth::user()->access_cabang . '/' . $fileName;
             // delete chunked file
             unlink($file->getPathname());
             $cek = DB::table('m_supplier_doc')->where('m_supplier_code', $request->code)->where('m_document_code', $request->document)->first();
             if ($cek) {
-                DB::table('m_supplier_doc')->where('m_supplier_doc_code',$cek->m_supplier_doc_code)->update([
+                DB::table('m_supplier_doc')->where('m_supplier_doc_code', $cek->m_supplier_doc_code)->update([
                     'm_supplier_doc_file' => $lokasi,
                 ]);
             } else {
@@ -50,14 +50,14 @@ class UploadFileController extends Controller
                     'm_supplier_doc_file' => $lokasi,
                     'm_supplier_doc_start' => now(),
                     'm_supplier_doc_end' => now(),
+                    'm_supplier_doc_cab' => Auth::user()->access_cabang,
                     'created_at' => now(),
                 ]);
-
             }
             return [
-                'path' => storage_path('app/public/data/document/' . $request->code . '/' . $fileName),
+                'path' => storage_path('app/public/data/document/' . $request->code . '/' . Auth::user()->access_cabang . '/' . $fileName),
                 'filename' => $fileName,
-                'button'=>'<button class="btn btn-primary" id="button-preview-file" data-file="'.$lokasi.'">Preview</button>'
+                'button' => '<button class="btn btn-primary" id="button-preview-file" data-file="' . $lokasi . '">Preview</button>'
             ];
         }
 

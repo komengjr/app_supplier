@@ -14,85 +14,88 @@
                 </thead>
                 <tbody>
                     @php
-                        $no = 0;
+                    $no = 0;
                     @endphp
                     @foreach ($doc as $docs)
-                        <tr>
-                            <td>{{ $docs->m_document_name }}</td>
-                            <td class="text-center">
-                                @php
-                                    $file = DB::table('m_supplier_doc')->where('m_supplier_code', $code)->where('m_document_code', $docs->m_document_code)->first();
-                                @endphp
-                                @if ($file)
-                                    <span class="far fa-check-circle text-success"></span>
-                                    @php
-                                        $no = $no + 1;
-                                    @endphp
-                                @else
-                                    <span class="far fa-times-circle text-danger"></span>
-                                @endif
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>{{ $docs->m_document_name }}</td>
+                        <td class="text-center">
+                            @php
+                            $file = DB::table('m_supplier_doc')
+                            ->where('m_supplier_code', $code)
+                            ->where('m_supplier_doc_cab', Auth::user()->access_cabang)
+                            ->where('m_document_code', $docs->m_document_code)->first();
+                            @endphp
+                            @if ($file)
+                            <span class="far fa-check-circle text-success"></span>
+                            @php
+                            $no = $no + 1;
+                            @endphp
+                            @else
+                            <span class="far fa-times-circle text-danger"></span>
+                            @endif
+                        </td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
             <span id="menu-proses-penetapan-supplier-load"></span>
             @if ($doc->count() == $no)
-                <form id="form-data-penetapan" class="row g-3" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="col-md-4">
-                        <label class="form-label" for="inputAddress">Nomor Surat</label>
-                        <input class="form-control form-control-lg" id="nomor" type="text" name="nomor"
-                            placeholder="00000/0000/0000" required />
-                        <input type="text" name="supplier_code" value="{{ $supplier->m_supplier_code }}" id="supplier_code" hidden>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label" for="inputAddress">Nomor NPWP/Legalitas</label>
-                        <input class="form-control form-control-lg" id="npwp" type="text" name="npwp"
-                            placeholder="0000000" required />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label" for="inputAddress">Nomor Kontak</label>
-                        <input class="form-control form-control-lg" id="kontak" type="text" name="kontak"
-                            placeholder="Jhone Doe" required />
-                    </div>
-                    <div class="col-12">
-                        <label for="organizerMultiple">Untuk Pengadaan Berupa:</label>
-                        <select class="form-select js-choice-type" id="tipe" multiple="multiple" size="1"
-                            name="tipe" data-options='{"removeItemButton":true,"placeholder":true}'>
-                            <option value="">Select Tipe Pengadaan</option>
-                            @foreach ($type as $types)
-                                <option value="{{$types->type_pengadaan_code}}">{{$types->type_pengadaan_name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label" for="inputAddress">Kepala Cabang</label>
-                        <input class="form-control form-control-lg" id="kacab" type="text" name="kacab"
-                            placeholder="Jhone Doe" required />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label" for="inputAddress">Manager SDM</label>
-                        <input class="form-control form-control-lg" id="mgr" type="text" name="mgr"
-                            placeholder="Jhone Doe" required />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label" for="inputAddress">Bagian Pengadaan</label>
-                        <input class="form-control form-control-lg" id="pgd" type="text" name="pgd"
-                            placeholder="Jhone Doe" required />
-                    </div>
+            <form id="form-data-penetapan" class="row g-3" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="col-md-4">
+                    <label class="form-label" for="inputAddress">Nomor Surat</label>
+                    <input class="form-control form-control-lg" id="nomor" type="text" name="nomor"
+                        placeholder="00000/0000/0000" required />
+                    <input type="text" name="supplier_code" value="{{ $supplier->m_supplier_code }}" id="supplier_code" hidden>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="inputAddress">Nomor NPWP/Legalitas</label>
+                    <input class="form-control form-control-lg" id="npwp" type="text" name="npwp"
+                        placeholder="0000000" required />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="inputAddress">Nomor Kontak</label>
+                    <input class="form-control form-control-lg" id="kontak" type="text" name="kontak"
+                        placeholder="Jhone Doe" required />
+                </div>
+                <div class="col-12">
+                    <label for="organizerMultiple">Untuk Pengadaan Berupa:</label>
+                    <select class="form-select js-choice-type" id="tipe" multiple="multiple" size="1"
+                        name="tipe" data-options='{"removeItemButton":true,"placeholder":true}'>
+                        <option value="">Select Tipe Pengadaan</option>
+                        @foreach ($type as $types)
+                        <option value="{{$types->type_pengadaan_code}}">{{$types->type_pengadaan_name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="inputAddress">Kepala Cabang</label>
+                    <input class="form-control form-control-lg" id="kacab" type="text" name="kacab"
+                        placeholder="Jhone Doe" required />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="inputAddress">Manager SDM</label>
+                    <input class="form-control form-control-lg" id="mgr" type="text" name="mgr"
+                        placeholder="Jhone Doe" required />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="inputAddress">Bagian Pengadaan</label>
+                    <input class="form-control form-control-lg" id="pgd" type="text" name="pgd"
+                        placeholder="Jhone Doe" required />
+                </div>
 
-                    <div class="col-12">
-                        <div class="form-check">
-                            <input class="form-check-input" id="gridCheck" type="checkbox" required />
-                            <label class="form-check-label" for="gridCheck">Check me</label>
-                        </div>
+                <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input" id="gridCheck" type="checkbox" required />
+                        <label class="form-check-label" for="gridCheck">Check me</label>
                     </div>
-                    <div class="col-12">
-                        <button class="btn btn-primary" type="submit" id="button-save-penetapan-supplier"><span
-                                class="fas fa-save"></span> Save</button>
-                    </div>
-                </form>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-primary" type="submit" id="button-save-penetapan-supplier"><span
+                            class="fas fa-save"></span> Save</button>
+                </div>
+            </form>
             @endif
         </div>
         <!-- <iframe

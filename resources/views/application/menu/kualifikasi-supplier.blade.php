@@ -107,6 +107,7 @@
                             @php
                             $status = DB::table('m_supplier_doc')
                             ->where('m_supplier_code', $datas->m_supplier_code)
+                            ->where('m_supplier_doc_cab', Auth::user()->access_cabang)
                             ->where('m_document_code', $docs->m_document_code)->first();
                             @endphp
                             @if ($status)
@@ -131,13 +132,16 @@
                                     id="button-upload-doc-data-supplier" data-code="{{$datas->m_supplier_code }}"><span
                                         class="fas fa-cloud-upload-alt"></span> Upload Document Supplier</button>
                                 <div class="dropdown-divider"></div>
-                                @if ($datas->m_supplier_status == 0)
+                                @php
+                                    $penetapan = DB::table('m_supplier_data')->where('m_supplier_data_cabang',Auth::user()->access_cabang)->first();
+                                @endphp
+                                @if (!$penetapan)
                                 <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#modal-suplier-lg"
                                     id="button-terbit-surat-penetapan-suplier"
                                     data-code="{{$datas->m_supplier_code }}"><span class="fas fa-receipt"></span>
                                     Terbit Surat Penetapan Suplier </button>
                                 <div class="dropdown-divider"></div>
-                                @elseif ($datas->m_supplier_status == 1)
+                                @elseif ($penetapan)
                                 <button class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#modal-suplier-lg"
                                     id="button-report-surat-penetapan-suplier"
                                     data-code="{{$datas->m_supplier_code }}"><span class="far fa-file-pdf"></span>

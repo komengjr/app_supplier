@@ -39,3 +39,29 @@ Artisan::command('fix_supplier', function () {
         }
     }
 });
+Artisan::command('fix_document', function () {
+    $data = DB::table('m_supplier_doc')->join('m_supplier', 'm_supplier.m_supplier_code', '=', 'm_supplier_doc.m_supplier_code')->get();
+    foreach ($data as $value) {
+        if ($value->m_supplier_doc_cab == "") {
+            DB::table('m_supplier_doc')->where('m_supplier_doc_code', $value->m_supplier_doc_code)->update([
+                'm_supplier_doc_cab' => $value->m_supplier_cabang
+            ]);
+            $this->comment($value->m_supplier_doc_code . ' - Created');
+        } else {
+            $this->comment($value->m_supplier_doc_code . ' - Sudah Ada');
+        }
+    }
+});
+Artisan::command('fix_type', function () {
+    $data = DB::table('m_supplier_type')->join('m_supplier', 'm_supplier.m_supplier_code', '=', 'm_supplier_type.m_supplier_code')->get();
+    foreach ($data as $value) {
+        if ($value->m_supplier_type_cab == "") {
+            DB::table('m_supplier_type')->where('m_supplier_type_code', $value->m_supplier_type_code)->update([
+                'm_supplier_type_cab' => $value->m_supplier_cabang
+            ]);
+            $this->comment($value->m_supplier_type_code . ' - Created');
+        } else {
+            $this->comment($value->m_supplier_type_code . ' - Sudah Ada');
+        }
+    }
+});

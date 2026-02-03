@@ -164,6 +164,7 @@ class MenuController extends Controller
                     'm_supplier_code' => $request->supplier_code,
                     'type_pengadaan_code' => $request->tipe[$i],
                     'm_supplier_type_status' => 1,
+                    'm_supplier_type_cab' => Auth::user()->access_cabang,
                     'created_at' => now(),
                 ]);
             }
@@ -201,7 +202,9 @@ class MenuController extends Controller
             ->where('m_supplier_data.m_supplier_code', $request->code)->first();
         $type = DB::table('m_supplier_type')
             ->join('type_pengadaan', 'type_pengadaan.type_pengadaan_code', '=', 'm_supplier_type.type_pengadaan_code')
-            ->where('m_supplier_code', $request->code)->get();
+            ->where('m_supplier_type_cab', Auth::user()->access_cabang)
+            ->where('m_supplier_code', $request->code)
+            ->get();
         $image = base64_encode(file_get_contents(public_path('img/logo.png')));
         $pdf = PDF::loadview('application.menu.kualifikasi-supplier.report.report-penetapan-supplier', ['data' => $data, 'type' => $type], compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
         $pdf->output();

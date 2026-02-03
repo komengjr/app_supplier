@@ -224,11 +224,23 @@
         text-align: center;
     }
 </style>
+@php
+$no_cabang = DB::table('master_cabang_no')->where('master_cabang_no_code',Auth::user()->access_cabang)->first();
+@endphp
+@if ($no_cabang)
+@php
+$nocabang = $no_cabang->master_cabang_nomor;
+@endphp
+@else
+@php
+$nocabang = 'XX';
+@endphp
+@endif
 
 <body>
     <header class="clearfix" style="padding-bottom: 0px;">
         <div id="company">
-            <h5 class="name"><strong>SDM.XX-FRM-PP-08/05</strong></h5>
+            <h5 class="name"><strong>SDM.{{$nocabang}}-FRM-PP-08/05</strong></h5>
         </div>
     </header>
     <main style="padding-top: 0px;">
@@ -236,7 +248,7 @@
             <tr>
                 <td style="text-align: center;" colspan="3">
                     <h2 style="margin: 0px;"><strong>SURAT PENETAPAN SUPPLIER</strong></h2>
-                    <p style="margin: 0px;">NO : XXX/CAB.XX/SK/I/123</p>
+                    <p style="margin: 0px;">NO : {{ $data->m_supplier_data_no }}</p>
 
                 </td>
             </tr>
@@ -322,7 +334,7 @@
                 <td style="vertical-align:top;width: 10px;"></td>
                 <td style="text-align: justify;">
                     @foreach ($type as $types)
-                        <li>{{ $types->type_pengadaan_name }}</li>
+                    <li>{{ $types->type_pengadaan_name }}</li>
                     @endforeach
                 </td>
             </tr>
