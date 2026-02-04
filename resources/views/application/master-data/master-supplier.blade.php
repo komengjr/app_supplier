@@ -82,11 +82,20 @@
                         @endphp
                         @foreach ($contact as $con)
                         <small>
-                            <li>{{ $con->m_supplier_contact_name }} - {{ $con->m_supplier_contact_number }}</li>
+                            <li>{{ $con->m_supplier_contact_name }} ( {{ $con->m_supplier_contact_cabang }} ) <br> {{ $con->m_supplier_contact_number }}</li>
                         </small>
                         @endforeach
                     </td>
-                    <td>{{ $datas->m_supplier_email }}</td>
+                    <td>
+                        @php
+                        $email = DB::table('m_supplier_email')->where('m_supplier_code',$datas->m_supplier_code)->get();
+                        @endphp
+                        @foreach ($email as $emails)
+                        <small>
+                            <li>{{ $emails->m_supplier_email_name }} ( {{ $emails->m_supplier_email_cabang }} ) <br> {{ $emails->m_supplier_email_link }}</li>
+                        </small>
+                        @endforeach
+                    </td>
                     <td>{{ $datas->m_supplier_cat }}</td>
                     <td>
                         @php
@@ -110,12 +119,12 @@
                     </td>
                     <td>
                         @php
-                            $pengadaan = DB::table('m_supplier_type')
-                            ->join('type_pengadaan','type_pengadaan.type_pengadaan_code','=','m_supplier_type.type_pengadaan_code')
-                            ->where('m_supplier_type.m_supplier_code',$datas->m_supplier_code)->get();
+                        $pengadaan = DB::table('m_supplier_type')
+                        ->join('type_pengadaan','type_pengadaan.type_pengadaan_code','=','m_supplier_type.type_pengadaan_code')
+                        ->where('m_supplier_type.m_supplier_code',$datas->m_supplier_code)->get();
                         @endphp
                         @foreach ($pengadaan as $peng)
-                            <li>{{ $peng->type_pengadaan_name }}</li>
+                        <li>{{ $peng->type_pengadaan_name }}</li>
                         @endforeach
                     </td>
                     <td>
@@ -125,7 +134,11 @@
                                     class="fas fa-align-left me-1" data-fa-transform="shrink-3"></span>Option</button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop2">
                                 <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
-                                    id="button-add-data-contact-supplier" data-code="{{$datas->m_supplier_code}}"><span class="fas fa-phone-square-alt"></span> Tambah Contact</button>
+                                    id="button-add-data-contact-supplier" data-code="{{$datas->m_supplier_code}}">
+                                    <span class="fas fa-phone-square-alt"></span> Tambah Contact WA</button>
+                                <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
+                                    id="button-add-data-email-supplier" data-code="{{$datas->m_supplier_code}}">
+                                    <span class="fas fa-mail-bulk"></span> Tambah Email</button>
                                 <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-suplier"
                                     id="button-add-data-alamat-supplier" data-code="{{$datas->m_supplier_code}}">
                                     <span class="fas fa-address-card"></span> Tambah Alamat</button>
@@ -229,6 +242,27 @@
         );
         $.ajax({
             url: "{{ route('master_suplier_add_alamat') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-suplier').html(data);
+        }).fail(function() {
+            $('#menu-suplier').html('eror');
+        });
+    });
+    $(document).on("click", "#button-add-data-email-supplier", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-suplier').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('master_suplier_add_email') }}",
             type: "POST",
             cache: false,
             data: {
