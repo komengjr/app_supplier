@@ -57,7 +57,6 @@
                 <tr class="fs--2">
                     <th>No</th>
                     <th>Nama Suplier</th>
-                    <th>Kota Suplier</th>
                     <th>Contact Person</th>
                     <th>Email</th>
                     <th>Kategori</th>
@@ -75,7 +74,6 @@
                 <tr class="fs--2">
                     <td>{{ $no++ }}</td>
                     <td>{{ $datas->m_supplier_name }}</td>
-                    <td>{{ $datas->m_supplier_city }}</td>
                     <td>
                         @php
                         $contact = DB::table('m_supplier_contact')->where('m_supplier_code',$datas->m_supplier_code)->get();
