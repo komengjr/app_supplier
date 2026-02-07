@@ -275,6 +275,9 @@ class MasterController extends Controller
         ]);
         return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Jasa');
     }
+    public function master_jasa_detail_penilaian(Request $request){
+        return view('master.jasa.form-detail-penilaian-jasa');
+    }
     // MASTER RUJUKAN
     public function master_rujukan()
     {

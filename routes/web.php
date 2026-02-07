@@ -209,6 +209,7 @@ Route::prefix('master-data')->group(function () {
     Route::post('barang/import/save', [MasterController::class, 'master_barang_import_save'])->name('master_barang_import_save');
     Route::post('jasa/add', [MasterController::class, 'master_jasa_add'])->name('master_jasa_add');
     Route::post('jasa/save', [MasterController::class, 'master_jasa_save'])->name('master_jasa_save');
+    Route::post('jasa/detail-penilaian', [MasterController::class, 'master_jasa_detail_penilaian'])->name('master_jasa_detail_penilaian');
     Route::post('rujukan/add', [MasterController::class, 'master_rujukan_add'])->name('master_rujukan_add');
     Route::post('rujukan/save', [MasterController::class, 'master_rujukan_save'])->name('master_rujukan_save');
     Route::post('pemeriksaan/add', [MasterController::class, 'master_pemeriksaan_add'])->name('master_pemeriksaan_add');

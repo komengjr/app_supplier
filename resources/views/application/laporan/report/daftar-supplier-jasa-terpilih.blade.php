@@ -224,11 +224,25 @@
         text-align: center;
     }
 </style>
+@php
+$no_cabang = DB::table('master_cabang_no')->where('master_cabang_no_code',Auth::user()->access_cabang)->first();
+$no_document = DB::table('log_master')->where('log_master_cabang',Auth::user()->access_cabang)->get();
+$nourut = 1;
+@endphp
+@if ($no_cabang)
+@php
+$nocabang = $no_cabang->master_cabang_nomor;
+@endphp
+@else
+@php
+$nocabang = 'XX';
+@endphp
+@endif
 
 <body>
     <header class="clearfix" style="padding-bottom: 0px;">
         <div id="company">
-            <h5 class="name"><strong>SDM.XX-FRM-PP-08/05</strong></h5>
+            <h5 class="name"><strong>SDM.{{$nocabang}}-FRM-PP-08/05</strong></h5>
         </div>
     </header>
     <main style="padding-top: 0px;">

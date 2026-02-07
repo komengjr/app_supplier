@@ -224,11 +224,25 @@
         text-align: center;
     }
 </style>
+@php
+$no_cabang = DB::table('master_cabang_no')->where('master_cabang_no_code',Auth::user()->access_cabang)->first();
+$no_document = DB::table('log_master')->where('log_master_cabang',Auth::user()->access_cabang)->get();
+$nourut = 1;
+@endphp
+@if ($no_cabang)
+@php
+$nocabang = $no_cabang->master_cabang_nomor;
+@endphp
+@else
+@php
+$nocabang = 'XX';
+@endphp
+@endif
 
 <body>
     <header class="clearfix" style="padding-bottom: 0px;">
         <div id="company">
-            <h5 class="name"><strong>SDM.XX-FRM-PP-08/05</strong></h5>
+            <h5 class="name"><strong>SDM.{{$nocabang}}-FRM-PP-08/05</strong></h5>
         </div>
     </header>
     <main style="padding-top: 0px;">
@@ -251,35 +265,35 @@
             </thead>
             <tbody>
                 @php
-                    $no = 1;
+                $no = 1;
                 @endphp
                 @foreach ($pemeriksaan as $pem)
-                    <tr>
-                        <td>{{ $no++ }}</td>
-                        <td>{{ $pem->m_pemeriksaan_name }}</td>
-                        @php
-                            $suplier = DB::table('data_supp_rujukan_cab')
-                                ->join('m_rujukan', 'm_rujukan.m_rujukan_code', '=', 'data_supp_rujukan_cab.m_rujukan_code')
-                                ->where('data_supp_rujukan_cab.m_pemeriksaan_code', $pem->m_pemeriksaan_code)
-                                ->where('data_supp_rujukan_cab.log_master_code', $periode->log_master_code)
-                                ->where('data_supp_rujukan_cab.master_cabang_code', Auth::user()->access_cabang)
-                                ->orderBy('data_supp_rujukan_cab.data_supp_rujukan_cab_score', 'DESC')->get();
-                        @endphp
-                        @foreach ($suplier as $sup)
-                            <td>{{ $sup->m_rujukan_name }} ( <strong
-                                    class="text-primary">{{ $sup->data_supp_rujukan_cab_score }}</strong> )</td>
-                        @endforeach
-                        @if ($suplier->count() == 1)
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                        @elseif ($suplier->count() == 2)
-                            <td>-</td>
-                            <td>-</td>
-                        @elseif ($suplier->count() == 3)
-                            <td>-</td>
-                        @endif
-                    </tr>
+                <tr>
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $pem->m_pemeriksaan_name }}</td>
+                    @php
+                    $suplier = DB::table('data_supp_rujukan_cab')
+                    ->join('m_rujukan', 'm_rujukan.m_rujukan_code', '=', 'data_supp_rujukan_cab.m_rujukan_code')
+                    ->where('data_supp_rujukan_cab.m_pemeriksaan_code', $pem->m_pemeriksaan_code)
+                    ->where('data_supp_rujukan_cab.log_master_code', $periode->log_master_code)
+                    ->where('data_supp_rujukan_cab.master_cabang_code', Auth::user()->access_cabang)
+                    ->orderBy('data_supp_rujukan_cab.data_supp_rujukan_cab_score', 'DESC')->get();
+                    @endphp
+                    @foreach ($suplier as $sup)
+                    <td>{{ $sup->m_rujukan_name }} ( <strong
+                            class="text-primary">{{ $sup->data_supp_rujukan_cab_score }}</strong> )</td>
+                    @endforeach
+                    @if ($suplier->count() == 1)
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    @elseif ($suplier->count() == 2)
+                    <td>-</td>
+                    <td>-</td>
+                    @elseif ($suplier->count() == 3)
+                    <td>-</td>
+                    @endif
+                </tr>
                 @endforeach
             </tbody>
         </table>
