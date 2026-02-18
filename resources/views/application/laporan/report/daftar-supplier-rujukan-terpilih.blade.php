@@ -299,8 +299,16 @@ $nocabang = 'XX';
         </table>
         <table style="width: 100%; padding-top: 50px;" border="0">
             <tr>
+                @php
+                $cabang = DB::table('master_cabang')->where('master_cabang_code',Auth::user()->access_cabang)->first();
+                @endphp
+                @if ($cabang)
+                {{ $nama = $cabang->master_cabang_name }}
+                @else
+                {{ $nama = 'Cabang Tidak ditemukan' }}
+                @endif
                 <td style="width: 50%;">
-                    <p style="margin: 0px;">MANAGER SDM & UMUM REGIONAL BANDUNG</p>
+                    <p style="margin: 0px;">MANAGER SDM & UMUM {{ $nama }}</p>
                     <br><br><br>
                     <p>{{$periode->log_master_mgr}}</p>
                 </td>
