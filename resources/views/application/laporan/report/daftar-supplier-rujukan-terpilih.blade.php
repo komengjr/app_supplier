@@ -316,7 +316,7 @@ $nocabang = 'XX';
 
                 </td>
                 <td style="width: 40%;">
-                    <p style="margin: 0px;">BAG. PENGADAAN</p>
+                    <p style="margin: 0px;"></p>
                     <br><br><br>
                     <p>{{$periode->log_master_bag}}</p>
                 </td>
