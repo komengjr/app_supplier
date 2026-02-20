@@ -261,7 +261,7 @@ $nourut++;
     </header>
     <main style="padding-top: 0px;">
         <h3 style="text-align: center; margin: 5px;">LAMPIRAN SURAT KEPUTUSAN NO : {{$periode->log_master_no_surat}}</h3>
-        <h3 style="text-align: center; margin: 5px;">DAFTAR SUPPLIER TERPILIH PER JENIS BARANG TAHUN {{$periode->log_master_periode}}</h3>
+        <h3 style="text-align: center; margin: 5px;">DAFTAR SUPPLIER TERPILIH PER JENIS BARANG TAHUN {{$periode->log_master_periode +1}}</h3>
         <table id="example" class="table table-striped border" style="width:100%; font-size: 10px;" border="1">
             <thead class="">
                 <tr>

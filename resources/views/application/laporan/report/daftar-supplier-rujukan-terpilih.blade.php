@@ -247,7 +247,7 @@ $nocabang = 'XX';
     </header>
     <main style="padding-top: 0px;">
         <h3 style="text-align: center; margin: 5px;">LAMPIRAN SURAT KEPUTUSAN NO : {{$periode->log_master_no_surat}}</h3>
-        <h3 style="text-align: center; margin: 5px;">DAFTAR RUJUKAN TERPILIH PER JENIS PEMERIKSAAN TAHUN 2025</h3>
+        <h3 style="text-align: center; margin: 5px;">DAFTAR RUJUKAN TERPILIH PER JENIS PEMERIKSAAN TAHUN {{$periode->log_master_periode +1}}</h3>
         <table id="example" class="table table-striped border" style="width:100%" border="1">
             <thead class="bg-200 text-700">
                 <tr>
