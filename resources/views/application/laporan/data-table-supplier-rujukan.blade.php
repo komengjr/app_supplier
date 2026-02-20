@@ -16,7 +16,7 @@
         <thead class="bg-200 text-700">
             <tr>
                 <th rowspan="2">No</th>
-                <th rowspan="2" class="text-center">Nama Jasa</th>
+                <th rowspan="2" class="text-center">Nama Pemeriksaan</th>
                 <th colspan="4" class="text-center">Alternatif Suplier</th>
 
             </tr>

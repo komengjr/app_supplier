@@ -62,9 +62,8 @@
                     <th>Kepala Cabang</th>
                     <th>Manager SDM</th>
                     <th>No Surat</th>
-                    <!-- <th>Team 1</th>
-                    <th>Team 2</th> -->
                     <th>Team Evaluasi</th>
+                    <th>Status Evaluasi</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -78,9 +77,13 @@
                     <td>{{ $per->log_master_periode }}</td>
                     <td>{{ $per->log_master_kacab }}</td>
                     <td>{{ $per->log_master_mgr }}</td>
-                    <td>{{ $per->log_master_no_surat }}</td>
-                    <!-- <td>{{ $per->log_master_bag }} <br><small>{{ $per->log_master_jab }}</small></td>
-                    <td>{{ $per->log_master_bag1 }} <br><small>{{ $per->log_master_jab1 }}</small></td> -->
+                    <td>
+                        <li>No Surat Keputusan : {{ $per->log_master_no_surat }}</li>
+                        <li>No Surat Lampiran Barang  : {{ $per->log_master_no_surat_brg }}</li>
+                        <li>No Surat Lampiran Jasa : {{ $per->log_master_no_surat_jasa }}</li>
+                        <li>No Surat Lampiran Rujukan : {{ $per->log_master_no_surat_rujukan }}</li>
+                    </td>
+
                     <td>
                         @php
                         $team = DB::table('log_master_team')->where('log_master_code',$per->log_master_code)->get();
@@ -92,6 +95,7 @@
                         </li>
                         @endforeach
                     </td>
+                    <td></td>
                     <td class="text-center">
                         <div class="btn-group" role="group">
                             <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2"
@@ -104,6 +108,10 @@
                                 <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-periode"
                                     id="button-tambah-team-penilaian" data-code="{{ $per->log_master_code  }}"><span
                                         class="fas fa-user-check"></span> Tambah Team Penilaian</button>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#modal-periode-full"
+                                    id="button-penyelesaian-penilaian" data-code="{{ $per->log_master_code  }}"><span
+                                        class="far fa-check-square"></span> Penyelesaian Evaluasi</button>
                             </div>
                         </div>
                     </td>
@@ -124,6 +132,18 @@
                     data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div id="menu-periode"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-periode-full" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 95%;">
+        <div class="modal-content border-0">
+            <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="menu-periode-full"></div>
         </div>
     </div>
 </div>
@@ -220,6 +240,27 @@
             $('#menu-periode').html(data);
         }).fail(function() {
             $('#menu-periode').html('eror');
+        });
+    });
+    $(document).on("click", "#button-penyelesaian-penilaian", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-periode-full').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('periode_penilaian_penyelesaian_penilaian') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-periode-full').html(data);
+        }).fail(function() {
+            $('#menu-periode-full').html('eror');
         });
     });
 </script>

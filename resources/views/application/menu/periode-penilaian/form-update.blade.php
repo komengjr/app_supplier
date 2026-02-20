@@ -24,8 +24,23 @@
         </div>
         <h4>No Surat</h4>
         <div class="col-md-12">
-            <label class="form-label" for="inputAddress">Silahkan Isi Sesuai Cabang / Regional</label>
+            <label class="form-label" for="inputAddress">No Surat Keputusan</label>
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="no_surat" value="{{ $data->log_master_no_surat }}"
+                required />
+        </div>
+        <div class="col-md-12">
+            <label class="form-label" for="inputAddress">No Surat Lampiran Barang</label>
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="no_surat_brg" value="{{ $data->log_master_no_surat_brg }}"
+                required />
+        </div>
+        <div class="col-md-12">
+            <label class="form-label" for="inputAddress">No Surat Lampiran Jasa</label>
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="no_surat_jasa" value="{{ $data->log_master_no_surat_jasa }}"
+                required />
+        </div>
+        <div class="col-md-12">
+            <label class="form-label" for="inputAddress">No Surat Lampiran Rujukan</label>
+            <input class="form-control form-control-lg" id="inputAddress" type="text" name="no_surat_rujukan" value="{{ $data->log_master_no_surat_rujukan }}"
                 required />
         </div>
         <div class="col-12">

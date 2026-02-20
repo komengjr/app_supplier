@@ -1010,6 +1010,9 @@ class MenuController extends Controller
             'log_master_kacab' => $request->kacab,
             'log_master_mgr' => $request->mgr,
             'log_master_no_surat' => $request->no_surat,
+            'log_master_no_surat_brg' => $request->no_surat_brg,
+            'log_master_no_surat_jasa' => $request->no_surat_jasa,
+            'log_master_no_surat_rujukan' => $request->no_surat_rujukan,
             'updated_at' => now()
         ]);
         return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Penilaian');
@@ -1044,6 +1047,9 @@ class MenuController extends Controller
             'updated_at' => now()
         ]);
         return redirect()->back()->withSuccess('Great! Berhasil Update Team Penilaian');
+    }
+    public function periode_penilaian_penyelesaian_penilaian(Request $request){
+        return view('application.menu.periode-penilaian.form-penyelesaian-evaluasi');
     }
     // SUPPLIER KAPUS
     public function evaluasi_kapus_data_penawaran($akses)
