@@ -328,7 +328,7 @@ $nourut++;
             <tr>
                 <td></td>
                 <td style="width: 40%;">
-                    <p style="margin: 0px;">{{$cabang->master_cabang_name}}, {{date('d-m-Y')}}</p>
+                    <p style="margin: 0px;">{{$cabang->master_cabang_name}}, {{date("d-m-Y", strtotime($tahun->log_master_status_date));}}</p>
                     <p style="margin: 0px;">Kepala Cabang</p>
                     <br><br><br><br>
                     <p>{{$tahun->log_master_kacab}}</p>

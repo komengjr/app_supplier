@@ -33,7 +33,9 @@
             <select name="agreement" class="form-control choices-single-tahun" id="periode-penilaian" required>
                 <option value="">Pilih Periode Tahun</option>
                 @foreach ($periode as $periodes)
+                @if ($periodes->log_master_status_date == "")
                 <option value="{{ $periodes->log_master_code  }}">{{ $periodes->log_master_periode  }}</option>
+                @endif
                 @endforeach
             </select>
         </div>

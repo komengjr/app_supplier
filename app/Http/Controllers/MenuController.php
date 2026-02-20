@@ -1048,8 +1048,37 @@ class MenuController extends Controller
         ]);
         return redirect()->back()->withSuccess('Great! Berhasil Update Team Penilaian');
     }
-    public function periode_penilaian_penyelesaian_penilaian(Request $request){
-        return view('application.menu.periode-penilaian.form-penyelesaian-evaluasi');
+    public function periode_penilaian_penyelesaian_penilaian(Request $request)
+    {
+        $brg = DB::table('m_barang')
+            ->select('m_barang.*')
+            ->join('data_supp_brg_cab', 'data_supp_brg_cab.m_barang_code', '=', 'm_barang.m_barang_code')
+            ->where('data_supp_brg_cab.log_master_code', $request->code)
+            ->where('data_supp_brg_cab.master_cabang_code', Auth::user()->access_cabang)
+            ->distinct()->get(['m_barang.m_barang_code']);
+        $jasa = DB::table('m_jasa')
+            ->select('m_jasa.*')
+            ->join('data_supp_jasa_cab', 'data_supp_jasa_cab.m_jasa_code', '=', 'm_jasa.m_jasa_code')
+            ->where('data_supp_jasa_cab.log_master_code', $request->code)
+            ->where('data_supp_jasa_cab.master_cabang_code', Auth::user()->access_cabang)
+            ->distinct()->get(['m_jasa.m_jasa_code']);
+        $pemeriksaan = DB::table('m_pemeriksaan')
+            ->select('m_pemeriksaan.*')
+            ->join('data_supp_rujukan_cab', 'data_supp_rujukan_cab.m_pemeriksaan_code', '=', 'm_pemeriksaan.m_pemeriksaan_code')
+            ->where('data_supp_rujukan_cab.log_master_code', $request->code)
+            ->where('data_supp_rujukan_cab.master_cabang_code', Auth::user()->access_cabang)
+            ->distinct()->get(['m_pemeriksaan.m_pemeriksaan_code']);
+        $periode = DB::table('log_master')->where('log_master_code', $request->code)->first();
+        $image = base64_encode(file_get_contents(public_path('img/logo.png')));
+        $team = DB::table('log_master_team')->where('log_master_code', $request->code)->get();
+        return view('application.menu.periode-penilaian.form-penyelesaian-evaluasi', compact('brg', 'jasa', 'pemeriksaan'), ['periode' => $periode, 'code' => $request->code]);
+    }
+    public function periode_penilaian_penyelesaian_penilaian_save(Request $request)
+    {
+        DB::table('log_master')->where('log_master_code', $request->code)->update([
+            'log_master_status_date' => now()
+        ]);
+        return 123;
     }
     // SUPPLIER KAPUS
     public function evaluasi_kapus_data_penawaran($akses)
@@ -1233,7 +1262,8 @@ class MenuController extends Controller
     {
         return view('application.laporan.form-report-keputusan', ['code' => $request->code]);
     }
-    public function laporan_keputusan_surat_keputusan_input_no_surat(Request $request){
+    public function laporan_keputusan_surat_keputusan_input_no_surat(Request $request)
+    {
         return 123;
     }
     public function laporan_keputusan_surat_keputusan_detail_penilaian(Request $request)

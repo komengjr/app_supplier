@@ -79,7 +79,7 @@
                     <td>{{ $per->log_master_mgr }}</td>
                     <td>
                         <li>No Surat Keputusan : {{ $per->log_master_no_surat }}</li>
-                        <li>No Surat Lampiran Barang  : {{ $per->log_master_no_surat_brg }}</li>
+                        <li>No Surat Lampiran Barang : {{ $per->log_master_no_surat_brg }}</li>
                         <li>No Surat Lampiran Jasa : {{ $per->log_master_no_surat_jasa }}</li>
                         <li>No Surat Lampiran Rujukan : {{ $per->log_master_no_surat_rujukan }}</li>
                     </td>
@@ -95,13 +95,20 @@
                         </li>
                         @endforeach
                     </td>
-                    <td></td>
+                    <td>
+                        @if ($per->log_master_status_date == "")
+                        <span class="badge bg-danger">Belum</span>
+                        @else
+                        <span class="badge bg-primary">Selesai</span>
+                        @endif
+                    </td>
                     <td class="text-center">
                         <div class="btn-group" role="group">
                             <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2"
                                 type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
                                     class="fas fa-align-left me-1" data-fa-transform="shrink-3"></span>Option</button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop2">
+                                @if ($per->log_master_status_date == "")
                                 <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-periode" id="button-update-periode-cabang" data-code="{{ $per->log_master_code  }}"><span class="far fa-edit"></span>
                                     Update</button>
                                 <div class="dropdown-divider"></div>
@@ -112,6 +119,12 @@
                                 <button class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#modal-periode-full"
                                     id="button-penyelesaian-penilaian" data-code="{{ $per->log_master_code  }}"><span
                                         class="far fa-check-square"></span> Penyelesaian Evaluasi</button>
+                                @else
+                                <button class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#modal-periode-full"
+                                    id="button-print-evaluasi" data-code="{{ $per->log_master_code  }}"><span
+                                        class="fas fa-print"></span> Print Hasil Evaluasi</button>
+                                @endif
+
                             </div>
                         </div>
                     </td>
@@ -152,6 +165,8 @@
 <script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.js"></script>
 <script src="https://cdn.datatables.net/responsive/3.0.4/js/responsive.bootstrap5.js"></script>
 <script src="{{ asset('vendors/choices/choices.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     new DataTable('#example', {
         responsive: true
@@ -262,6 +277,61 @@
         }).fail(function() {
             $('#menu-periode-full').html('eror');
         });
+    });
+    $(document).on("click", "#button-fix-save-penyelesaian-penilaian-evaluasi", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: true
+        });
+        swalWithBootstrapButtons.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, Agree!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire({
+                    title: "Deleted!",
+                    text: "Your data has been Saved.",
+                    icon: "success"
+                });
+                $('#footer-penyelesaian-evaluasi').html(
+                    '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+                );
+                $.ajax({
+                    url: "{{ route('periode_penilaian_penyelesaian_penilaian_save') }}",
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "code": code
+                    },
+                    dataType: 'html',
+                }).done(function(data) {
+                    location.reload();
+                }).fail(function() {
+                    $('#footer-penyelesaian-evaluasi').html('eror');
+                });
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire({
+                    title: "Cancelled",
+                    text: "Your data is not save :)",
+                    icon: "error"
+                });
+            }
+        });
+
     });
 </script>
 @endsection

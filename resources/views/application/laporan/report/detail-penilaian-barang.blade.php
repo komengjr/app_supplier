@@ -242,16 +242,17 @@ $nocabang = 'XX';
 
 @if ($no_documents->log_master_code == $code)
 @php
-    $no_fix = $nourut++;
-    $no_fix = str_pad($no_fix, 3, '0', STR_PAD_LEFT)
+$no_fix = $nourut++;
+$no_fix = str_pad($no_fix, 3, '0', STR_PAD_LEFT)
 @endphp
 @else
 @php
-    $nourut++;
+$nourut++;
 @endphp
 @endif
 
 @endforeach
+
 <body>
     <header class="clearfix" style="padding-bottom: 0px;">
         <div id="company">
@@ -360,7 +361,7 @@ $nocabang = 'XX';
             @endif
             <tr>
                 <td style="width: 40%;">
-                    <p style="margin: 0px;">MANAGER SDM & UMUM {{$nama}}</p>
+                    <p style="margin: 0px;"> {{$nama}} <br>MANAGER SDM & UMUM</p>
                     <br><br><br>
                     <p>{{$periode->log_master_mgr}}</p>
                 </td>
