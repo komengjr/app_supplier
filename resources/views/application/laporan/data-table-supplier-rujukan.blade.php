@@ -17,7 +17,7 @@
             <tr>
                 <th rowspan="2">No</th>
                 <th rowspan="2" class="text-center">Nama Pemeriksaan</th>
-                <th colspan="4" class="text-center">Alternatif Suplier</th>
+                <th colspan="4" class="text-center">Alternatif Rujukan</th>
 
             </tr>
             <tr>
