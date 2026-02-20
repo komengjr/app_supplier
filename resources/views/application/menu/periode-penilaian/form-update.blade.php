@@ -28,7 +28,7 @@
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="no_surat" value="{{ $data->log_master_no_surat }}"
                 required />
         </div>
-        <div class="col-md-12">
+        <!-- <div class="col-md-12">
             <label class="form-label" for="inputAddress">No Surat Lampiran Barang</label>
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="no_surat_brg" value="{{ $data->log_master_no_surat_brg }}"
                 required />
@@ -42,7 +42,7 @@
             <label class="form-label" for="inputAddress">No Surat Lampiran Rujukan</label>
             <input class="form-control form-control-lg" id="inputAddress" type="text" name="no_surat_rujukan" value="{{ $data->log_master_no_surat_rujukan }}"
                 required />
-        </div>
+        </div> -->
         <div class="col-12">
             <div class="form-check">
                 <input class="form-check-input" id="gridCheck" type="checkbox" required />

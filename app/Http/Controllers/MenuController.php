@@ -1010,9 +1010,9 @@ class MenuController extends Controller
             'log_master_kacab' => $request->kacab,
             'log_master_mgr' => $request->mgr,
             'log_master_no_surat' => $request->no_surat,
-            'log_master_no_surat_brg' => $request->no_surat_brg,
-            'log_master_no_surat_jasa' => $request->no_surat_jasa,
-            'log_master_no_surat_rujukan' => $request->no_surat_rujukan,
+            // 'log_master_no_surat_brg' => $request->no_surat_brg,
+            // 'log_master_no_surat_jasa' => $request->no_surat_jasa,
+            // 'log_master_no_surat_rujukan' => $request->no_surat_rujukan,
             'updated_at' => now()
         ]);
         return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Penilaian');
