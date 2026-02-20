@@ -79,9 +79,9 @@
                     <td>{{ $per->log_master_mgr }}</td>
                     <td>
                         <li>No Surat Keputusan : {{ $per->log_master_no_surat }}</li>
-                        <li>No Surat Lampiran Barang : {{ $per->log_master_no_surat_brg }}</li>
+                        <!-- <li>No Surat Lampiran Barang : {{ $per->log_master_no_surat_brg }}</li>
                         <li>No Surat Lampiran Jasa : {{ $per->log_master_no_surat_jasa }}</li>
-                        <li>No Surat Lampiran Rujukan : {{ $per->log_master_no_surat_rujukan }}</li>
+                        <li>No Surat Lampiran Rujukan : {{ $per->log_master_no_surat_rujukan }}</li> -->
                     </td>
 
                     <td>
