@@ -275,8 +275,42 @@ class MasterController extends Controller
         ]);
         return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Jasa');
     }
-    public function master_jasa_detail_penilaian(Request $request){
-        return view('master.jasa.form-detail-penilaian-jasa');
+    public function master_jasa_detail_penilaian(Request $request)
+    {
+        $data = DB::table('data_supp_jasa_cab')
+            ->join('master_cabang', 'master_cabang.master_cabang_code', '=', 'data_supp_jasa_cab.master_cabang_code')
+            ->join('m_jasa', 'm_jasa.m_jasa_code', '=', 'data_supp_jasa_cab.m_jasa_code')
+            ->join('log_master', 'log_master.log_master_code', '=', 'data_supp_jasa_cab.log_master_code')
+            ->join('m_supplier', 'm_supplier.m_supplier_code', '=', 'data_supp_jasa_cab.m_supplier_code')
+            ->where('data_supp_jasa_cab.m_jasa_code', $request->code)
+            ->get();
+        return view('master.jasa.form-detail-penilaian-jasa', compact('data'));
+    }
+    public function master_jasa_remove_detail_penilaian(Request $request)
+    {
+        if (Auth::user()->access_code == 'master') {
+            DB::table('log_penilaian_jasa_cab')
+                ->join('t_penilaian_detail', 't_penilaian_detail.t_penilaian_detail_code', '=', 'log_penilaian_jasa_cab.t_penilaian_detail_code')
+                ->where('log_penilaian_jasa_cab.log_master_code', $request->log)
+                ->where('log_penilaian_jasa_cab.m_supplier_code', $request->supplier)
+                ->where('log_penilaian_jasa_cab.m_jasa_code', $request->jasa)
+                ->where('log_penilaian_jasa_cab.master_cabang_code', $request->cabang)->delete();
+            DB::table('data_supp_jasa_cab')
+                ->where('log_master_code', $request->log)
+                ->where('m_jasa_code', $request->jasa)
+                ->where('m_supplier_code', $request->supplier)
+                ->where('master_cabang_code', $request->cabang)->delete();
+            $data = DB::table('data_supp_jasa_cab')
+                ->join('master_cabang', 'master_cabang.master_cabang_code', '=', 'data_supp_jasa_cab.master_cabang_code')
+                ->join('m_jasa', 'm_jasa.m_jasa_code', '=', 'data_supp_jasa_cab.m_jasa_code')
+                ->join('log_master', 'log_master.log_master_code', '=', 'data_supp_jasa_cab.log_master_code')
+                ->join('m_supplier', 'm_supplier.m_supplier_code', '=', 'data_supp_jasa_cab.m_supplier_code')
+                ->where('data_supp_jasa_cab.m_jasa_code', $request->jasa)
+                ->get();
+            return view('master.jasa.table-penilaian-supplier-jasa', ['data' => $data]);
+        } else {
+            return view('application.error.404');
+        }
     }
     // MASTER RUJUKAN
     public function master_rujukan()
@@ -301,6 +335,43 @@ class MasterController extends Controller
             'created_at' => now()
         ]);
         return redirect()->back()->withSuccess('Great! Berhasil Menambahkan Data Jasa');
+    }
+    public function master_rujukan_detail_penilaian(Request $request)
+    {
+        $data = DB::table('data_supp_rujukan_cab')
+            ->join('master_cabang', 'master_cabang.master_cabang_code', '=', 'data_supp_rujukan_cab.master_cabang_code')
+            ->join('m_pemeriksaan', 'm_pemeriksaan.m_pemeriksaan_code', '=', 'data_supp_rujukan_cab.m_pemeriksaan_code')
+            ->join('log_master', 'log_master.log_master_code', '=', 'data_supp_rujukan_cab.log_master_code')
+            ->join('m_rujukan', 'm_rujukan.m_rujukan_code', '=', 'data_supp_rujukan_cab.m_rujukan_code')
+            ->where('data_supp_rujukan_cab.m_rujukan_code', $request->code)
+            ->get();
+        return view('master.rujukan.form-detail-penilaian-rujukan', compact('data'));
+    }
+    public function master_rujukan_remove_detail_penilaian(Request $request)
+    {
+        if (Auth::user()->access_code == 'master') {
+            DB::table('log_penilaian_rujukan_cab')
+                ->join('t_penilaian_detail', 't_penilaian_detail.t_penilaian_detail_code', '=', 'log_penilaian_rujukan_cab.t_penilaian_detail_code')
+                ->where('log_penilaian_rujukan_cab.log_master_code', $request->log)
+                ->where('log_penilaian_rujukan_cab.m_rujukan_code', $request->rujukan)
+                ->where('log_penilaian_rujukan_cab.m_pemeriksaan_code', $request->pemeriksaan)
+                ->where('log_penilaian_rujukan_cab.master_cabang_code', $request->cabang)->delete();
+            DB::table('data_supp_rujukan_cab')
+                ->where('log_master_code', $request->log)
+                ->where('m_pemeriksaan_code', $request->pemeriksaan)
+                ->where('m_rujukan_code', $request->rujukan)
+                ->where('master_cabang_code', $request->cabang)->delete();
+            $data = DB::table('data_supp_rujukan_cab')
+                ->join('master_cabang', 'master_cabang.master_cabang_code', '=', 'data_supp_rujukan_cab.master_cabang_code')
+                ->join('m_pemeriksaan', 'm_pemeriksaan.m_pemeriksaan_code', '=', 'data_supp_rujukan_cab.m_pemeriksaan_code')
+                ->join('log_master', 'log_master.log_master_code', '=', 'data_supp_rujukan_cab.log_master_code')
+                ->join('m_rujukan', 'm_rujukan.m_rujukan_code', '=', 'data_supp_rujukan_cab.m_rujukan_code')
+                ->where('data_supp_rujukan_cab.m_rujukan_code', $request->rujukan)
+                ->get();
+            return view('master.rujukan.table-penilaian-rujukan-pemeriksaan', ['data' => $data]);
+        } else {
+            return view('application.error.404');
+        }
     }
     // MASTER RUJUKAN
     public function master_pemeriksaan()

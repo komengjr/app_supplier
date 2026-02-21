@@ -66,12 +66,26 @@
                 $no = 1;
                 @endphp
                 @foreach ($data as $datas)
-                    <tr>
-                        <td>{{ $no++ }}</td>
-                        <td>{{ $datas->m_rujukan_code }}</td>
-                        <td>{{ $datas->m_rujukan_name }}</td>
-                        <td></td>
-                    </tr>
+                <tr>
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $datas->m_rujukan_code }}</td>
+                    <td>{{ $datas->m_rujukan_name }}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2" type="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
+                                    class="fas fa-align-left me-1" data-fa-transform="shrink-3"></span>Option</button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop2">
+                                <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-rujukan-full"
+                                    id="button-show-data-penilaian" data-code="{{$datas->m_rujukan_code}}"><span class="fab fa-superpowers"></span> Data Penilaian</button>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-barang"
+                                    id="button-upload-data-barang" data-code="123"><span
+                                        class="fas fa-cloud-upload-alt"></span> Upload Barang</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
@@ -88,6 +102,18 @@
                     data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div id="menu-rujukan"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-rujukan-full" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 95%;">
+        <div class="modal-content border-0">
+            <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="menu-rujukan-full"></div>
         </div>
     </div>
 </div>
@@ -123,14 +149,14 @@
             $('#menu-rujukan').html('eror');
         });
     });
-    $(document).on("click", "#button-upload-data-barang", function(e) {
+    $(document).on("click", "#button-show-data-penilaian", function(e) {
         e.preventDefault();
         var code = $(this).data("code");
-        $('#menu-barang').html(
+        $('#menu-rujukan-full').html(
             '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
         );
         $.ajax({
-            url: "{{ route('master_barang_import') }}",
+            url: "{{ route('master_rujukan_detail_penilaian') }}",
             type: "POST",
             cache: false,
             data: {
@@ -139,9 +165,36 @@
             },
             dataType: 'html',
         }).done(function(data) {
-            $('#menu-barang').html(data);
+            $('#menu-rujukan-full').html(data);
         }).fail(function() {
-            $('#menu-barang').html('eror');
+            $('#menu-rujukan-full').html('eror');
+        });
+    });
+    $(document).on("click", "#button-remove-log-penilaian-rujukan", function(e) {
+        e.preventDefault();
+        var log = $(this).data("log");
+        var rujukan = $(this).data("rujukan");
+        var pemeriksaan = $(this).data("pemeriksaan");
+        var cabang = $(this).data("cabang");
+        $('#menu-table-data-penilaian-rujukan').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('master_rujukan_remove_detail_penilaian') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "log": log,
+                "rujukan": rujukan,
+                "cabang": cabang,
+                "pemeriksaan": pemeriksaan
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-table-data-penilaian-rujukan').html(data);
+        }).fail(function() {
+            $('#menu-table-data-penilaian-rujukan').html('eror');
         });
     });
 </script>

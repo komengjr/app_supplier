@@ -191,5 +191,32 @@
             $('#menu-suplier-full').html('eror');
         });
     });
+    $(document).on("click", "#button-remove-log-penilaian-jasa", function(e) {
+        e.preventDefault();
+        var log = $(this).data("log");
+        var supplier = $(this).data("supplier");
+        var jasa = $(this).data("jasa");
+        var cabang = $(this).data("cabang");
+        $('#menu-table-data-penilaian-jasa').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('master_jasa_remove_detail_penilaian') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "log": log,
+                "supplier": supplier,
+                "cabang": cabang,
+                "jasa": jasa
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-table-data-penilaian-jasa').html(data);
+        }).fail(function() {
+            $('#menu-table-data-penilaian-jasa').html('eror');
+        });
+    });
 </script>
 @endsection
