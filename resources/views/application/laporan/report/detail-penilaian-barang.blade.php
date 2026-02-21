@@ -261,7 +261,7 @@ $nourut++;
     </header>
     <main style="padding-top: 0px;">
         <h3 style="text-align: center; margin: 5px;">LAMPIRAN DETAIL PENILAIAN SUPPLIER</h3>
-        <h3 style="text-align: center; margin: 5px;">DAFTAR SUPPLIER TERPILIH PER JENIS BARANG TAHUN {{$periode->log_master_periode}}</h3>
+        <h3 style="text-align: center; margin: 5px;">DAFTAR SUPPLIER TERPILIH PER JENIS BARANG TAHUN {{$periode->log_master_periode + 1}}</h3>
         <table id="example" class="table table-striped border" style="width:100%; font-size: 10px;" border="1">
             <thead class="">
                 <tr>
@@ -361,7 +361,7 @@ $nourut++;
             @endif
             <tr>
                 <td style="width: 40%;">
-                    <p style="margin: 0px;"> {{$nama}} <br>MANAGER SDM & UMUM</p>
+                    <p style="margin: 0px;"> {{$nama}}, {{date("d-m-Y", strtotime($periode->log_master_status_date))}} <br>MANAGER SDM & UMUM</p>
                     <br><br><br>
                     <p>{{$periode->log_master_mgr}}</p>
                 </td>
@@ -369,15 +369,31 @@ $nourut++;
 
                 </td>
                 <td style="width: 30%;">
-                    <p style="margin: 0px;">{{$periode->log_master_jab}}</p>
+                    <!-- <p style="margin: 0px;">{{$periode->log_master_jab}}</p>
                     <br><br><br>
-                    <p>{{$periode->log_master_bag}}</p>
+                    <p>{{$periode->log_master_bag}}</p> -->
                 </td>
                 <td style="width: 30%;">
-                    <p style="margin: 0px;">{{$periode->log_master_jab1}}</p>
+                    <!-- <p style="margin: 0px;">{{$periode->log_master_jab1}}</p>
                     <br><br><br>
-                    <p>{{$periode->log_master_bag1}}</p>
+                    <p>{{$periode->log_master_bag1}}</p> -->
                 </td>
+            </tr>
+        </table>
+        <table style="width: 100%; padding-top: 50px;" border="0">
+            <tr>
+                <td>Team Evaluasi</td>
+            </tr>
+            <tr>
+                @foreach ($team as $teams)
+                <td>
+                    {{ $teams->log_master_team_jabatan }}
+                    <br><br><br><br><br>
+                    {{ $teams->log_master_team_name }}
+                    <br>
+                    {{ $teams->log_master_team_nip }}
+                </td>
+                @endforeach
             </tr>
         </table>
         {{-- <div id="thanks">Thank you!</div> --}}
