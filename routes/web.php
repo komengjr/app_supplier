@@ -46,6 +46,7 @@ Route::prefix('{akses}')->group(function () {
     Route::get('evaluasi-kapus/penetapan-supplier-kapus', [MenuController::class, 'evaluasi_kapus_penetapan_supplier_kapus'])->name('evaluasi_kapus_penetapan_supplier_kapus');
     Route::get('periode-penilaian', [MenuController::class, 'periode_penilaian'])->name('periode_penilaian');
     Route::get('laporan-keputusan', [MenuController::class, 'laporan_keputusan'])->name('laporan_keputusan');
+    Route::get('laporan-evaluasi-cabang', [MenuController::class, 'laporan_evaluasi_cabang'])->name('laporan_evaluasi_cabang');
 
     // MASTER DATA
     Route::get('app/master-data/master-supplier', [MasterDataController::class, 'app_master_data_supplier'])->name('app_master_data_supplier');

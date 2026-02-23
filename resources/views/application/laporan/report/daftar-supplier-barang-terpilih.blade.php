@@ -342,7 +342,7 @@ $nourut++;
                 </td>
             </tr>
         </table>
-        @if ($team->count() >= 4)
+        @if ($team->count() >= 5)
         <table style="width: 100%; padding-top: 50px; font-size: 10px;" border="0">
             @else
             <table style="width: 100%; padding-top: 50px;" border="0">

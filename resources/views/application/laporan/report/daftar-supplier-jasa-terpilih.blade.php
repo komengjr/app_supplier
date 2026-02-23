@@ -322,31 +322,35 @@ $nocabang = 'XX';
                 </td>
             </tr>
         </table>
-        <table style="width: 100%; padding-top: 50px;" border="0">
-            <tr>
-                <td>Team Evaluasi</td>
-            </tr>
-            <tr>
-                @foreach ($team as $teams)
-                <td>
-                    {{ $teams->log_master_team_jabatan }}
-                    <br><br><br><br><br>
-                    {{ $teams->log_master_team_name }}
-                    <br>
-                    {{ $teams->log_master_team_nip }}
-                </td>
-                @endforeach
-            </tr>
-        </table>
-        {{-- <div id="thanks">Thank you!</div> --}}
-        <div id="notices">
+        @if ($team->count() >= 5)
+        <table style="width: 100%; padding-top: 50px; font-size: 10px;" border="0">
+            @else
+            <table style="width: 100%; padding-top: 50px;" border="0">
+                @endif
+                <tr>
+                    <td>Team Evaluasi</td>
+                </tr>
+                <tr>
+                    @foreach ($team as $teams)
+                    <td>
+                        {{ $teams->log_master_team_jabatan }}
+                        <br><br><br><br><br>
+                        {{ $teams->log_master_team_name }}
+                        <br>
+                        {{ $teams->log_master_team_nip }}
+                    </td>
+                    @endforeach
+                </tr>
+            </table>
+            {{-- <div id="thanks">Thank you!</div> --}}
+            <div id="notices">
 
-            <!-- <img style="padding-top: 1px; left: 10px;"
+                <!-- <img style="padding-top: 1px; left: 10px;"
                 src="data:image/png;base64, {!! base64_encode(QrCode::style('round')->format('svg')->size(70)->errorCorrection('H')->generate(123)) !!}"> -->
 
 
-            <div class="notice">Dokumen Tidak Bisa di Ubah</div>
-        </div>
+                <div class="notice">Dokumen Tidak Bisa di Ubah</div>
+            </div>
     </main>
 </body>
 
