@@ -254,7 +254,7 @@ $nourut++;
 @endforeach
 
 <body>
-    <header class="clearfix" style="padding-bottom: 0px;">
+    <header class="clearfix" style="padding-bottom: 0px; padding-top: 50px;">
         <div id="company">
             <h5 class="name"><strong>SDM.{{$nocabang}}-FRM-PP-08/05</strong></h5>
         </div>
