@@ -1483,7 +1483,7 @@ class MenuController extends Controller
         if ($this->url_akses($akses) == true) {
             $data = DB::table('log_master')
                 ->join('master_cabang', 'master_cabang.master_cabang_code', '=', 'log_master.log_master_cabang')
-                ->where('log_master.log_master_status_date', '!=', "")
+                ->where('log_master.log_master_status_date', '!=', null)
                 ->get();
             return view('application.laporan.laporan-evaluasi-cabang', ['data' => $data]);
         } else {
