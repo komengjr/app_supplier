@@ -299,7 +299,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 swalWithBootstrapButtons.fire({
-                    title: "Deleted!",
+                    title: "Success!",
                     text: "Your data has been Saved.",
                     icon: "success"
                 });

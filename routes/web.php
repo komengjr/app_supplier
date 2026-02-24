@@ -149,8 +149,19 @@ Route::prefix('app')->group(function () {
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-barang-terpilih/report', [MenuController::class, 'laporan_keputusan_surat_keputusan_barang_terpilih_report'])->name('laporan_keputusan_surat_keputusan_barang_terpilih_report');
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-jasa-terpilih', [MenuController::class, 'laporan_keputusan_surat_keputusan_jasa_terpilih'])->name('laporan_keputusan_surat_keputusan_jasa_terpilih');
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-jasa-terpilih/report', [MenuController::class, 'laporan_keputusan_surat_keputusan_jasa_terpilih_report'])->name('laporan_keputusan_surat_keputusan_jasa_terpilih_report');
+    Route::post('laporan-keputusan/surat-keputusan-evaluasi-detail-jasa-terpilih', [MenuController::class, 'laporan_keputusan_surat_keputusan_detail_jasa_terpilih'])->name('laporan_keputusan_surat_keputusan_detail_jasa_terpilih');
+    Route::post('laporan-keputusan/surat-keputusan-evaluasi-detail-jasa-terpilih/report', [MenuController::class, 'laporan_keputusan_surat_keputusan_detail_jasa_terpilih_report'])->name('laporan_keputusan_surat_keputusan_detail_jasa_terpilih_report');
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-rujukan-terpilih', [MenuController::class, 'laporan_keputusan_surat_keputusan_rujukan_terpilih'])->name('laporan_keputusan_surat_keputusan_rujukan_terpilih');
     Route::post('laporan-keputusan/surat-keputusan-evaluasi-rujukan-terpilih/report', [MenuController::class, 'laporan_keputusan_surat_keputusan_rujukan_terpilih_report'])->name('laporan_keputusan_surat_keputusan_rujukan_terpilih_report');
+    Route::post('laporan-keputusan/surat-keputusan-evaluasi-detail-rujukan-terpilih', [MenuController::class, 'laporan_keputusan_surat_keputusan_detail_rujukan_terpilih'])->name('laporan_keputusan_surat_keputusan_detail_rujukan_terpilih');
+    Route::post('laporan-keputusan/surat-keputusan-evaluasi-detail-rujukan-terpilih/report', [MenuController::class, 'laporan_keputusan_surat_keputusan_detail_rujukan_terpilih_report'])->name('laporan_keputusan_surat_keputusan_detail_rujukan_terpilih_report');
+
+    // EVALUASI CABANG
+    Route::post('laporan-evaluasi-cabang/rekapitulasi', [MenuController::class, 'laporan_evaluasi_cabang_rekapitulasi'])->name('laporan_evaluasi_cabang_rekapitulasi');
+    Route::post('laporan-evaluasi-cabang/rekapitulasi/surat-keputusan', [MenuController::class, 'laporan_evaluasi_cabang_rekapitulasi_surat_keputusan'])->name('laporan_evaluasi_cabang_rekapitulasi_surat_keputusan');
+    Route::post('laporan-evaluasi-cabang/rekapitulasi/surat-supplier-barang', [MenuController::class, 'laporan_evaluasi_cabang_rekapitulasi_surat_supplier_barang'])->name('laporan_evaluasi_cabang_rekapitulasi_surat_supplier_barang');
+    Route::post('laporan-evaluasi-cabang/rekapitulasi/surat-supplier-jasa', [MenuController::class, 'laporan_evaluasi_cabang_rekapitulasi_surat_supplier_jasa'])->name('laporan_evaluasi_cabang_rekapitulasi_surat_supplier_jasa');
+    Route::post('laporan-evaluasi-cabang/rekapitulasi/surat-rujukan-pemeriksaan', [MenuController::class, 'laporan_evaluasi_cabang_rekapitulasi_surat_rujukan_pemeriksaan'])->name('laporan_evaluasi_cabang_rekapitulasi_surat_rujukan_pemeriksaan');
 });
 Route::prefix('dashboard')->group(function () {
     Route::get('home', [dashboardController::class, 'index'])->name('dashboard.home');

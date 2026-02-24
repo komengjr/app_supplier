@@ -24,6 +24,7 @@
             <label class="form-label" for="inputAddress">Akses</label>
             <select name="akses" class="form-control" id="">
                 <option value="sdm">SDM</option>
+                <option value="verif">Verifikator</option>
             </select>
         </div>
         <div class="col-8">

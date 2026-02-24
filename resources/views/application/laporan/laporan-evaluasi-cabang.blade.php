@@ -10,7 +10,7 @@
         <div class="card bg-100 shadow-none border">
             <div class="row gx-0 flex-between-center">
                 <div class="col-sm-auto d-flex align-items-center border-bottom">
-                    <img class="ms-3 mx-3" src="{{ asset('asset/img/logos/apple.png') }}" alt="" width="50" />
+                    <img class="ms-3 mx-3" src="{{ asset('img/app.png') }}" alt="" width="50" />
                     <div>
                         <h6 class="text-primary fs--1 mb-0 pt-2">Welcome to </h6>
                         <h4 class="text-primary fw-bold mb-1">Evaluasi <span class="text-info fw-medium">Management
@@ -31,24 +31,10 @@
     <div class="card-header bg-primary">
         <div class="row align-items-center">
             <div class="col">
-                <h3 class="m-0"><span class="badge bg-primary m-0 p-0">Master User</span></h3>
+                <h3 class="m-0"><span class="badge bg-primary m-0 p-0">Monitoring Evaluasi</span></h3>
             </div>
             <div class="col-auto">
 
-                <div class="btn-group" role="group">
-                    <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2" type="button"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
-                            class="fas fa-align-left me-1" data-fa-transform="shrink-3"></span>Option</button>
-                    <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop2">
-                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-user"
-                            id="button-add-data-user" data-code="123"><span class="far fa-edit"></span>
-                            Add User</button>
-                        <div class="dropdown-divider"></div>
-                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-cabang"
-                            id="button-data-barang-cabang" data-code="123"><span
-                                class="far fa-folder-open"></span> History</button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -57,11 +43,11 @@
             <thead class="bg-200 text-700">
                 <tr>
                     <th>No</th>
-                    <th>Nama Cabang</th>
-                    <th>Kota</th>
-                    <th>Alamat</th>
-                    <th>Akses Code</th>
-                    <th>Log Record</th>
+                    <th>Cabang</th>
+                    <th>Kepala Cabang</th>
+                    <th>Manager</th>
+                    <th>Team Evaluasi</th>
+                    <th>Tanggal Selesai</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -73,30 +59,31 @@
                 <tr>
                     <td>{{$no++}}</td>
                     <td>{{$datas->master_cabang_name}}</td>
-                    <td>{{$datas->master_cabang_city}}</td>
-                    <td>{{$datas->master_cabang_alamat}}</td>
-                    <td>{{$datas->master_cabang_code}}</td>
+                    <td>{{$datas->log_master_kacab}}</td>
+                    <td>{{$datas->log_master_mgr}}</td>
+
                     <td>
                         @php
-                        $count = DB::table('log_penilaian_cab')
-                        ->join('log_master','log_master.log_master_code','=','log_penilaian_cab.log_master_code')
-                        ->where('log_master.log_master_cabang',$datas->master_cabang_code)->count();
+                        $team = DB::table('log_master_team')->where('log_master_code',$datas->log_master_code)->get();
                         @endphp
-                        {{ $count }}
+                        @foreach ($team as $teams)
+                        <li>{{ $teams->log_master_team_name }}<br>{{ $teams->log_master_team_jabatan }}<br>{{ $teams->log_master_team_nip }}</li>
+                        @endforeach
                     </td>
+                    <td>{{$datas->log_master_status_date}}</td>
                     <td>
                         <div class="btn-group" role="group">
                             <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2" type="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
                                     class="fas fa-align-left me-1" data-fa-transform="shrink-3"></span>Option</button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop2">
-                                <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-user"
-                                    id="button-update-data-cabang" data-code="{{$datas->master_cabang_code}}"><span class="far fa-edit"></span>
-                                    Update Cabang</button>
-                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-cabang"
+                                    id="button-rekap-evaluasi-cabang" data-code="{{$datas->log_master_code}}"><span class="fas fa-printer"></span>
+                                    Rekap Evaluasi</button>
+                                <!-- <div class="dropdown-divider"></div>
                                 <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-cabang"
                                     id="button-data-penilaian-supplier-barang-cabang" data-code="{{$datas->master_cabang_code}}"><span
-                                        class="far fa-folder-open"></span> Penilaian Supplier Barang</button>
+                                        class="far fa-folder-open"></span> Penilaian Supplier Barang</button> -->
                             </div>
                         </div>
                     </td>
@@ -131,35 +118,14 @@
     });
 </script>
 <script>
-    $(document).on("click", "#button-add-data-user", function(e) {
-        e.preventDefault();
-        var code = $(this).data("code");
-        $('#menu-user').html(
-            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
-        );
-        $.ajax({
-            url: "{{ route('master_user_add') }}",
-            type: "POST",
-            cache: false,
-            data: {
-                "_token": "{{ csrf_token() }}",
-                "code": code
-            },
-            dataType: 'html',
-        }).done(function(data) {
-            $('#menu-user').html(data);
-        }).fail(function() {
-            $('#menu-user').html('eror');
-        });
-    });
-    $(document).on("click", "#button-data-penilaian-supplier-barang-cabang", function(e) {
+    $(document).on("click", "#button-rekap-evaluasi-cabang", function(e) {
         e.preventDefault();
         var code = $(this).data("code");
         $('#menu-cabang').html(
             '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
         );
         $.ajax({
-            url: "{{ route('master_cabang_penilaian_supplier_barang') }}",
+            url: "{{ route('laporan_evaluasi_cabang_rekapitulasi') }}",
             type: "POST",
             cache: false,
             data: {
@@ -171,50 +137,6 @@
             $('#menu-cabang').html(data);
         }).fail(function() {
             $('#menu-cabang').html('eror');
-        });
-    });
-    $(document).on("click", "#button-data-penilaian-barang", function(e) {
-        e.preventDefault();
-        var code = $(this).data("code");
-        $('#menu-detail-penilaian-supplier').html(
-            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
-        );
-        $.ajax({
-            url: "{{ route('master_cabang_penilaian_supplier_detail_pneilaian_barang') }}",
-            type: "POST",
-            cache: false,
-            data: {
-                "_token": "{{ csrf_token() }}",
-                "code": code
-            },
-            dataType: 'html',
-        }).done(function(data) {
-            $('#menu-detail-penilaian-supplier').html(data);
-        }).fail(function() {
-            $('#menu-detail-penilaian-supplier').html('eror');
-        });
-    });
-    $(document).on("click", "#button-remove-desc-penilaian", function(e) {
-        e.preventDefault();
-        var code = $(this).data("code");
-        var id = $(this).data("id");
-        $('#menu-detail-penilaian-supplier').html(
-            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
-        );
-        $.ajax({
-            url: "{{ route('master_cabang_penilaian_supplier_remove_pneilaian_barang_desc') }}",
-            type: "POST",
-            cache: false,
-            data: {
-                "_token": "{{ csrf_token() }}",
-                "code": code,
-                "code_desc": id,
-            },
-            dataType: 'html',
-        }).done(function(data) {
-            $('#menu-detail-penilaian-supplier').html(data);
-        }).fail(function() {
-            $('#menu-detail-penilaian-supplier').html('eror');
         });
     });
 </script>

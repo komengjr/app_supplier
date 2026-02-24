@@ -1353,6 +1353,31 @@ class MenuController extends Controller
         $dompdf->get_canvas()->page_text(34, 820, "Print by. " . Auth::user()->fullname, $font1, 10, array(0, 0, 0));
         return base64_encode($pdf->stream());
     }
+    public function laporan_keputusan_surat_keputusan_detail_jasa_terpilih(Request $request)
+    {
+        return view('application.laporan.form-report-detail-penilaian-jasa', ['code' => $request->code]);
+    }
+    public function laporan_keputusan_surat_keputusan_detail_jasa_terpilih_report(Request $request)
+    {
+        $jasa = DB::table('m_jasa')
+            ->select('m_jasa.*')
+            ->join('data_supp_jasa_cab', 'data_supp_jasa_cab.m_jasa_code', '=', 'm_jasa.m_jasa_code')
+            ->where('data_supp_jasa_cab.log_master_code', $request->code)
+            ->where('data_supp_jasa_cab.master_cabang_code', Auth::user()->access_cabang)
+            ->distinct()->get(['m_jasa.m_jasa_code']);
+        $periode = DB::table('log_master')->where('log_master_code', $request->code)->first();
+        $image = base64_encode(file_get_contents(public_path('img/logo.png')));
+        $team = DB::table('log_master_team')->where('log_master_code', $request->code)->get();
+        $cat = DB::table('t_penilaian_cat')->get();
+        $pdf = PDF::loadview('application.laporan.report.detail-penilaian-jasa', ['jasa' => $jasa, 'periode' => $periode], compact('image', 'team', 'cat'))->setPaper('A4', 'landscape')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf->output();
+        $dompdf = $pdf->getDomPDF();
+        $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
+        $font1 = $dompdf->getFontMetrics()->get_font("helvetica", "normal");
+        $dompdf->get_canvas()->page_text(300, 820, "{PAGE_NUM} / {PAGE_COUNT}", $font, 10, array(0, 0, 0));
+        $dompdf->get_canvas()->page_text(34, 820, "Print by. " . Auth::user()->fullname, $font1, 10, array(0, 0, 0));
+        return base64_encode($pdf->stream());
+    }
     public function laporan_keputusan_surat_keputusan_rujukan_terpilih(Request $request)
     {
         return view('application.laporan.form-report-pemilihan-supplier-rujukan', ['code' => $request->code]);
@@ -1369,6 +1394,31 @@ class MenuController extends Controller
         $image = base64_encode(file_get_contents(public_path('img/logo.png')));
         $team = DB::table('log_master_team')->where('log_master_code', $request->code)->get();
         $pdf = PDF::loadview('application.laporan.report.daftar-supplier-rujukan-terpilih', ['pemeriksaan' => $pemeriksaan, 'periode' => $periode], compact('image', 'team'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf->output();
+        $dompdf = $pdf->getDomPDF();
+        $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
+        $font1 = $dompdf->getFontMetrics()->get_font("helvetica", "normal");
+        $dompdf->get_canvas()->page_text(300, 820, "{PAGE_NUM} / {PAGE_COUNT}", $font, 10, array(0, 0, 0));
+        $dompdf->get_canvas()->page_text(34, 820, "Print by. " . Auth::user()->fullname, $font1, 10, array(0, 0, 0));
+        return base64_encode($pdf->stream());
+    }
+    public function laporan_keputusan_surat_keputusan_detail_rujukan_terpilih(Request $request)
+    {
+        return view('application.laporan.form-report-detail-penilaian-rujukan', ['code' => $request->code]);
+    }
+    public function laporan_keputusan_surat_keputusan_detail_rujukan_terpilih_report(Request $request)
+    {
+        $pemeriksaan = DB::table('m_pemeriksaan')
+            ->select('m_pemeriksaan.*')
+            ->join('data_supp_rujukan_cab', 'data_supp_rujukan_cab.m_pemeriksaan_code', '=', 'm_pemeriksaan.m_pemeriksaan_code')
+            ->where('data_supp_rujukan_cab.log_master_code', $request->code)
+            ->where('data_supp_rujukan_cab.master_cabang_code', Auth::user()->access_cabang)
+            ->distinct()->get(['m_pemeriksaan.m_pemeriksaan_code']);
+        $periode = DB::table('log_master')->where('log_master_code', $request->code)->first();
+        $image = base64_encode(file_get_contents(public_path('img/logo.png')));
+        $team = DB::table('log_master_team')->where('log_master_code', $request->code)->get();
+        $cat = DB::table('t_penilaian_cat')->get();
+        $pdf = PDF::loadview('application.laporan.report.detail-penilaian-rujukan', ['pemeriksaan' => $pemeriksaan, 'periode' => $periode], compact('image', 'team', 'cat'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
         $pdf->output();
         $dompdf = $pdf->getDomPDF();
         $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
@@ -1431,10 +1481,92 @@ class MenuController extends Controller
     public function laporan_evaluasi_cabang($akses)
     {
         if ($this->url_akses($akses) == true) {
-            $data = DB::table('master_cabang')->get();
+            $data = DB::table('log_master')
+                ->join('master_cabang', 'master_cabang.master_cabang_code', '=', 'log_master.log_master_cabang')
+                ->where('log_master.log_master_status_date', '!=', "")
+                ->get();
             return view('application.laporan.laporan-evaluasi-cabang', ['data' => $data]);
         } else {
             return Redirect::to('dashboard/home');
         }
+    }
+    public function laporan_evaluasi_cabang_rekapitulasi(Request $request)
+    {
+        return view('application.laporan.evaluasi-cabang.form-rekap-evaluasi-cabang', ['code' => $request->code]);
+    }
+    public function laporan_evaluasi_cabang_rekapitulasi_surat_keputusan(Request $request)
+    {
+        $tahun = DB::table('log_master')->where('log_master_code', $request->code)->first();
+        $cabang = DB::table('master_cabang')->where('master_cabang_code', $tahun->log_master_cabang)->first();
+        $image = base64_encode(file_get_contents(public_path('img/logo.png')));
+        $pdf = PDF::loadview('application.laporan.evaluasi-cabang.report.report-surat-keputusan', ['tahun' => $tahun, 'cabang' => $cabang, 'code' => $request->code], compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf->output();
+        $dompdf = $pdf->getDomPDF();
+        $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
+        $font1 = $dompdf->getFontMetrics()->get_font("helvetica", "normal");
+        $dompdf->get_canvas()->page_text(300, 820, "{PAGE_NUM} / {PAGE_COUNT}", $font, 10, array(0, 0, 0));
+        $dompdf->get_canvas()->page_text(34, 820, "Print by. " . Auth::user()->fullname, $font1, 10, array(0, 0, 0));
+        return base64_encode($pdf->stream());
+    }
+    public function laporan_evaluasi_cabang_rekapitulasi_surat_supplier_barang(Request $request)
+    {
+        $periode = DB::table('log_master')->where('log_master_code', $request->code)->first();
+        $brg = DB::table('m_barang')
+            ->select('m_barang.*')
+            ->join('data_supp_brg_cab', 'data_supp_brg_cab.m_barang_code', '=', 'm_barang.m_barang_code')
+            ->where('data_supp_brg_cab.log_master_code', $request->code)
+            ->where('data_supp_brg_cab.master_cabang_code', $periode->log_master_cabang)
+            ->distinct()->get(['m_barang.m_barang_code']);
+
+        $image = base64_encode(file_get_contents(public_path('img/logo.png')));
+        $team = DB::table('log_master_team')->where('log_master_code', $request->code)->get();
+        $pdf = PDF::loadview('application.laporan.evaluasi-cabang.report.report-surat-terpilih-barang', ['brg' => $brg, 'periode' => $periode, 'code' => $request->code], compact('image', 'team'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf->output();
+        $dompdf = $pdf->getDomPDF();
+        $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
+        $font1 = $dompdf->getFontMetrics()->get_font("helvetica", "normal");
+        $dompdf->get_canvas()->page_text(300, 820, "{PAGE_NUM} / {PAGE_COUNT}", $font, 10, array(0, 0, 0));
+        $dompdf->get_canvas()->page_text(34, 820, "Print by. " . Auth::user()->fullname, $font1, 10, array(0, 0, 0));
+        return base64_encode($pdf->stream());
+    }
+    public function laporan_evaluasi_cabang_rekapitulasi_surat_supplier_jasa(Request $request)
+    {
+        $periode = DB::table('log_master')->where('log_master_code', $request->code)->first();
+        $jasa = DB::table('m_jasa')
+            ->select('m_jasa.*')
+            ->join('data_supp_jasa_cab', 'data_supp_jasa_cab.m_jasa_code', '=', 'm_jasa.m_jasa_code')
+            ->where('data_supp_jasa_cab.log_master_code', $request->code)
+            ->where('data_supp_jasa_cab.master_cabang_code', $periode->log_master_cabang)
+            ->distinct()->get(['m_jasa.m_jasa_code']);
+
+        $image = base64_encode(file_get_contents(public_path('img/logo.png')));
+        $team = DB::table('log_master_team')->where('log_master_code', $request->code)->get();
+        $pdf = PDF::loadview('application.laporan.evaluasi-cabang.report.report-surat-terpilih-jasa', ['jasa' => $jasa, 'periode' => $periode], compact('image', 'team'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf->output();
+        $dompdf = $pdf->getDomPDF();
+        $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
+        $font1 = $dompdf->getFontMetrics()->get_font("helvetica", "normal");
+        $dompdf->get_canvas()->page_text(300, 820, "{PAGE_NUM} / {PAGE_COUNT}", $font, 10, array(0, 0, 0));
+        $dompdf->get_canvas()->page_text(34, 820, "Print by. " . Auth::user()->fullname, $font1, 10, array(0, 0, 0));
+        return base64_encode($pdf->stream());
+    }
+    public function laporan_evaluasi_cabang_rekapitulasi_surat_rujukan_pemeriksaan(Request $request){
+        $periode = DB::table('log_master')->where('log_master_code', $request->code)->first();
+        $pemeriksaan = DB::table('m_pemeriksaan')
+            ->select('m_pemeriksaan.*')
+            ->join('data_supp_rujukan_cab', 'data_supp_rujukan_cab.m_pemeriksaan_code', '=', 'm_pemeriksaan.m_pemeriksaan_code')
+            ->where('data_supp_rujukan_cab.log_master_code', $request->code)
+            ->where('data_supp_rujukan_cab.master_cabang_code', $periode->log_master_cabang)
+            ->distinct()->get(['m_pemeriksaan.m_pemeriksaan_code']);
+        $image = base64_encode(file_get_contents(public_path('img/logo.png')));
+        $team = DB::table('log_master_team')->where('log_master_code', $request->code)->get();
+        $pdf = PDF::loadview('application.laporan.evaluasi-cabang.report.report-surat-rujukan-pemeriksaan', ['pemeriksaan' => $pemeriksaan, 'periode' => $periode], compact('image', 'team'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf->output();
+        $dompdf = $pdf->getDomPDF();
+        $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
+        $font1 = $dompdf->getFontMetrics()->get_font("helvetica", "normal");
+        $dompdf->get_canvas()->page_text(300, 820, "{PAGE_NUM} / {PAGE_COUNT}", $font, 10, array(0, 0, 0));
+        $dompdf->get_canvas()->page_text(34, 820, "Print by. " . Auth::user()->fullname, $font1, 10, array(0, 0, 0));
+        return base64_encode($pdf->stream());
     }
 }
