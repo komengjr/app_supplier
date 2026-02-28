@@ -41,7 +41,9 @@ class UploadFileController extends Controller
             ->where('m_supplier_code', $request->code)
             ->where('m_document_code', $request->document)->where('m_supplier_doc_cab',Auth::user()->access_cabang)->first();
             if ($cek) {
-                DB::table('m_supplier_doc')->where('m_supplier_doc_code', $cek->m_supplier_doc_code)->update([
+                DB::table('m_supplier_doc')
+                ->where('m_supplier_doc_code', $cek->m_supplier_doc_code)
+                ->where('m_supplier_doc_cab',Auth::user()->access_cabang)->update([
                     'm_supplier_doc_file' => $lokasi,
                 ]);
             } else {
