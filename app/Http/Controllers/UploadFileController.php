@@ -37,7 +37,9 @@ class UploadFileController extends Controller
             $lokasi = 'storage/data/document/' . Auth::user()->access_cabang . '/' . $fileName;
             // delete chunked file
             unlink($file->getPathname());
-            $cek = DB::table('m_supplier_doc')->where('m_supplier_code', $request->code)->where('m_document_code', $request->document)->first();
+            $cek = DB::table('m_supplier_doc')
+            ->where('m_supplier_code', $request->code)
+            ->where('m_document_code', $request->document)->where('m_supplier_doc_cab',Auth::user()->access_cabang)->first();
             if ($cek) {
                 DB::table('m_supplier_doc')->where('m_supplier_doc_code', $cek->m_supplier_doc_code)->update([
                     'm_supplier_doc_file' => $lokasi,
