@@ -121,10 +121,10 @@
                                         class="far fa-check-square"></span> Penyelesaian Evaluasi</button>
                                 @else
                                 <button class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#modal-periode-full"
-                                    id="button-print-evaluasi" data-code="{{ $per->log_master_code  }}"><span
-                                        class="fas fa-print"></span> Print Hasil Evaluasi</button>
+                                    id="button-print-evaluasi" data-code="{{ $per->log_master_code  }}">
+                                    <span class="fas fa-print"></span> Print Hasil Evaluasi
+                                </button>
                                 @endif
-
                             </div>
                         </div>
                     </td>
@@ -332,6 +332,29 @@
             }
         });
 
+    });
+</script>
+<script>
+    $(document).on("click", "#button-print-evaluasi", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-periode-full').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('laporan_evaluasi_cabang_rekapitulasi') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-periode-full').html(data);
+        }).fail(function() {
+            $('#menu-periode-full').html('eror');
+        });
     });
 </script>
 @endsection
