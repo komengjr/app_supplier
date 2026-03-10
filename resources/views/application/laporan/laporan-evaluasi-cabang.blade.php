@@ -70,7 +70,7 @@
                         <li>{{ $teams->log_master_team_name }}<br>{{ $teams->log_master_team_jabatan }}<br>{{ $teams->log_master_team_nip }}</li>
                         @endforeach
                     </td>
-                    <td>{{$datas->log_master_status_date}}</td>
+                    <td class="text-success">{{$datas->log_master_status_date}}</td>
                     <td>
                         <div class="btn-group" role="group">
                             <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2" type="button"

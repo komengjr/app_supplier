@@ -90,7 +90,11 @@
                         @endphp
                         @foreach ($team as $teams)
                         <li>
-                            {{ $teams->log_master_team_name }} <a href="#" data-bs-toggle="modal" data-bs-target="#modal-periode" id="button-edit-team-penilai" data-code="{{ $teams->log_master_team_code }}"><span class="fas fa-edit text-warning"></span></a><br>
+                            {{ $teams->log_master_team_name }}
+                            @if ($per->log_master_status_date == "")
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal-periode" id="button-edit-team-penilai" data-code="{{ $teams->log_master_team_code }}"><span class="fas fa-edit text-warning"></span></a>
+                            @endif
+                            <br>
                             <small>{{ $teams->log_master_team_nip }} <br>{{ $teams->log_master_team_jabatan }}</small>
                         </li>
                         @endforeach
