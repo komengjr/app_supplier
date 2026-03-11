@@ -42,10 +42,10 @@
         <table id="example" class="table table-striped" style="width:100%">
             <thead class="bg-200 text-700">
                 <tr>
+                    <th>Manager</th>
                     <th>No</th>
                     <th>Cabang</th>
-                    <th>Kepala Cabang</th>
-                    <th>Manager</th>
+                    <th>Mengetahui</th>
                     <th>Team Evaluasi</th>
                     <th>Tanggal Selesai</th>
                     <th>Action</th>
@@ -58,9 +58,22 @@
                 @foreach ($data as $datas)
                 <tr>
                     <td>{{$no++}}</td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>Periode</td>
+                                <td>:</td>
+                                <td>{{ $datas->log_master_periode }}</td>
+                            </tr>
+                            <tr>
+                                <td>No Surat</td>
+                                <td>:</td>
+                                <td>{{ $datas->log_master_no_surat }}</td>
+                            </tr>
+                        </table>
+                    </td>
                     <td>{{$datas->master_cabang_name}}</td>
-                    <td>{{$datas->log_master_kacab}}</td>
-                    <td>{{$datas->log_master_mgr}}</td>
+                    <td>Kepala Cabang : {{$datas->log_master_kacab}}<br>Manager : {{$datas->log_master_mgr}}</td>
 
                     <td>
                         @php
