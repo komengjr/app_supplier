@@ -323,7 +323,6 @@ $nocabang = 'XX';
             </tr>
         </table>
 
-
         <table width="100%" border="0" cellspacing="0" cellpadding="5">
             <tr>
                 <td>Team Evaluasi</td>
@@ -333,7 +332,10 @@ $nocabang = 'XX';
 
                 <td width="25%">
                     {{ $teams->log_master_team_jabatan }}
-                    <br><br><br><br><br>
+                    <br>
+                    <img style="padding-top: 1px; left: 10px;"
+                        src="data:image/png;base64, {!! base64_encode(QrCode::style('round')->format('svg')->size(70)->errorCorrection('H')->generate($teams->log_master_team_name.','.$teams->log_master_team_nip)) !!}">
+                    <br>
                     {{ $teams->log_master_team_name }}
                     <br>
                     {{ $teams->log_master_team_nip }}
