@@ -51,7 +51,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="fs--2">
                 @php
                 $no = 1;
                 @endphp
