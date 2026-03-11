@@ -324,7 +324,10 @@ $nourut++;
             <tr>
                 <td style="width: 40%;">
                     <p style="margin: 0px;">{{$nama}}, {{date("d-m-Y", strtotime($periode->log_master_status_date))}} <br>MANAGER SDM & UMUM</p>
-                    <br><br><br>
+                    <br>
+                    <img style="padding-top: 1px; left: 10px;"
+                        src="data:image/png;base64, {!! base64_encode(QrCode::style('round')->format('svg')->size(70)->errorCorrection('H')->generate($periode->log_master_mgr)) !!}">
+                    <br>
                     <p>{{$periode->log_master_mgr}}</p>
                 </td>
                 <td>
