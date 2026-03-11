@@ -1484,6 +1484,7 @@ class MenuController extends Controller
             $data = DB::table('log_master')
                 ->join('master_cabang', 'master_cabang.master_cabang_code', '=', 'log_master.log_master_cabang')
                 ->where('log_master.log_master_status_date', '!=', null)
+                ->orderBy('log_master.log_master_status_date','asc')
                 ->get();
             return view('application.laporan.laporan-evaluasi-cabang', ['data' => $data]);
         } else {
