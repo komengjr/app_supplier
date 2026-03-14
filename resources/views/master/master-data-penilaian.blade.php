@@ -10,10 +10,10 @@
         <div class="card bg-100 shadow-none border">
             <div class="row gx-0 flex-between-center">
                 <div class="col-sm-auto d-flex align-items-center border-bottom">
-                    <img class="ms-3 mx-3" src="{{ asset('asset/img/logos/apple.png') }}" alt="" width="50" />
+                    <img class="ms-3 mx-3" src="{{ asset('img/app.png') }}" alt="" width="50" />
                     <div>
                         <h6 class="text-primary fs--1 mb-0 pt-2">Welcome to </h6>
-                        <h4 class="text-primary fw-bold mb-1">MCU <span class="text-info fw-medium">Management
+                        <h4 class="text-primary fw-bold mb-1">Supplier <span class="text-info fw-medium">Management
                                 System</span></h4>
                     </div>
                     <img class="ms-n4 d-none d-lg-block "
@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-xl-auto px-3 py-2">
                     <h6 class="text-primary fs--1 mb-0">Menu : </h6>
-                    <h4 class="text-primary fw-bold mb-0">Master <span class="text-info fw-medium">User</span></h4>
+                    <h4 class="text-primary fw-bold mb-0">Master <span class="text-info fw-medium">Data</span></h4>
                 </div>
             </div>
         </div>
@@ -31,9 +31,10 @@
     <div class="card-header bg-primary">
         <div class="row align-items-center">
             <div class="col">
-                <h3 class="m-0"><span class="badge bg-primary m-0 p-0">Master User</span></h3>
+                <h3 class="m-0"><span class="badge bg-primary m-0 p-0">Master Data</span></h3>
             </div>
             <div class="col-auto">
+
                 <div class="btn-group" role="group">
                     <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2" type="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
@@ -51,49 +52,47 @@
             </div>
         </div>
     </div>
-    <div class="card-body border-top p-3">
-        <table id="example" class="table table-striped nowrap" style="width:100%">
-            <thead class="bg-200 text-700">
-                <tr>
-                    <th>No</th>
-                    <th>Nama User</th>
-                    <th>Username</th>
-                    <th>Akses Cabang</th>
-                    <th>Akses Code</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                $no = 1;
-                @endphp
-                @foreach ($data as $datas)
-                <tr>
-                    <td>{{ $no++ }}</td>
-                    <td>{{ $datas->fullname }}</td>
-                    <td>{{ $datas->username }}</td>
-                    <td>{{ $datas->access_cabang }}</td>
-                    <td>{{ $datas->access_code }}</td>
-                    <td>
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2" type="button"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
-                                    class="fas fa-align-left me-1" data-fa-transform="shrink-3"></span>Option</button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop2">
-                                <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-user"
-                                    id="button-edit-data-user" data-code="123"><span class="far fa-edit"></span>
-                                    Edit User</button>
-                                <div class="dropdown-divider"></div>
-                                <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-cabang"
-                                    id="button-data-barang-cabang" data-code="123"><span
-                                        class="far fa-folder-open"></span> Delete</button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+    <div class="card">
+        <div class="card-header bg-light">
+            <div class="row align-items-center">
+                <div class="col">
+                    <select class="form-select form-select-sm ms-2" aria-label=".form-select-sm example">
+                        <option selected="selected">All Cabang</option>
+                        @foreach ($cabang as $cab)
+                        <option>{{ $cab->master_cabang_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select form-select-sm ms-2" aria-label=".form-select-sm example">
+                        <option selected="selected">Pilih Tipe</option>
+                        <option>Barang</option>
+                        <option>Jasa</option>
+                        <option>Rujukan</option>
+                    </select>
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body bg-light px-1 py-0">
+            <table id="example" class="table table-striped nowrap" style="width:100%">
+                <thead class="bg-200 text-700">
+                    <tr>
+                        <th>No</th>
+                        <th>Nama User</th>
+                        <th>Username</th>
+                        <th>Akses Cabang</th>
+                        <th>Akses Code</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 @endsection
@@ -142,6 +141,5 @@
             $('#menu-user').html('eror');
         });
     });
-
 </script>
 @endsection

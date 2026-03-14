@@ -242,7 +242,7 @@ $nocabang = 'XX';
 <body>
     <header class="clearfix" style="padding-bottom: 0px;">
         <div id="company">
-            <h5 class="name"><strong>SDM.{{$nocabang}}-FRM-PP-08/05</strong></h5>
+            <h5 class="name"><strong>SDM.{{$nocabang}}-FRM-PP-08/03</strong></h5>
         </div>
     </header>
     <main style="padding-top: 0px;">

@@ -783,4 +783,14 @@ class MasterController extends Controller
             return view('application.error.404');
         }
     }
+    // DATA PENILAIAN
+    public function master_menu_data_penilaian(Request $request)
+    {
+        if (Auth::user()->access_code == 'master') {
+            $cabang = DB::table('master_cabang')->get();
+           return view('master.master-data-penilaian',compact('cabang'));
+        } else {
+            return view('application.error.404');
+        }
+    }
 }

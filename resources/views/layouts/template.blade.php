@@ -209,6 +209,13 @@
                                             class="nav-link-text ps-1">Master User</span>
                                     </div>
                                 </a>
+                                <a class="nav-link" href="{{ route('master_menu_data_penilaian') }}" role="button"
+                                    aria-expanded="false">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                                class="far fa-data"></span></span><span
+                                            class="nav-link-text ps-1">Master Data</span>
+                                    </div>
+                                </a>
                                 <a class="nav-link" href="{{ route('master_suplier') }}" role="button"
                                     aria-expanded="false">
                                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span

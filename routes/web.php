@@ -198,6 +198,8 @@ Route::prefix('master-data')->group(function () {
     Route::post('menu-access/update', [MasterController::class, 'master_menu_akses_update'])->name('master_menu_akses_update');
     Route::post('menu-access/update_save', [MasterController::class, 'master_menu_akses_update_save'])->name('master_menu_akses_update_save');
     Route::post('menu-access/update_sub_save', [MasterController::class, 'master_menu_akses_update_sub_save'])->name('master_menu_akses_update_sub_save');
+
+    Route::get('data-penilaian', [MasterController::class, 'master_menu_data_penilaian'])->name('master_menu_data_penilaian');
 });
 Route::prefix('master-data')->group(function () {
     Route::post('suplier/add', [MasterController::class, 'master_suplier_add'])->name('master_suplier_add');
