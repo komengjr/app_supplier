@@ -44,6 +44,9 @@ Route::prefix('{akses}')->group(function () {
     Route::get('evaluasi-kapus/penilaian-supplier-kapus', [MenuController::class, 'evaluasi_kapus_penilaian_supplier'])->name('evaluasi_kapus_penilaian_supplier');
     Route::get('evaluasi-kapus/data-supplier-kapus', [MenuController::class, 'evaluasi_kapus_data_supplier_kapus'])->name('evaluasi_kapus_data_supplier_kapus');
     Route::get('evaluasi-kapus/penetapan-supplier-kapus', [MenuController::class, 'evaluasi_kapus_penetapan_supplier_kapus'])->name('evaluasi_kapus_penetapan_supplier_kapus');
+    // LENGKAPI DATA
+    Route::get('lengkapi-penilaian/data-penilaian', [MenuController::class, 'lengkapi_penilaian_supplier_barang'])->name('lengkapi_penilaian_supplier_barang');
+    // SUB
     Route::get('periode-penilaian', [MenuController::class, 'periode_penilaian'])->name('periode_penilaian');
     Route::get('laporan-keputusan', [MenuController::class, 'laporan_keputusan'])->name('laporan_keputusan');
     Route::get('laporan-evaluasi-cabang', [MenuController::class, 'laporan_evaluasi_cabang'])->name('laporan_evaluasi_cabang');
@@ -111,6 +114,7 @@ Route::prefix('app')->group(function () {
     Route::post('evaluasi-supplier/supplier-rujukan/pilih-rujukan/pilih-pemeriksaan/update', [MenuController::class, 'evaluasi_supplier_rujukan_pilih_rujukan_pilih_pemeriksaan_update'])->name('evaluasi_supplier_rujukan_pilih_rujukan_pilih_pemeriksaan_update');
     Route::post('evaluasi-supplier/supplier-rujukan/pilih-rujukan/pilih-pemeriksaan/next', [MenuController::class, 'evaluasi_supplier_rujukan_pilih_rujukan_pilih_pemeriksaan_next'])->name('evaluasi_supplier_rujukan_pilih_rujukan_pilih_pemeriksaan_next');
 
+    // PERIODE PENILAIAN
     Route::post('periode-penilaian/add', [MenuController::class, 'periode_penilaian_add'])->name('periode_penilaian_add');
     Route::post('periode-penilaian/save', [MenuController::class, 'periode_penilaian_save'])->name('periode_penilaian_save');
     Route::post('periode-penilaian/update', [MenuController::class, 'periode_penilaian_update'])->name('periode_penilaian_update');
@@ -121,6 +125,11 @@ Route::prefix('app')->group(function () {
     Route::post('periode-penilaian/update-team-penilaian-save', [MenuController::class, 'periode_penilaian_update_team_penilaian_save'])->name('periode_penilaian_update_team_penilaian_save');
     Route::post('periode-penilaian/penyelesaian-penilaian', [MenuController::class, 'periode_penilaian_penyelesaian_penilaian'])->name('periode_penilaian_penyelesaian_penilaian');
     Route::post('periode-penilaian/penyelesaian-penilaian-save', [MenuController::class, 'periode_penilaian_penyelesaian_penilaian_save'])->name('periode_penilaian_penyelesaian_penilaian_save');
+
+    // LENGKAPI PENILAIAN
+    Route::post('lengkapi-penilaian/supplier-barang/cari-data', [MenuController::class, 'lengkapi_penilaian_supplier_barang_find'])->name('lengkapi_penilaian_supplier_barang_find');
+    Route::post('lengkapi-penilaian/supplier-barang/proses', [MenuController::class, 'lengkapi_penilaian_supplier_barang_proses'])->name('lengkapi_penilaian_supplier_barang_proses');
+    Route::post('lengkapi-penilaian/supplier-barang/simpan', [MenuController::class, 'lengkapi_penilaian_supplier_barang_simpan'])->name('lengkapi_penilaian_supplier_barang_simpan');
 
     // DATA PENAWARAN KAPUS
     Route::post('evaluasi-kapus/data-penawaran/add', [MenuController::class, 'evaluasi_kapus_data_penawaran_add'])->name('evaluasi_kapus_data_penawaran_add');

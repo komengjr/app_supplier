@@ -1418,7 +1418,7 @@ class MenuController extends Controller
         $image = base64_encode(file_get_contents(public_path('img/logo.png')));
         $team = DB::table('log_master_team')->where('log_master_code', $request->code)->get();
         $cat = DB::table('t_penilaian_cat')->get();
-        $pdf = PDF::loadview('application.laporan.report.detail-penilaian-rujukan', ['pemeriksaan' => $pemeriksaan, 'periode' => $periode], compact('image', 'team', 'cat'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Helvetica']);
+        $pdf = PDF::loadview('application.laporan.report.detail-penilaian-rujukan', ['pemeriksaan' => $pemeriksaan, 'periode' => $periode], compact('image', 'team', 'cat'))->setPaper('A4', 'landscape')->setOptions(['defaultFont' => 'Helvetica']);
         $pdf->output();
         $dompdf = $pdf->getDomPDF();
         $font = $dompdf->getFontMetrics()->get_font("helvetica", "bold");
@@ -1484,7 +1484,7 @@ class MenuController extends Controller
             $data = DB::table('log_master')
                 ->join('master_cabang', 'master_cabang.master_cabang_code', '=', 'log_master.log_master_cabang')
                 ->where('log_master.log_master_status_date', '!=', null)
-                ->orderBy('log_master.log_master_status_date','asc')
+                ->orderBy('log_master.log_master_status_date', 'asc')
                 ->get();
             return view('application.laporan.laporan-evaluasi-cabang', ['data' => $data]);
         } else {
@@ -1551,7 +1551,8 @@ class MenuController extends Controller
         $dompdf->get_canvas()->page_text(34, 820, "Print by. " . Auth::user()->fullname, $font1, 10, array(0, 0, 0));
         return base64_encode($pdf->stream());
     }
-    public function laporan_evaluasi_cabang_rekapitulasi_surat_rujukan_pemeriksaan(Request $request){
+    public function laporan_evaluasi_cabang_rekapitulasi_surat_rujukan_pemeriksaan(Request $request)
+    {
         $periode = DB::table('log_master')->where('log_master_code', $request->code)->first();
         $pemeriksaan = DB::table('m_pemeriksaan')
             ->select('m_pemeriksaan.*')
@@ -1569,5 +1570,75 @@ class MenuController extends Controller
         $dompdf->get_canvas()->page_text(300, 820, "{PAGE_NUM} / {PAGE_COUNT}", $font, 10, array(0, 0, 0));
         $dompdf->get_canvas()->page_text(34, 820, "Print by. " . Auth::user()->fullname, $font1, 10, array(0, 0, 0));
         return base64_encode($pdf->stream());
+    }
+
+    // LENGKAPI PENILAIAN
+    public function lengkapi_penilaian_supplier_barang($akses)
+    {
+        if ($this->url_akses_sub($akses) == true) {
+            $cat = DB::table('t_penilaian_cat')->get();
+            $periode = DB::table('log_master')->where('log_master_cabang', Auth::user()->access_cabang)->get();
+            return view('application.menu.lengkapi-penilaian', ['cat' => $cat, 'periode' => $periode]);
+        } else {
+            return Redirect::to('dashboard/home');
+        }
+    }
+    public function lengkapi_penilaian_supplier_barang_find(Request $request)
+    {
+        $cat = DB::table('t_penilaian_cat')->get();
+        $periode = DB::table('log_master')->where('log_master_cabang', Auth::user()->access_cabang)->get();
+        if ($request->type == 'barang') {
+            $brg = DB::table('data_supp_brg_cab')
+                ->select('m_barang.*', 'm_supplier.m_supplier_name', 'm_supplier.m_supplier_code')
+                ->join('m_barang', 'm_barang.m_barang_code', '=', 'data_supp_brg_cab.m_barang_code')
+                ->join('m_supplier', 'm_supplier.m_supplier_code', '=', 'data_supp_brg_cab.m_supplier_code')
+                ->where('log_master_code', $request->tahun)
+                ->where('master_cabang_code', Auth::user()->access_cabang)->get();
+            return view('application.menu.lengkapi-penilaian.penilaian-barang', compact('brg', 'cat', 'periode'), ['tahun' => $request->tahun,]);
+        } elseif ($request->type == 'jasa') {
+            $brg = DB::table('data_supp_jasa_cab')
+                ->select('m_jasa.*', 'm_supplier.*')
+                ->join('m_jasa', 'm_jasa.m_jasa_code', '=', 'data_supp_jasa_cab.m_jasa_code')
+                ->join('m_supplier', 'm_supplier.m_supplier_code', '=', 'data_supp_jasa_cab.m_supplier_code')
+                ->where('log_master_code', $request->tahun)
+                ->where('master_cabang_code', Auth::user()->access_cabang)->get();
+            return 132;
+        } elseif ($request->type == 'rujukan') {
+            $brg = DB::table('data_supp_rujukan_cab')
+                ->select('m_pemeriksaan.*', 'm_rujukan.*')
+                ->join('m_pemeriksaan', 'm_pemeriksaan.m_pemeriksaan_code', '=', 'data_supp_rujukan_cab.m_pemeriksaan_code')
+                ->join('m_rujukan', 'm_rujukan.m_rujukan_code', '=', 'data_supp_rujukan_cab.m_rujukan_code')
+                ->where('log_master_code', $request->tahun)
+                ->where('master_cabang_code', Auth::user()->access_cabang)->get();
+            return 'rujukan';
+        }
+    }
+    public function lengkapi_penilaian_supplier_barang_proses(Request $request)
+    {
+        $kategori = DB::table('t_penilaian_cat')->get();
+        $barang = DB::table('m_barang')->where('m_barang_code', $request->code)->first();
+        $supplier = DB::table('m_supplier')->where('m_supplier_code', $request->supplier)->first();
+        return view('application.menu.lengkapi-penilaian.proses-penilaian-barang', [
+            'kategori' => $kategori,
+            'barang' => $barang,
+            'supplier' => $supplier,
+            'code' => $request->code,
+            'periode' => $request->periode,
+        ]);
+    }
+    public function lengkapi_penilaian_supplier_barang_simpan(Request $request)
+    {
+        $cat = DB::table('t_penilaian_cat')->get();
+        $brg = DB::table('data_supp_brg_cab')
+            ->select('m_barang.*', 'm_supplier.m_supplier_name', 'm_supplier.m_supplier_code')
+            ->join('m_barang', 'm_barang.m_barang_code', '=', 'data_supp_brg_cab.m_barang_code')
+            ->join('m_supplier', 'm_supplier.m_supplier_code', '=', 'data_supp_brg_cab.m_supplier_code')
+            ->where('log_master_code', $request->code)
+            ->where('master_cabang_code', Auth::user()->access_cabang)->get();
+        return view('application.menu.lengkapi-penilaian.data-table-penilaian-barang', [
+            'cat' => $cat,
+            'brg' => $brg,
+            'tahun' => $request->code,
+        ]);
     }
 }
