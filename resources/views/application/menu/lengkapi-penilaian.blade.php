@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-md-6">
                     <select name="" class="form-control choices-single-tipe" id="type-penilaian" required>
-                        <option value="">Pilih Periode Tahun</option>
+                        <option value="">Pilih Tipe Penilaian</option>
                         <option value="barang">Penilaian Barang</option>
                         <option value="jasa">Penilaian Jasa</option>
                         <option value="rujukan">Penilaian Rujukan</option>
