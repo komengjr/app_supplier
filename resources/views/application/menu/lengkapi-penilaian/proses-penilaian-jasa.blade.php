@@ -98,7 +98,7 @@
             @endforeach
         </div>
         <div class="">
-            <button class="btn btn-falcon-primary float-end" id="button-next-periode-penilaian-barang" data-code="{{ $periode }}" data-supplier="{{ $supplier->m_supplier_code }}" data-jasa="{{ $jasa->m_jasa_code }}" data-bs-dismiss="modal">Selanjutnya</button>
+            <button class="btn btn-falcon-primary float-end" id="button-next-periode-penilaian-jasa" data-code="{{ $periode }}" data-supplier="{{ $supplier->m_supplier_code }}" data-jasa="{{ $jasa->m_jasa_code }}" data-bs-dismiss="modal">Simpan</button>
         </div>
     </div>
 </div>

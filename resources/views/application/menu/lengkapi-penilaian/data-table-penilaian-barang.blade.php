@@ -33,7 +33,13 @@
             ->where('log_penilaian_cab.m_supplier_code', $brgs->m_supplier_code)
             ->where('t_penilaian_detail.t_penilaian_cat_code', $cats->t_penilaian_cat_code)->sum('log_penilaian_cab.log_penilaian_cab_score');
             @endphp
-            <td> {{ $value }}</td>
+            <td>
+                @if ($value == '0')
+                <span class="badge bg-danger">Kosong</span>
+                @else
+                {{ $value }}
+                @endif
+            </td>
             @endforeach
             <td>
                 <button class="btn btn-warning btn-sm" data-bs-toggle="modal"

@@ -138,37 +138,59 @@
             });
         }
     });
-    $(document).on("click", "#button-cari-barang", function(e) {
+    $(document).on("click", "#button-simpan-fix-proses-penilaian", function(e) {
         e.preventDefault();
         var code = $(this).data("code");
-        var tahun = document.getElementById("periode-penilaian").value;
-        if (tahun == "") {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
-                footer: '<a href="#">Why do I have this issue?</a>'
-            });
-        } else {
-            $('#modal-supplier').modal('show');
-            $('#menu-supplier').html(
-                '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
-            );
-            $.ajax({
-                url: "{{ route('evaluasi_supplier_barang_cari_barang') }}",
-                type: "POST",
-                cache: false,
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "code": code
-                },
-                dataType: 'html',
-            }).done(function(data) {
-                $('#menu-supplier').html(data);
-            }).fail(function() {
-                $('#menu-supplier').html('eror');
-            });
-        }
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-falcon-success",
+                cancelButton: "btn btn-falcon-danger"
+            },
+            buttonsStyling: true
+        });
+        swalWithBootstrapButtons.fire({
+            title: "Are you sure?",
+            text: "You want Proses This!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, Proses it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ route('evaluasi_supplier_barang_proses_penilaian_supplier_save_fix') }}",
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "code": code
+                    },
+                    dataType: 'html',
+                }).done(function(data) {
+                    swalWithBootstrapButtons.fire({
+                        title: "Success!",
+                        text: "Your data has been Saved.",
+                        icon: "success"
+                    });
+                    console.log(data);
+
+                }).fail(function() {
+                    swalWithBootstrapButtons.fire({
+                        title: "Failed",
+                        text: "Your data is Failed :)",
+                        icon: "error"
+                    });
+                });
+
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire({
+                    title: "Cancelled",
+                    text: "Your data is Failed :)",
+                    icon: "error"
+                });
+            }
+        });
     });
     $(document).on("click", "#button-next-periode-penilaian", function(e) {
         e.preventDefault();
@@ -179,6 +201,29 @@
         );
         $.ajax({
             url: "{{ route('lengkapi_penilaian_supplier_barang_simpan') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code,
+                "supplier": supplier,
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $("#menu-table-penilaian").html(data);
+        }).fail(function() {
+            console.log('eror');
+        });
+    });
+    $(document).on("click", "#button-next-periode-penilaian-jasa", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        var supplier = $(this).data("supplier");
+        $('#menu-supplier').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('lengkapi_penilaian_supplier_jasa_simpan') }}",
             type: "POST",
             cache: false,
             data: {
@@ -221,314 +266,33 @@
             $('#menu-supplier-full').html('eror');
         });
     });
-    $(document).on("click", "#button-pilih-data-supplier", function(e) {
-        e.preventDefault();
-        var code = document.getElementById("data_supplier").value;
-        var tahun = document.getElementById("periode-penilaian").value;
-        if (code == "") {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
-                footer: '<a href="#">Why do I have this issue?</a>'
-            });
-        } else {
-            $('#menu-data-supplier').html(
-                '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
-            );
-            $.ajax({
-                url: "{{ route('evaluasi_supplier_barang_pilih_supplier') }}",
-                type: "POST",
-                cache: false,
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "code": code,
-                    "tahun": tahun,
-                },
-                dataType: 'html',
-            }).done(function(data) {
-                $('#modal-supplier').modal('hide');
-                $('#menu-data-supplier').html(data);
-            }).fail(function() {
-                $('#menu-data-supplier').html('eror');
-            });
-        }
-    });
-    $(document).on("click", "#button-pilih-data-barang", function(e) {
-        e.preventDefault();
-        var code = document.getElementById("data_barang").value;
-        var tahun = document.getElementById("periode-penilaian").value;
-        if (code == "" || tahun == "") {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
-                footer: '<a href="#">Why do I have this issue?</a>'
-            });
-        } else {
-            $('#menu-data-supplier').html(
-                '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
-            );
-            $.ajax({
-                url: "{{ route('evaluasi_supplier_barang_pilih_barang') }}",
-                type: "POST",
-                cache: false,
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "code": code,
-                    "tahun": tahun,
-                },
-                dataType: 'html',
-            }).done(function(data) {
-                $('#modal-supplier').modal('hide');
-                $('#menu-data-supplier').html(data);
-            }).fail(function() {
-                $('#menu-data-supplier').html('eror');
-            });
-        }
-    });
-    $(document).on("click", "#button-tambah-data-barang", function(e) {
-        e.preventDefault();
-        var code = document.getElementById("data_supplier").value;
-        var tahun = document.getElementById("periode-penilaian").value;
-        if (code == "" || tahun == "") {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
-                footer: '<a href="#">Why do I have this issue?</a>'
-            });
-        } else {
-            $('#menu-supplier').html(
-                '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
-            );
-            $.ajax({
-                url: "{{ route('evaluasi_supplier_barang_pilih_periode_supplier_add_barang') }}",
-                type: "POST",
-                cache: false,
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "code": code,
-                    "tahun": tahun,
-                },
-                dataType: 'html',
-            }).done(function(data) {
-                $('#menu-supplier').html(data);
-            }).fail(function() {
-                $('#menu-supplier').html('eror');
-            });
-        }
-    });
-    $(document).on("click", "#button-tambah-data-supplier", function(e) {
-        e.preventDefault();
-        var code = document.getElementById("data_barang").value;
-        var tahun = document.getElementById("periode-penilaian").value;
-        if (code == "" || tahun == "") {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
-                footer: '<a href="#">Why do I have this issue?</a>'
-            });
-        } else {
-            $('#menu-supplier').html(
-                '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
-            );
-            $.ajax({
-                url: "{{ route('evaluasi_supplier_barang_pilih_periode_barang_add_supplier') }}",
-                type: "POST",
-                cache: false,
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "code": code,
-                    "tahun": tahun,
-                },
-                dataType: 'html',
-            }).done(function(data) {
-                $('#menu-supplier').html(data);
-            }).fail(function() {
-                $('#menu-supplier').html('eror');
-            });
-        }
-    });
-    $(document).on("click", "#button-simpan-data-barang", function(e) {
-        e.preventDefault();
-        var supplier = document.getElementById("code_supplier").value;
-        var barang = document.getElementById("data_barang").value;
-        var periode = document.getElementById("periode-penilaian").value;
-        if (supplier == "") {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
-                footer: '<a href="#">Why do I have this issue?</a>'
-            });
-        } else {
-
-            $.ajax({
-                url: "{{ route('evaluasi_supplier_barang_proses_penilaian_barang') }}",
-                type: "POST",
-                cache: false,
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "supplier": supplier,
-                    "barang": barang,
-                    "periode": periode,
-
-                },
-                dataType: 'html',
-            }).done(function(data) {
-                if (data == 0) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Supplier Sudah Pernah Disimpan",
-                        footer: '<a href="#">Sudah Cek di Table Bawah?</a>'
-                    });
-                } else {
-                    $('#modal-supplier').modal('hide');
-                    $('#modal-supplier-full').modal('show');
-                    $('#menu-supplier-full').html(
-                        '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
-                    );
-                    $('#menu-supplier-full').html(data);
-                }
-            }).fail(function() {
-                $('#menu-supplier-full').html('eror');
-            });
-        }
-    });
-    $(document).on("click", "#button-simpan-data-supplier", function(e) {
-        e.preventDefault();
-        var supplier = document.getElementById("data_supplier").value;
-        var barang = document.getElementById("code_barang").value;
-        var periode = document.getElementById("periode-penilaian").value;
-        if (supplier == "") {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
-                footer: '<a href="#">Why do I have this issue?</a>'
-            });
-        } else {
-
-            $.ajax({
-                url: "{{ route('evaluasi_supplier_barang_proses_penilaian_barang') }}",
-                type: "POST",
-                cache: false,
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "supplier": supplier,
-                    "barang": barang,
-                    "periode": periode,
-
-                },
-                dataType: 'html',
-            }).done(function(data) {
-                if (data == 0) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Supplier Sudah Pernah Disimpan",
-                        footer: '<a href="#">Sudah Cek di Table Bawah?</a>'
-                    });
-                } else {
-                    $('#modal-supplier').modal('hide');
-                    $('#modal-supplier-full').modal('show');
-                    $('#menu-supplier-full').html(
-                        '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
-                    );
-                    $('#menu-supplier-full').html(data);
-                }
-            }).fail(function() {
-                $('#menu-supplier-full').html('eror');
-            });
-        }
-    });
-    $(document).on("click", "#button-next-periode-penilaian-barang", function(e) {
+    $(document).on("click", "#button-proses-nilai-jasa", function(e) {
         e.preventDefault();
         var code = $(this).data("code");
         var supplier = $(this).data("supplier");
-        var barang = $(this).data("barang");
-        var tahun = document.getElementById("periode-penilaian").value;
+        var periode = $(this).data("periode");
+        $('#menu-supplier-full').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
         $.ajax({
-            url: "{{ route('evaluasi_supplier_barang_proses_penilaian_barang_next') }}",
+            url: "{{ route('lengkapi_penilaian_supplier_jasa_proses') }}",
             type: "POST",
             cache: false,
             data: {
                 "_token": "{{ csrf_token() }}",
                 "code": code,
                 "supplier": supplier,
-                "barang": barang,
-                "tahun": tahun,
+                "periode": periode,
             },
             dataType: 'html',
         }).done(function(data) {
-            $("#menu-table-penilaian").html(data);
+            $('#menu-supplier-full').html(data);
         }).fail(function() {
-            console.log('eror');
+            $('#menu-supplier-full').html('eror');
         });
     });
 </script>
-<script>
-    $('#periode-penilaian').on("change", function() {
-        $('#menu-data-supplier').html("");
-    });
-    $(document).on("click", "#button-simpan-fix-proses-penilaian", function(e) {
-        e.preventDefault();
-        var dataid = document.getElementById("periode-penilaian").value;
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: "btn btn-falcon-success",
-                cancelButton: "btn btn-falcon-danger"
-            },
-            buttonsStyling: true
-        });
-        swalWithBootstrapButtons.fire({
-            title: "Are you sure?",
-            text: "You want Proses This!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Yes, Proses it!",
-            cancelButtonText: "No, cancel!",
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "{{ route('evaluasi_supplier_barang_proses_penilaian_supplier_save_fix') }}",
-                    type: "POST",
-                    cache: false,
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        "code": dataid
-                    },
-                    dataType: 'html',
-                }).done(function(data) {
-                    swalWithBootstrapButtons.fire({
-                        title: "Success!",
-                        text: "Your data has been Saved.",
-                        icon: "success"
-                    });
-                    console.log(data);
 
-                }).fail(function() {
-                    swalWithBootstrapButtons.fire({
-                        title: "Failed",
-                        text: "Your data is Failed :)",
-                        icon: "error"
-                    });
-                });
-
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                swalWithBootstrapButtons.fire({
-                    title: "Cancelled",
-                    text: "Your data is Failed :)",
-                    icon: "error"
-                });
-            }
-        });
-    });
-</script>
 @foreach ($cat as $cats)
 <script>
     $(document).on("click", "#button-simpan-prosess-penilaian{{$cats->t_penilaian_cat_code }}", function(e) {
@@ -547,6 +311,30 @@
                 draggable: true
             });
             $('#button-simpan-prosess-penilaian{{$cats->t_penilaian_cat_code }}').hide();
+        }).fail(function() {
+            $('#menu-supplier-full').html('eror');
+        });
+    });
+</script>
+@endforeach
+@foreach ($cat as $cats)
+<script>
+    $(document).on("click", "#button-simpan-prosess-penilaian-jasa{{$cats->t_penilaian_cat_code }}", function(e) {
+        e.preventDefault();
+        var data = $("#form-jasa{{$cats->t_penilaian_cat_code }}").serialize();
+        $.ajax({
+            url: "{{ route('evaluasi_supplier_jasa_pilih_jasa_proses_penilaian_supplier_save') }}",
+            type: "POST",
+            cache: false,
+            data: data,
+            dataType: 'html',
+        }).done(function(data) {
+            Swal.fire({
+                title: "Berhasil Simpan.",
+                icon: "success",
+                draggable: true
+            });
+            $('#button-simpan-prosess-penilaian-jasa{{$cats->t_penilaian_cat_code }}').hide();
         }).fail(function() {
             $('#menu-supplier-full').html('eror');
         });

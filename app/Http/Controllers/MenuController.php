@@ -1596,13 +1596,13 @@ class MenuController extends Controller
                 ->where('master_cabang_code', Auth::user()->access_cabang)->get();
             return view('application.menu.lengkapi-penilaian.penilaian-barang', compact('brg', 'cat', 'periode'), ['tahun' => $request->tahun,]);
         } elseif ($request->type == 'jasa') {
-            $brg = DB::table('data_supp_jasa_cab')
+            $supplier = DB::table('data_supp_jasa_cab')
                 ->select('m_jasa.*', 'm_supplier.*')
                 ->join('m_jasa', 'm_jasa.m_jasa_code', '=', 'data_supp_jasa_cab.m_jasa_code')
                 ->join('m_supplier', 'm_supplier.m_supplier_code', '=', 'data_supp_jasa_cab.m_supplier_code')
                 ->where('log_master_code', $request->tahun)
                 ->where('master_cabang_code', Auth::user()->access_cabang)->get();
-            return 132;
+            return view('application.menu.lengkapi-penilaian.penilaian-jasa', compact('supplier', 'cat', 'periode'), ['tahun' => $request->tahun,]);
         } elseif ($request->type == 'rujukan') {
             $brg = DB::table('data_supp_rujukan_cab')
                 ->select('m_pemeriksaan.*', 'm_rujukan.*')
@@ -1626,6 +1626,19 @@ class MenuController extends Controller
             'periode' => $request->periode,
         ]);
     }
+    public function lengkapi_penilaian_supplier_jasa_proses(Request $request)
+    {
+        $kategori = DB::table('t_penilaian_cat')->get();
+        $jasa = DB::table('m_jasa')->where('m_jasa_code', $request->code)->first();
+        $supplier = DB::table('m_supplier')->where('m_supplier_code', $request->supplier)->first();
+        return view('application.menu.lengkapi-penilaian.proses-penilaian-jasa', [
+            'kategori' => $kategori,
+            'jasa' => $jasa,
+            'supplier' => $supplier,
+            'code' => $request->code,
+            'periode' => $request->periode,
+        ]);
+    }
     public function lengkapi_penilaian_supplier_barang_simpan(Request $request)
     {
         $cat = DB::table('t_penilaian_cat')->get();
@@ -1638,6 +1651,21 @@ class MenuController extends Controller
         return view('application.menu.lengkapi-penilaian.data-table-penilaian-barang', [
             'cat' => $cat,
             'brg' => $brg,
+            'tahun' => $request->code,
+        ]);
+    }
+    public function lengkapi_penilaian_supplier_jasa_simpan(Request $request)
+    {
+        $cat = DB::table('t_penilaian_cat')->get();
+        $supplier = DB::table('data_supp_jasa_cab')
+            ->select('m_jasa.*', 'm_supplier.*')
+            ->join('m_jasa', 'm_jasa.m_jasa_code', '=', 'data_supp_jasa_cab.m_jasa_code')
+            ->join('m_supplier', 'm_supplier.m_supplier_code', '=', 'data_supp_jasa_cab.m_supplier_code')
+            ->where('log_master_code', $request->code)
+            ->where('master_cabang_code', Auth::user()->access_cabang)->get();
+        return view('application.menu.lengkapi-penilaian.data-table-penilaian-jasa', [
+            'cat' => $cat,
+            'supplier' => $supplier,
             'tahun' => $request->code,
         ]);
     }

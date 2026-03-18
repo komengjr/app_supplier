@@ -130,6 +130,8 @@ Route::prefix('app')->group(function () {
     Route::post('lengkapi-penilaian/supplier-barang/cari-data', [MenuController::class, 'lengkapi_penilaian_supplier_barang_find'])->name('lengkapi_penilaian_supplier_barang_find');
     Route::post('lengkapi-penilaian/supplier-barang/proses', [MenuController::class, 'lengkapi_penilaian_supplier_barang_proses'])->name('lengkapi_penilaian_supplier_barang_proses');
     Route::post('lengkapi-penilaian/supplier-barang/simpan', [MenuController::class, 'lengkapi_penilaian_supplier_barang_simpan'])->name('lengkapi_penilaian_supplier_barang_simpan');
+    Route::post('lengkapi-penilaian/supplier-jasa/proses', [MenuController::class, 'lengkapi_penilaian_supplier_jasa_proses'])->name('lengkapi_penilaian_supplier_jasa_proses');
+    Route::post('lengkapi-penilaian/supplier-jasa/simpan', [MenuController::class, 'lengkapi_penilaian_supplier_jasa_simpan'])->name('lengkapi_penilaian_supplier_jasa_simpan');
 
     // DATA PENAWARAN KAPUS
     Route::post('evaluasi-kapus/data-penawaran/add', [MenuController::class, 'evaluasi_kapus_data_penawaran_add'])->name('evaluasi_kapus_data_penawaran_add');
