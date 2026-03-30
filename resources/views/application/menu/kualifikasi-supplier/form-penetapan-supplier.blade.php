@@ -40,7 +40,7 @@
                 </tbody>
             </table>
             <span id="menu-proses-penetapan-supplier-load"></span>
-            @if ($supplier->m_supplier_cat == 'NONUMKM')
+            @if ($supplier->m_supplier_cat == 'UMKM')
 
             @if ($no >= 1)
             <form id="form-data-penetapan" class="row g-3" method="post" enctype="multipart/form-data">
@@ -100,7 +100,7 @@
             </form>
             @endif
 
-            @elseif ($supplier->m_supplier_cat == 'UMKM')
+            @elseif ($supplier->m_supplier_cat == 'NONUMKM')
 
             @if ($doc->count() == $no)
             <form id="form-data-penetapan" class="row g-3" method="post" enctype="multipart/form-data">
