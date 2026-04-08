@@ -125,6 +125,8 @@ Route::prefix('app')->group(function () {
     Route::post('periode-penilaian/update-team-penilaian-save', [MenuController::class, 'periode_penilaian_update_team_penilaian_save'])->name('periode_penilaian_update_team_penilaian_save');
     Route::post('periode-penilaian/penyelesaian-penilaian', [MenuController::class, 'periode_penilaian_penyelesaian_penilaian'])->name('periode_penilaian_penyelesaian_penilaian');
     Route::post('periode-penilaian/penyelesaian-penilaian-save', [MenuController::class, 'periode_penilaian_penyelesaian_penilaian_save'])->name('periode_penilaian_penyelesaian_penilaian_save');
+    Route::post('periode-penilaian/update-no-doc-terpilih-penilaian', [MenuController::class, 'periode_penilaian_update_no_doc_terpilih'])->name('periode_penilaian_update_no_doc_terpilih');
+    Route::post('periode-penilaian/update-no-doc-terpilih-penilaian-save', [MenuController::class, 'periode_penilaian_update_no_doc_terpilih_save'])->name('periode_penilaian_update_no_doc_terpilih_save');
 
     // LENGKAPI PENILAIAN
     Route::post('lengkapi-penilaian/supplier-barang/cari-data', [MenuController::class, 'lengkapi_penilaian_supplier_barang_find'])->name('lengkapi_penilaian_supplier_barang_find');

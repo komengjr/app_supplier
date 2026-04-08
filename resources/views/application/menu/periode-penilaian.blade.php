@@ -79,9 +79,7 @@
                     <td>{{ $per->log_master_mgr }}</td>
                     <td>
                         <li>No Surat Keputusan : {{ $per->log_master_no_surat }}</li>
-                        <!-- <li>No Surat Lampiran Barang : {{ $per->log_master_no_surat_brg }}</li>
-                        <li>No Surat Lampiran Jasa : {{ $per->log_master_no_surat_jasa }}</li>
-                        <li>No Surat Lampiran Rujukan : {{ $per->log_master_no_surat_rujukan }}</li> -->
+                        <li>No Document Terpilih : {{ $per->log_master_no_doc_terpilih }}</li>
                     </td>
 
                     <td>
@@ -127,6 +125,11 @@
                                 <button class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#modal-periode-full"
                                     id="button-print-evaluasi" data-code="{{ $per->log_master_code  }}">
                                     <span class="fas fa-print"></span> Print Hasil Evaluasi
+                                </button>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#modal-periode"
+                                    id="button-update-no-doc-terpilih" data-code="{{ $per->log_master_code  }}">
+                                    <span class="fas fa-edit"></span> Update No Doc
                                 </button>
                                 @endif
                             </div>
@@ -280,6 +283,27 @@
             $('#menu-periode-full').html(data);
         }).fail(function() {
             $('#menu-periode-full').html('eror');
+        });
+    });
+    $(document).on("click", "#button-update-no-doc-terpilih", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-periode').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('periode_penilaian_update_no_doc_terpilih') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-periode').html(data);
+        }).fail(function() {
+            $('#menu-periode').html('eror');
         });
     });
     $(document).on("click", "#button-fix-save-penyelesaian-penilaian-evaluasi", function(e) {

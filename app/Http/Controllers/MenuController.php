@@ -1080,6 +1080,18 @@ class MenuController extends Controller
         ]);
         return 123;
     }
+    public function periode_penilaian_update_no_doc_terpilih(Request $request)
+    {
+        return view('application.menu.periode-penilaian.form-update-no-doc', ['code' => $request->code]);
+    }
+    public function periode_penilaian_update_no_doc_terpilih_save(Request $request)
+    {
+        DB::table('log_master')->where('log_master_code', $request->code)->update([
+            'log_master_no_doc_terpilih' => $request->no_doc,
+            'updated_at' => now()
+        ]);
+        return redirect()->back()->withSuccess('Great! Berhasil Update No Document');
+    }
     // SUPPLIER KAPUS
     public function evaluasi_kapus_data_penawaran($akses)
     {
