@@ -300,8 +300,8 @@ $nourut++;
                     <h5 style="margin: 0px;">MEMPERHATIKAN : </h5>
                 </td>
                 <td>
-                    <p style="margin: 0px;">1. Visi dan Misi Laboratorium Medis dan Klinik Pramita </p>
-                    <p style="margin: 0px;">2. Kebijakan Mutu Laboratorium Medis dan Klinik Pramita </p>
+                    <p style="margin: 0px;">1. Visi dan Misi Laboratorium Medis dan Klinik {{$cabang->master_cabang_name}} </p>
+                    <p style="margin: 0px;">2. Kebijakan Mutu Laboratorium Medis dan Klinik {{$cabang->master_cabang_name}} </p>
                 </td>
             </tr>
             <tr>
